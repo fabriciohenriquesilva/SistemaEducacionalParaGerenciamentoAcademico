@@ -30,7 +30,7 @@ public class Curso {
 		return disciplinas;
 	}
 
-	public void addDisciplinas(Disciplina disciplina) {
+	public void adicionarDisciplina(Disciplina disciplina) {
 		this.disciplinas.add(disciplina);
 	}
 	

@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import model.Curso;
 import model.Disciplina;
-import model.Questao;
 
 public class GerenciaCurso implements Gerencia {
 
@@ -162,19 +161,208 @@ public class GerenciaCurso implements Gerencia {
 		}
 	}
 	
+	public void adicionarDisciplina() {
+		System.out.println("==============================");
+		System.out.println("ADICIONAR DISCIPLINA NO CURSO");
+		
+		if(!cursos.isEmpty()) {
+			System.out.println("Escolha o curso pela sua posição: ");
+			int pos = sc.nextInt();
+			sc.skip("\r\n");
+			
+			if(pos >= 0 && pos < cursos.size()) {
+				Curso curso = cursos.get(pos);
+				System.out.println("O curso que deseja adicionar a disciplina é este?");
+				System.out.println("==============================");
+				System.out.println(curso);
+				System.out.println("==============================");
+				System.out.println("[1] Sim");
+				System.out.println("[2] Não");
+				
+				int opcao = sc.nextInt();
+				sc.skip("\r\n");
+				
+				if(!cursos.isEmpty()) {
+					if(opcao == 1) {
+						System.out.println("Escolha a disciplina pela sua posição: ");
+						pos = sc.nextInt();
+						sc.skip("\r\n");
+						
+						if(pos >= 0 && pos < disciplinas.size()) {
+							Disciplina disciplina = disciplinas.get(pos);
+							System.out.println("A disciplina que deseja adicionar no curso é esta?");
+							System.out.println("==============================");
+							System.out.println(disciplina);
+							System.out.println("==============================");
+							System.out.println("[1] Sim");
+							System.out.println("[2] Não");
+							
+							opcao = sc.nextInt();
+							sc.skip("\r\n");
+							
+							if(opcao == 1) {
+								curso.adicionarDisciplina(disciplina);
+								System.out.println("SUCESSO: Disciplina adicionada ao curso!");
+							}
+							else {
+								System.out.println("AVISO: Operação cancelada!");
+							}
+						}
+						else {
+							System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
+						}
+					}
+					else {
+						System.out.println("AVISO: Operação cancelada!");
+					}
+				}
+				else {
+					System.out.println("AVISO: Não há disciplinas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+				}
+			}
+			else {
+				System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
+			}
+		}
+		else {
+			System.out.println("AVISO: Não há cursos cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+		}
+	}
+	
+	public void removerDisciplina() {
+		System.out.println("==============================");
+		System.out.println("REMOVER DISCIPLINA DO CURSO");
+		
+		if(!cursos.isEmpty()) {
+			System.out.println("Escolha o curso pela sua posição: ");
+			int pos = sc.nextInt();
+			sc.skip("\r\n");
+			
+			if(pos >= 0 && pos < cursos.size()) {
+				Curso curso = cursos.get(pos);
+				System.out.println("O curso que deseja remover a disciplina é esse?");
+				System.out.println("==============================");
+				System.out.println(curso);
+				System.out.println("==============================");
+				System.out.println("[1] Sim");
+				System.out.println("[2] Não");
+				
+				int opcao = sc.nextInt();
+				sc.skip("\r\n");
+				
+				if(opcao == 1) {
+					
+					ArrayList<Disciplina> disciplinasDoCurso = curso.getDisciplinas();
+					
+					if(!disciplinasDoCurso.isEmpty()) {
+						System.out.println("Escolha a disciplina pela sua posição: ");
+						pos = sc.nextInt();
+						sc.skip("\r\n");
+						
+						if(pos >= 0 && pos < disciplinasDoCurso.size()) {
+							Disciplina disciplina = disciplinasDoCurso.get(pos);
+							System.out.println("A disciplina que deseja remover do curso é essa?");
+							System.out.println("==============================");
+							System.out.println(disciplina);
+							System.out.println("==============================");
+							System.out.println("[1] Sim");
+							System.out.println("[2] Não");
+							
+							opcao = sc.nextInt();
+							sc.skip("\r\n");
+							
+							if(opcao == 1) {
+								disciplinasDoCurso.remove(pos);
+								System.out.println("SUCESSO: Disciplina removida do curso!");
+							}
+							else {
+								System.out.println("AVISO: Operação cancelada!");
+							}
+						}
+						else {
+							System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
+						}
+					}
+					else {
+						System.out.println("AVISO: Não há disciplinas cadastradas NESSE CURSO. Impossível continuar operação. Voltando ao menu inicial...");
+					}
+				}
+				else {
+					System.out.println("AVISO: Operação cancelada!");
+				}
+			}
+			else {
+				System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
+			}
+		}
+		else {
+			System.out.println("AVISO: Não há disciplinas cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+		}
+	}
+	
+	public void consultarDisciplinas() {
+		System.out.println("==============================");
+		System.out.println("CONSULTAR DISCIPLINAS DO CURSO");
+		
+		if(!cursos.isEmpty()) {
+			System.out.println("Escolha o curso pela sua posição: ");
+			int pos = sc.nextInt();
+			sc.skip("\r\n");
+			
+			if(pos >= 0 && pos < cursos.size()) {
+				Curso curso = cursos.get(pos);
+				System.out.println("O curso que deseja consultar as disciplinas é este?");
+				System.out.println("==============================");
+				System.out.println(curso);
+				System.out.println("==============================");
+				System.out.println("[1] Sim");
+				System.out.println("[2] Não");
+				
+				int opcao = sc.nextInt();
+				sc.skip("\r\n");
+				
+				if(opcao == 1) {
+					
+					ArrayList<Disciplina> disciplinasDoCurso = curso.getDisciplinas();
+					
+					if(!disciplinasDoCurso.isEmpty()) {
+						if(pos >= 0 && pos < disciplinasDoCurso.size()) {
+							for(Disciplina disc : disciplinasDoCurso) {
+								System.out.println("------------------------------");
+								System.out.println("Posição " + disciplinasDoCurso.indexOf(disc));
+								System.out.println(disc);
+							}
+							System.out.println("==============================");
+						}
+						else {
+							System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
+						}
+					}
+					else {
+						System.out.println("AVISO: Não há disciplinas cadastradas NESSE CURSO. Impossível continuar operação. Voltando ao menu inicial...");
+					}
+				}
+				else {
+					System.out.println("AVISO: Operação cancelada!");
+				}
+			}
+			else {
+				System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
+			}
+		}
+		else {
+			System.out.println("AVISO: Não há cursos cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+		}
+	}
+
+	
 	private void lerDados(Curso curso) {
 		
 		System.out.println("1. Digite o código do curso: ");
 		curso.setCodigo(sc.nextLine());
 		
 		System.out.println("2. Digite o nome do curso: ");
-		curso.setNome(sc.nextLine());
-		
-		//System.out.println("3. Digite o valor do curso: ");
-		//curso.setDisciplinas();
-		
-		
-		
+		curso.setNome(sc.nextLine());	
 		
 	}
 }
