@@ -11,10 +11,9 @@ import model.Turma;
 public class GerenciaProva implements Gerencia {
 	
 	private ArrayList<Prova> provas;
-	private Scanner sc;
-	
 	private ArrayList<Questao> questoes;
 	private ArrayList<Turma> turmas;
+	private Scanner sc;
 	
 	public GerenciaProva(ArrayList<Prova> provas, ArrayList<Questao> questoes, ArrayList<Turma> turmas) {
 		sc = new Scanner(System.in);

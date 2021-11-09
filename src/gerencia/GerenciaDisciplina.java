@@ -24,21 +24,15 @@ public class GerenciaDisciplina implements Gerencia {
 		System.out.println("==============================");
 		System.out.println("CADASTRO DE DISCIPLINA");
 		
-		if(provas.isEmpty()) {
-			System.out.println("AVISO: Não há provas cadastradas. Necessário ter ao menos uma prova para cadastrar uma disciplina!");
-			System.out.println("AVISO: Voltando ao menu inicial");
+		Disciplina disciplina = new Disciplina();
+		
+		lerDados(disciplina);	
+		
+		if(disciplinas.add(disciplina)) {
+			System.out.println("SUCESSO: Disciplina adicionada!");
 		}
 		else {
-			Disciplina disciplina = new Disciplina();
-			
-			lerDados(disciplina);	
-			
-			if(disciplinas.add(disciplina)) {
-				System.out.println("SUCESSO: Disciplina adicionada!");
-			}
-			else {
-				System.out.println("ERRO: Não foi possível adicionar a disciplina!");
-			}
+			System.out.println("ERRO: Não foi possível adicionar a disciplina!");
 		}
 	}
 
@@ -385,7 +379,7 @@ public class GerenciaDisciplina implements Gerencia {
 		
 		System.out.println("4. Digite a carga horária da disciplina: ");
 		disciplina.setCargaHoraria(sc.nextInt());
-		sc.skip("\n\r");
+		sc.skip("\r\n");
 		
 	}
 }

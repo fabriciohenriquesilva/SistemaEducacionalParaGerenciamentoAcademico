@@ -33,7 +33,7 @@ public class Turma {
 		return alunos;
 	}
 
-	public void addAlunos(Aluno aluno) {
+	public void adicionarAluno(Aluno aluno) {
 		this.alunos.add(aluno);
 	}
 
