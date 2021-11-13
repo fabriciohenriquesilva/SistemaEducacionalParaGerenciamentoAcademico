@@ -163,6 +163,7 @@ public class GerenciaProfessor implements Gerencia {
 		if(!professores.isEmpty()) {
 			System.out.println("==============================");
 			for (Professor professor : professores) {
+				System.out.println("Posição: #" + professores.indexOf(professor));
 				System.out.println(professor);
 				System.out.println("------------------------------");
 			}

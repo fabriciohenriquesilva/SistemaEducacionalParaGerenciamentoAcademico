@@ -155,6 +155,7 @@ public class GerenciaAluno implements Gerencia {
 		if(!alunos.isEmpty()) {
 			System.out.println("==============================");
 			for (Aluno aluno : alunos) {
+				System.out.println("Posição: #" + alunos.indexOf(aluno));
 				System.out.println(aluno);
 				System.out.println("------------------------------");
 			}
@@ -220,7 +221,7 @@ public class GerenciaAluno implements Gerencia {
 					}
 				}
 				else {
-					System.out.println("AVISO: Não há provas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+					System.out.println("AVISO: Não há provas cadastradas no BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
 				}
 			}
 			else {
@@ -368,7 +369,7 @@ public class GerenciaAluno implements Gerencia {
 		System.out.println("2. Digite o CPF do aluno: ");
 		aluno.setCpf(sc.nextLine());
 		
-		System.out.println("3. Digite a matrícula do aluno: ");
+		System.out.println("3. Digite a matrícula do aluno (somente números): ");
 		aluno.setMatricula(sc.nextInt());
 		sc.skip("\r\n");
 		

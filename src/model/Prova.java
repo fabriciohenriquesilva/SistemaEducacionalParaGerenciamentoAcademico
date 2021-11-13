@@ -48,9 +48,11 @@ public class Prova {
 	
 	@Override
 	public String toString() {
-		return    "Identificador = " + identificador +
-				"\nTurma         = " + turma +
-				"\nNota          = " + nota;
+		return    "Identificador         = " + identificador +
+				"\nTurma: " +
+				"\n------------------------------\n" + turma +
+				"\n------------------------------" +
+				"\nNota                  = " + nota;
 	}
 	
 }

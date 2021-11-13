@@ -155,6 +155,7 @@ public class GerenciaDisciplina implements Gerencia {
 		if(!disciplinas.isEmpty()) {
 			System.out.println("==============================");
 			for (Disciplina disciplina : disciplinas) {
+				System.out.println("Posição: #" + disciplinas.indexOf(disciplina));
 				System.out.println(disciplina);
 				System.out.println("------------------------------");
 			}
@@ -377,7 +378,7 @@ public class GerenciaDisciplina implements Gerencia {
 		System.out.println("3. Digite a ementa da disciplina: ");
 		disciplina.setEmenta(sc.nextLine());
 		
-		System.out.println("4. Digite a carga horária da disciplina: ");
+		System.out.println("4. Digite a carga horária da disciplina (apenas números inteiros): ");
 		disciplina.setCargaHoraria(sc.nextInt());
 		sc.skip("\r\n");
 		

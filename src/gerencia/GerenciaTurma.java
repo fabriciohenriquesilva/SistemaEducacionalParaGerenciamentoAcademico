@@ -171,6 +171,7 @@ public class GerenciaTurma implements Gerencia {
 		if(!turmas.isEmpty()) {
 			System.out.println("==============================");
 			for (Turma turma : turmas) {
+				System.out.println("Posição: #" + turmas.indexOf(turma));
 				System.out.println(turma);
 				System.out.println("------------------------------");
 			}
@@ -204,6 +205,7 @@ public class GerenciaTurma implements Gerencia {
 		if(pos >= 0 && pos < cursos.size()) {
 			turma.setCurso(cursos.get(pos));
 			System.out.println("SUCESSO: Curso adicionado na turma!");
+			System.out.println("------------------------------");
 			
 			System.out.println("PROFESSORES CADASTRADOS NO SISTEMA: ");
 			for (Professor professor : professores) {
@@ -219,6 +221,7 @@ public class GerenciaTurma implements Gerencia {
 			if(pos >= 0 && pos < professores.size()) {
 				turma.setProfessor(professores.get(pos));
 				System.out.println("SUCESSO: Professor adicionado na turma!");
+				System.out.println("------------------------------");
 				
 				System.out.println("DISCIPLINAS CADASTRADOS NO SISTEMA: ");
 				for (Disciplina disciplina : disciplinas) {
@@ -234,6 +237,7 @@ public class GerenciaTurma implements Gerencia {
 				if(pos >= 0 && pos < disciplinas.size()) {
 					turma.setDisciplina(disciplinas.get(pos));
 					System.out.println("SUCESSO: Disciplina adicionada na turma!");
+					System.out.println("------------------------------");
 				}
 				else {
 					System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");

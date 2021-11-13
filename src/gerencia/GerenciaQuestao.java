@@ -149,6 +149,7 @@ public class GerenciaQuestao implements Gerencia {
 		if(!questoes.isEmpty()) {
 			System.out.println("==============================");
 			for (Questao questao : questoes) {
+				System.out.println("Posição: #" + questoes.indexOf(questao));
 				System.out.println(questao);
 				System.out.println("------------------------------");
 			}

@@ -10,7 +10,9 @@ public class Disciplina {
 	private String ementa;
 	private int cargaHoraria;
 	
-	public Disciplina() {}
+	public Disciplina() {
+		provas = new ArrayList<>();
+	}
 
 	public String getCodigo() {
 		return codigo;

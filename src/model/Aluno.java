@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Aluno extends Pessoa {
@@ -11,13 +12,14 @@ public class Aluno extends Pessoa {
 	
 	public Aluno() {
 		super();
+		provas = new ArrayList<>();
 	}
 
-	public Aluno(int matricula, LocalDate dataMatricula, ArrayList<Prova> provas) {
+	public Aluno(int matricula, LocalDate dataMatricula) {
 		super();
 		this.matricula = matricula;
 		this.dataMatricula = dataMatricula;
-		this.provas = provas;
+		provas = new ArrayList<>();
 	}
 
 	public int getMatricula() {
@@ -46,10 +48,11 @@ public class Aluno extends Pessoa {
 	
 	@Override
 	public String toString() {
-		return    "Nome              = " + this.getNome() +
-				"\nCPF               = " + this.getCpf() +
-				"\nMatrícula         = " + matricula +
-				"\nData da Matrícula = " + dataMatricula;
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		return    "Nome                  = " + this.getNome() +
+				"\nCPF                   = " + this.getCpf() +
+				"\nMatrícula             = " + matricula +
+				"\nData da Matrícula     = " + dataMatricula.format(formato);
 	}
 	
 }

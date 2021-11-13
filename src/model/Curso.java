@@ -8,7 +8,9 @@ public class Curso {
 	private String nome;
 	private ArrayList<Disciplina> disciplinas;
 	
-	public Curso() {}
+	public Curso() {
+		disciplinas = new ArrayList<>();
+	}
 
 	public String getCodigo() {
 		return codigo;
@@ -36,7 +38,7 @@ public class Curso {
 	
 	@Override
 	public String toString() {
-		return     "Código do Curso = " + codigo +
-				 "\nNome do Curso   = " + nome;
+		return     "Código do Curso      = " + codigo +
+				 "\nNome do Curso        = " + nome;
 	}
 }

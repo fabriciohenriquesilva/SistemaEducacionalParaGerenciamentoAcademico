@@ -152,6 +152,7 @@ public class GerenciaCurso implements Gerencia {
 		if(!cursos.isEmpty()) {
 			System.out.println("==============================");
 			for (Curso curso : cursos) {
+				System.out.println("Posição: #" + cursos.indexOf(curso));
 				System.out.println(curso);
 				System.out.println("------------------------------");
 			}

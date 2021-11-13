@@ -21,9 +21,9 @@ public class Professor extends Pessoa {
 	
 	@Override
 	public String toString() {
-		return    "Nome      = " + this.getNome() + 
-				"\nCPF       = " + this.getCpf() +
-				"\nTitulação = " + titulacao;
+		return    "Nome                  = " + this.getNome() + 
+				"\nCPF                   = " + this.getCpf() +
+				"\nTitulação             = " + titulacao;
 	}
 	
 }

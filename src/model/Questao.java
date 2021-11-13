@@ -29,9 +29,9 @@ public class Questao {
 	
 	@Override
 	public String toString() {
-		return    "Código           = " + codigo + 
-				"\nEnunciado        = " + enunciado +
-				"\nValor da Questão = " + valor;
+		return    "Código                = " + codigo + 
+				"\nEnunciado             = " + enunciado +
+				"\nValor da Questão      = " + valor;
 	}
 
 }

@@ -11,7 +11,9 @@ public class Turma {
 	private int ano;
 	private int semestre;
 	
-	public Turma() {}
+	public Turma() {
+		alunos = new ArrayList<>();
+	}
 
 	public Curso getCurso() {
 		return curso;
@@ -63,11 +65,17 @@ public class Turma {
 	
 	@Override
 	public String toString() {
-		return     "Curso      = " + curso +
-				 "\nProfessor  = " + professor +
-				 "\nDisciplina = " + disciplina +
-				 "\nAno        = " + ano +
-				 "\nSemestre   = " + semestre;
+		return     "Curso: " +
+				 "\n------------------------------\n" + curso +
+				 "\n------------------------------" +
+				 "\nProfessor: " +
+				 "\n------------------------------\n" + professor +
+				 "\n------------------------------" +
+				 "\nDisciplina: " +
+				 "\n------------------------------\n" + disciplina +
+				 "\n------------------------------" +
+				 "\nAno                  = " + ano +
+				 "\nSemestre             = " + semestre;
 	}
 	
 }
