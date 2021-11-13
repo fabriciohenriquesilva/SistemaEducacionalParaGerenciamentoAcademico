@@ -175,7 +175,7 @@ public class Principal {
 					menuDeOperacoes();
 					System.out.println("6. Adicionar aluno");
 					System.out.println("7. Remover aluno");
-					System.out.println("8. Consultar aluno");			
+					System.out.println("8. Consultar alunos");			
 					System.out.println("0. Voltar ao menu inicial");
 					System.out.println("Operação: ");
 					
@@ -200,7 +200,7 @@ public class Principal {
 					menuDeOperacoes();
 					System.out.println("6. Adicionar disciplina");
 					System.out.println("7. Remover disciplina");
-					System.out.println("8. Consultar disciplina");			
+					System.out.println("8. Consultar disciplinas");			
 					System.out.println("0. Voltar ao menu inicial");
 					System.out.println("Operação: ");
 					

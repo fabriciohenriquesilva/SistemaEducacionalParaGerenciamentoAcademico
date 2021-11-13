@@ -168,6 +168,7 @@ public class GerenciaProva implements Gerencia {
 		if(!provas.isEmpty()) {
 			System.out.println("==============================");
 			for (Prova prova : provas) {
+				System.out.println("Posição: #" + provas.indexOf(prova));
 				System.out.println(prova);
 				System.out.println("------------------------------");
 			}
