@@ -41,6 +41,12 @@ public class Principal {
 		GerenciaTurma ficharioTurma = new GerenciaTurma(turmas, alunos, professores, disciplinas, cursos);
 		GerenciaCurso ficharioCurso = new GerenciaCurso(cursos, disciplinas);
 		
+		System.out.println("............................................................");
+		System.out.println("BEM VINDO AO SEGA");
+		System.out.println("SEU MELHOR SOFTWARE EDUCACIONAL PARA GERENCIAMENTO ACADÊMICO");
+		System.out.println("............................................................\n");
+		
+		System.out.println("...:::::[ S E G A ]:::::...\n");
 		
 		do {
 			System.out.println("============ MENU ============");
@@ -226,6 +232,8 @@ public class Principal {
 			}
 			
 		} while(menu != 0);
+		
+		sc.close();
 	}
 
 	public static void menuDeOperacoes() {

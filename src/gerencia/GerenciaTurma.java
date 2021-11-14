@@ -281,7 +281,7 @@ public class GerenciaTurma implements Gerencia {
 						
 						if(pos >= 0 && pos < alunos.size()) {
 							Aluno aluno = alunos.get(pos);
-							System.out.println("A prova que deseja adicionar no aluno é esta?");
+							System.out.println("O aluno que deseja adicionar no aluno é esta?");
 							System.out.println("==============================");
 							System.out.println(aluno);
 							System.out.println("==============================");
@@ -325,7 +325,7 @@ public class GerenciaTurma implements Gerencia {
 		System.out.println("REMOVER ALUNO DA TURMA");
 		
 		if(!turmas.isEmpty()) {
-			System.out.println("Escolha o curso pela sua posição: ");
+			System.out.println("Escolha a turma pela sua posição: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
 			

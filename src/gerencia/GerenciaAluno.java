@@ -170,6 +170,9 @@ public class GerenciaAluno implements Gerencia {
 		System.out.println("ADICIONAR PROVA DO ALUNO");
 		
 		if(!alunos.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Escolha o aluno pela sua posição: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -188,6 +191,14 @@ public class GerenciaAluno implements Gerencia {
 				
 				if(!provas.isEmpty()) {
 					if(opcao == 1) {
+						
+						System.out.println("==============================");
+						for (Prova prova : provas) {
+							System.out.println("Posição: #" + provas.indexOf(prova));
+							System.out.println(prova);
+							System.out.println("------------------------------");
+						}
+						
 						System.out.println("Escolha a prova pela sua posição: ");
 						pos = sc.nextInt();
 						sc.skip("\r\n");
@@ -216,8 +227,11 @@ public class GerenciaAluno implements Gerencia {
 							System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
 						}
 					}
+					else if(opcao == 2) {
+						System.out.println("AVISO: Voltando ao menu inicial...");
+					}
 					else {
-						System.out.println("AVISO: Operação cancelada!");
+						System.out.println("AVISO: Opção inválida!");
 					}
 				}
 				else {
@@ -237,6 +251,8 @@ public class GerenciaAluno implements Gerencia {
 		System.out.println("==============================");
 		System.out.println("REMOVER PROVA DO ALUNO");
 		
+		gerarRelatorio();
+		
 		if(!alunos.isEmpty()) {
 			System.out.println("Escolha o aluno pela sua posição: ");
 			int pos = sc.nextInt();
@@ -254,14 +270,25 @@ public class GerenciaAluno implements Gerencia {
 				int opcao = sc.nextInt();
 				sc.skip("\r\n");
 				
-				if(!aluno.getProvas().isEmpty()) {
-					if(opcao == 1) {
+				if(opcao == 1) {
+					
+					ArrayList<Prova> provasDoAluno = aluno.getProvas();
+					
+					if(!provasDoAluno.isEmpty()) {
+					
+						System.out.println("==============================");
+						for (Prova prova : provasDoAluno) {
+							System.out.println("Posição: #" + provasDoAluno.indexOf(prova));
+							System.out.println(prova);
+							System.out.println("------------------------------");
+						}
+						
 						System.out.println("Escolha a prova pela sua posição: ");
 						pos = sc.nextInt();
 						sc.skip("\r\n");
 						
-						if(pos >= 0 && pos < provas.size()) {
-							Prova prova = provas.get(pos);
+						if(pos >= 0 && pos < provasDoAluno.size()) {
+							Prova prova = provasDoAluno.get(pos);
 							System.out.println("A prova que deseja remover do aluno é esta?");
 							System.out.println("==============================");
 							System.out.println(prova);
@@ -276,6 +303,9 @@ public class GerenciaAluno implements Gerencia {
 								aluno.getProvas().remove(pos);
 								System.out.println("SUCESSO: Prova removida do aluno!");
 							}
+							else if(opcao == 2) {
+								System.out.println("AVISO: Voltando ao menu inicial...");
+							}
 							else {
 								System.out.println("AVISO: Operação cancelada!");
 							}
@@ -285,11 +315,14 @@ public class GerenciaAluno implements Gerencia {
 						}
 					}
 					else {
-						System.out.println("AVISO: Operação cancelada!");
+						System.out.println("AVISO: Não há provas cadastradas para ESSE ALUNO. Impossível continuar operação. Voltando ao menu inicial...");
 					}
 				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Voltando ao menu inicial...");
+				}
 				else {
-					System.out.println("AVISO: Não há provas cadastradas para ESSE ALUNO. Impossível continuar operação. Voltando ao menu inicial...");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
@@ -323,17 +356,23 @@ public class GerenciaAluno implements Gerencia {
 				sc.skip("\r\n");
 				
 				if(opcao == 1) {
-					if(!provas.isEmpty()) {
-						if(pos >= 0 && pos < provas.size()) {
-							for(Prova p : aluno.getProvas()) {
+					
+					ArrayList<Prova> provasDoAluno = aluno.getProvas();
+					
+					if(!provasDoAluno.isEmpty()) {
+						if(pos >= 0 && pos < provasDoAluno.size()) {
+							for(Prova p : provasDoAluno) {
 								System.out.println("------------------------------");
-								System.out.println("Posição " + aluno.getProvas().indexOf(p));
+								System.out.println("Posição " + provasDoAluno.indexOf(p));
 								System.out.println(p);
 
 								System.out.println("------------------------------");
 								System.out.println("Questões: ");
 								
-								for (Questao questao : p.getQuestoes()) {
+								ArrayList<Questao> questoesDaProvaDoAluno = p.getQuestoes();
+								
+								for (Questao questao : questoesDaProvaDoAluno) {
+									System.out.println("Posição " + questoesDaProvaDoAluno.indexOf(questao));
 									System.out.println(questao);
 									System.out.println("------------------------------");
 								}
@@ -348,8 +387,11 @@ public class GerenciaAluno implements Gerencia {
 						System.out.println("AVISO: Não há provas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
 					}
 				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Voltando ao menu inicial...");
+				}
 				else {
-					System.out.println("AVISO: Operação cancelada!");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
