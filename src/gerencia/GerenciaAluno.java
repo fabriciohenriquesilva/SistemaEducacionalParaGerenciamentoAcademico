@@ -198,6 +198,7 @@ public class GerenciaAluno implements Gerencia {
 					if(!provas.isEmpty()) {
 						
 						System.out.println("==============================");
+						System.out.println("BANCO DE PROVAS");
 						for (Prova prova : provas) {
 							System.out.println("Posição: #" + provas.indexOf(prova));
 							System.out.println(prova);

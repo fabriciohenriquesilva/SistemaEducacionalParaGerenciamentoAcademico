@@ -52,6 +52,8 @@ public class GerenciaProva implements Gerencia {
 		
 		if(!provas.isEmpty()) {
 			
+			gerarRelatorio();
+			
 			System.out.println("Digite a posição da prova a ser removida: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -72,8 +74,11 @@ public class GerenciaProva implements Gerencia {
 					provas.remove(pos);
 					System.out.println("SUCESSO: Prova removida!");
 				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Voltando ao menu inicial...");
+				}
 				else {
-					System.out.println("ERRO: Opção inválida!");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
@@ -92,6 +97,9 @@ public class GerenciaProva implements Gerencia {
 		System.out.println("ALTERAÇÃO DE PROVA");
 		
 		if(!provas.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Digite a posição da prova a ser alterada: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -183,6 +191,9 @@ public class GerenciaProva implements Gerencia {
 		System.out.println("ADICIONAR QUESTÃO NA PROVA");
 		
 		if(!provas.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Escolha a prova pela sua posição: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -199,8 +210,17 @@ public class GerenciaProva implements Gerencia {
 				int opcao = sc.nextInt();
 				sc.skip("\r\n");
 				
-				if(!questoes.isEmpty()) {
-					if(opcao == 1) {
+				if(opcao == 1) {
+					if(!questoes.isEmpty()) {
+						
+						System.out.println("==============================");
+						System.out.println("BANCO DE QUESTÕES");
+						for (Questao questao : questoes) {
+							System.out.println("Posição " + questoes.indexOf(questao));
+							System.out.println(questao);
+							System.out.println("------------------------------");
+						}
+						
 						System.out.println("Escolha a questão pela sua posição: ");
 						pos = sc.nextInt();
 						sc.skip("\r\n");
@@ -221,8 +241,11 @@ public class GerenciaProva implements Gerencia {
 								prova.adicionarQuestao(questao);
 								System.out.println("SUCESSO: Questão adicionada na prova!");
 							}
+							else if(opcao == 2) {
+								System.out.println("AVISO: Voltando ao menu inicial...");
+							}
 							else {
-								System.out.println("AVISO: Operação cancelada!");
+								System.out.println("AVISO: Opção inválida!");
 							}
 						}
 						else {
@@ -230,11 +253,14 @@ public class GerenciaProva implements Gerencia {
 						}
 					}
 					else {
-						System.out.println("AVISO: Operação cancelada!");
+						System.out.println("AVISO: Não há questões cadastradas no BANCO DE QUESTÕES. Impossível continuar operação. Voltando ao menu inicial...");
 					}
 				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Voltando ao menu inicial...");
+				}
 				else {
-					System.out.println("AVISO: Não há questões cadastradas no BANCO DE QUESTÕES. Impossível continuar operação. Voltando ao menu inicial...");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
@@ -251,6 +277,9 @@ public class GerenciaProva implements Gerencia {
 		System.out.println("REMOVER QUESTÃO DA PROVA");
 		
 		if(!provas.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Escolha a prova pela sua posição: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -271,6 +300,13 @@ public class GerenciaProva implements Gerencia {
 					ArrayList<Questao> questoesDaProva = prova.getQuestoes(); 
 				
 					if(!questoesDaProva.isEmpty()) {
+						
+						System.out.println("==============================");
+						for (Questao questao : questoesDaProva) {
+							System.out.println("Posição " + questoesDaProva.indexOf(questao));
+							System.out.println(questao);
+							System.out.println("------------------------------");
+						}
 					
 						System.out.println("Escolha a questão pela sua posição: ");
 						pos = sc.nextInt();
@@ -292,8 +328,11 @@ public class GerenciaProva implements Gerencia {
 								prova.getQuestoes().remove(pos);
 								System.out.println("SUCESSO: Questão removida da prova!");
 							}
+							else if(opcao == 2) {
+								System.out.println("AVISO: Voltando ao menu inicial...");
+							}
 							else {
-								System.out.println("AVISO: Operação cancelada!");
+								System.out.println("AVISO: Opção inválida!");
 							}
 						}
 						else {
@@ -304,8 +343,11 @@ public class GerenciaProva implements Gerencia {
 						System.out.println("AVISO: Não há questões cadastradas NESSA PROVA. Impossível continuar operação. Voltando ao menu inicial...");
 					}
 				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Voltando ao menu inicial...");
+				}
 				else {
-					System.out.println("AVISO: Operação cancelada!");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
@@ -322,6 +364,9 @@ public class GerenciaProva implements Gerencia {
 		System.out.println("CONSULTAR QUESTÕES DA PROVAS");
 		
 		if(!provas.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Escolha a prova pela sua posição: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -343,24 +388,22 @@ public class GerenciaProva implements Gerencia {
 					ArrayList<Questao> questoesDaProva = prova.getQuestoes();
 					
 					if(!questoesDaProva.isEmpty()) {
-						if(pos >= 0 && pos < questoesDaProva.size()) {
-							for(Questao q : questoesDaProva) {
-								System.out.println("------------------------------");
-								System.out.println("Posição " + questoesDaProva.indexOf(q));
-								System.out.println(q);
-							}
-							System.out.println("==============================");
+						for(Questao q : questoesDaProva) {
+							System.out.println("------------------------------");
+							System.out.println("Posição " + questoesDaProva.indexOf(q));
+							System.out.println(q);
 						}
-						else {
-							System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
-						}
+						System.out.println("==============================");
 					}
 					else {
 						System.out.println("AVISO: Não há questões cadastradas NESSA PROVA. Impossível continuar operação. Voltando ao menu inicial...");
 					}
 				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Voltando ao menu inicial...");
+				}
 				else {
-					System.out.println("AVISO: Operação cancelada!");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
@@ -383,6 +426,7 @@ public class GerenciaProva implements Gerencia {
 		prova.setNota(sc.nextFloat());
 		sc.skip("\r\n");
 		
+		System.out.println("==============================");
 		System.out.println("TURMAS CADASTRADAS NO SISTEMA: ");
 		for (Turma turma : turmas) {
 			System.out.println("------------------------------");
@@ -399,6 +443,7 @@ public class GerenciaProva implements Gerencia {
 			prova.setTurma(turmas.get(pos));
 			System.out.println("SUCESSO: Turma adicionada na prova!");
 			
+			System.out.println("==============================");
 			System.out.println("QUESTÕES CADASTRADAS NO SISTEMA: ");
 			System.out.println("4. Selecione as questões para adicionar na prova: ");
 			for (Questao questao : questoes) {
@@ -440,6 +485,7 @@ public class GerenciaProva implements Gerencia {
 					}
 				}
 			} while(opcao == 1);
+			System.out.println("AVISO: Voltando ao menu inicial...");
 		}
 		else {
 			System.out.println("ERRO: Posição inválida!");

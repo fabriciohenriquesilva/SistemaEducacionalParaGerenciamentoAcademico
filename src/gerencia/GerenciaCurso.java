@@ -195,6 +195,7 @@ public class GerenciaCurso implements Gerencia {
 					if(!disciplinas.isEmpty()) {
 					
 						System.out.println("==============================");
+						System.out.println("BANCO DE DISCIPLINAS");
 						for (Disciplina disc : disciplinas) {
 							System.out.println("Posição: #" + disciplinas.indexOf(disc));
 							System.out.println(disc);

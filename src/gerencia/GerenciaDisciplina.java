@@ -198,6 +198,7 @@ public class GerenciaDisciplina implements Gerencia {
 					if(!provas.isEmpty()) {
 					
 						System.out.println("==============================");
+						System.out.println("BANCO DE PROVAS");
 						for (Prova prova : provas) {
 							System.out.println("Posição: #" + provas.indexOf(prova));
 							System.out.println(prova);
@@ -372,26 +373,22 @@ public class GerenciaDisciplina implements Gerencia {
 					ArrayList<Prova> provasDaDisciplina = disciplina.getProvas();
 					
 					if(!provasDaDisciplina.isEmpty()) {
-						if(pos >= 0 && pos < provasDaDisciplina.size()) {
-							for(Prova p : provasDaDisciplina) {
-								System.out.println("Posição " + provasDaDisciplina.indexOf(p));
-								System.out.println(p);
+						for(Prova p : provasDaDisciplina) {
+							System.out.println("Posição " + provasDaDisciplina.indexOf(p));
+							System.out.println(p);
 
+							System.out.println("------------------------------");
+							System.out.println("Questões: ");
+							
+							ArrayList<Questao> questoesDaProvaDaDisciplina = p.getQuestoes();
+							
+							for (Questao questao : questoesDaProvaDaDisciplina) {
+								System.out.println("Posição " + questoesDaProvaDaDisciplina.indexOf(questao));
+								System.out.println(questao);
 								System.out.println("------------------------------");
-								System.out.println("Questões: ");
-								
-								ArrayList<Questao> questoesDaProvaDaDisciplina = p.getQuestoes();
-								
-								for (Questao questao : questoesDaProvaDaDisciplina) {
-									System.out.println("Posição " + questoesDaProvaDaDisciplina.indexOf(questao));
-									System.out.println(questao);
-									System.out.println("------------------------------");
-								}
 							}
 						}
-						else {
-							System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
-						}
+						
 					}
 					else {
 						System.out.println("AVISO: Não há provas cadastradas NESSA DISCIPLINA. Impossível continuar operação. Voltando ao menu inicial...");

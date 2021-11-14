@@ -46,6 +46,8 @@ public class GerenciaProfessor implements Gerencia {
 		
 		if(!professores.isEmpty()) {
 			
+			gerarRelatorio();
+			
 			System.out.println("Digite a posição do professor a ser removido: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -87,6 +89,9 @@ public class GerenciaProfessor implements Gerencia {
 		System.out.println("ALTERAÇÃO DE PROFESSORES");
 		
 		if(!professores.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Digite a posição do professor a ser alterado: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
