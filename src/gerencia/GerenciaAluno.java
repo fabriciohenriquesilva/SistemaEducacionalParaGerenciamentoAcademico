@@ -194,8 +194,8 @@ public class GerenciaAluno implements Gerencia {
 				int opcao = sc.nextInt();
 				sc.skip("\r\n");
 				
-				if(!provas.isEmpty()) {
-					if(opcao == 1) {
+				if(opcao == 1) {
+					if(!provas.isEmpty()) {
 						
 						System.out.println("==============================");
 						for (Prova prova : provas) {
@@ -224,23 +224,26 @@ public class GerenciaAluno implements Gerencia {
 								aluno.adicionarProva(prova);
 								System.out.println("SUCESSO: Prova adicionada ao aluno!");
 							}
+							else if(opcao == 2) {
+								System.out.println("AVISO: Voltando ao menu inicial...");
+							}
 							else {
-								System.out.println("AVISO: Operação cancelada!");
+								System.out.println("AVISO: Opção invpalida!");
 							}
 						}
 						else {
 							System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
 						}
 					}
-					else if(opcao == 2) {
-						System.out.println("AVISO: Voltando ao menu inicial...");
-					}
 					else {
-						System.out.println("AVISO: Opção inválida!");
+						System.out.println("AVISO: Não há provas cadastradas no BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
 					}
 				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Voltando ao menu inicial...");
+				}
 				else {
-					System.out.println("AVISO: Não há provas cadastradas no BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
@@ -313,7 +316,7 @@ public class GerenciaAluno implements Gerencia {
 								System.out.println("AVISO: Voltando ao menu inicial...");
 							}
 							else {
-								System.out.println("AVISO: Operação cancelada!");
+								System.out.println("AVISO: Opção inválida!");
 							}
 						}
 						else {

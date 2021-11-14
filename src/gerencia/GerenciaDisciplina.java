@@ -43,6 +43,8 @@ public class GerenciaDisciplina implements Gerencia {
 		
 		if(!disciplinas.isEmpty()) {
 			
+			gerarRelatorio();
+			
 			System.out.println("Digite a posição da disciplina a ser removida: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -85,6 +87,9 @@ public class GerenciaDisciplina implements Gerencia {
 		System.out.println("ALTERAÇÃO DE DISCIPLINA");
 		
 		if(!disciplinas.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Digite a posição da disciplina a ser alterada: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -170,6 +175,9 @@ public class GerenciaDisciplina implements Gerencia {
 		System.out.println("ADICIONAR PROVA DA DISCIPLINA");
 		
 		if(!disciplinas.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Escolha a disciplina pela sua posição: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -186,8 +194,16 @@ public class GerenciaDisciplina implements Gerencia {
 				int opcao = sc.nextInt();
 				sc.skip("\r\n");
 				
-				if(!provas.isEmpty()) {
-					if(opcao == 1) {
+				if(opcao == 1) {
+					if(!provas.isEmpty()) {
+					
+						System.out.println("==============================");
+						for (Prova prova : provas) {
+							System.out.println("Posição: #" + provas.indexOf(prova));
+							System.out.println(prova);
+							System.out.println("------------------------------");
+						}
+						
 						System.out.println("Escolha a prova pela sua posição: ");
 						pos = sc.nextInt();
 						sc.skip("\r\n");
@@ -208,8 +224,11 @@ public class GerenciaDisciplina implements Gerencia {
 								disciplina.adicionarProva(prova);
 								System.out.println("SUCESSO: Prova adicionada na disciplina!");
 							}
+							else if(opcao == 2) {
+								System.out.println("AVISO: Voltando ao menu inicial...");
+							}
 							else {
-								System.out.println("AVISO: Operação cancelada!");
+								System.out.println("AVISO: Opção inválida!");
 							}
 						}
 						else {
@@ -217,11 +236,14 @@ public class GerenciaDisciplina implements Gerencia {
 						}
 					}
 					else {
-						System.out.println("AVISO: Operação cancelada!");
+						System.out.println("AVISO: Não há provas cadastradas NO BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
 					}
 				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Voltando ao menu inicial...");
+				}
 				else {
-					System.out.println("AVISO: Não há provas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
@@ -238,6 +260,9 @@ public class GerenciaDisciplina implements Gerencia {
 		System.out.println("REMOVER PROVA DA DISCIPLINA");
 		
 		if(!disciplinas.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Escolha a disciplina pela sua posição: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -259,6 +284,14 @@ public class GerenciaDisciplina implements Gerencia {
 					ArrayList<Prova> provasDaDisciplina = disciplina.getProvas();
 					
 					if(!provasDaDisciplina.isEmpty()) {
+						
+						System.out.println("==============================");
+						for (Prova prova : provasDaDisciplina) {
+							System.out.println("Posição: #" + provasDaDisciplina.indexOf(prova));
+							System.out.println(prova);
+							System.out.println("------------------------------");
+						}
+						
 						System.out.println("Escolha a prova pela sua posição: ");
 						pos = sc.nextInt();
 						sc.skip("\r\n");
@@ -279,8 +312,11 @@ public class GerenciaDisciplina implements Gerencia {
 								provasDaDisciplina.remove(pos);
 								System.out.println("SUCESSO: Prova removida da disciplina!");
 							}
+							else if(opcao == 2) {
+								System.out.println("AVISO: Voltando ao menu inicial...");
+							}
 							else {
-								System.out.println("AVISO: Operação cancelada!");
+								System.out.println("AVISO: Opção inválida!");
 							}
 						}
 						else {
@@ -290,6 +326,9 @@ public class GerenciaDisciplina implements Gerencia {
 					else {
 						System.out.println("AVISO: Não há provas cadastradas para NESSA DISCIPLINA. Impossível continuar operação. Voltando ao menu inicial...");
 					}
+				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Voltando ao menu inicial...");
 				}
 				else {
 					System.out.println("AVISO: Operação cancelada!");
@@ -309,6 +348,9 @@ public class GerenciaDisciplina implements Gerencia {
 		System.out.println("CONSULTAR PROVAS DA DISCIPLINA");
 		
 		if(!disciplinas.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Escolha a disciplina pela sua posição: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -332,19 +374,20 @@ public class GerenciaDisciplina implements Gerencia {
 					if(!provasDaDisciplina.isEmpty()) {
 						if(pos >= 0 && pos < provasDaDisciplina.size()) {
 							for(Prova p : provasDaDisciplina) {
-								System.out.println("------------------------------");
 								System.out.println("Posição " + provasDaDisciplina.indexOf(p));
 								System.out.println(p);
 
 								System.out.println("------------------------------");
 								System.out.println("Questões: ");
 								
-								for (Questao questao : p.getQuestoes()) {
+								ArrayList<Questao> questoesDaProvaDaDisciplina = p.getQuestoes();
+								
+								for (Questao questao : questoesDaProvaDaDisciplina) {
+									System.out.println("Posição " + questoesDaProvaDaDisciplina.indexOf(questao));
 									System.out.println(questao);
 									System.out.println("------------------------------");
 								}
 							}
-							System.out.println("==============================");
 						}
 						else {
 							System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
@@ -354,8 +397,11 @@ public class GerenciaDisciplina implements Gerencia {
 						System.out.println("AVISO: Não há provas cadastradas NESSA DISCIPLINA. Impossível continuar operação. Voltando ao menu inicial...");
 					}
 				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Voltando ao menu inicial...");
+				}
 				else {
-					System.out.println("AVISO: Operação cancelada!");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {

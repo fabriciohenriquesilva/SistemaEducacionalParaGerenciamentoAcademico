@@ -383,7 +383,7 @@ public class GerenciaCurso implements Gerencia {
 					System.out.println("AVISO: Voltando ao menu inicial...");
 				}
 				else {
-					System.out.println("AVISO: Operação cancelada!");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
