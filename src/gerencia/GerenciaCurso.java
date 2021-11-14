@@ -42,6 +42,8 @@ public class GerenciaCurso implements Gerencia {
 		
 		if(!cursos.isEmpty()) {
 			
+			gerarRelatorio();
+			
 			System.out.println("Digite a posição do curso a ser removido: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -83,6 +85,9 @@ public class GerenciaCurso implements Gerencia {
 		System.out.println("ALTERAÇÃO DE CURSO");
 		
 		if(!cursos.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Digite a posição do curso a ser alterado: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -167,6 +172,9 @@ public class GerenciaCurso implements Gerencia {
 		System.out.println("ADICIONAR DISCIPLINA NO CURSO");
 		
 		if(!cursos.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Escolha o curso pela sua posição: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -183,8 +191,16 @@ public class GerenciaCurso implements Gerencia {
 				int opcao = sc.nextInt();
 				sc.skip("\r\n");
 				
-				if(!cursos.isEmpty()) {
-					if(opcao == 1) {
+				if(opcao == 1) {					
+					if(!disciplinas.isEmpty()) {
+					
+						System.out.println("==============================");
+						for (Disciplina disc : disciplinas) {
+							System.out.println("Posição: #" + disciplinas.indexOf(disc));
+							System.out.println(disc);
+							System.out.println("------------------------------");
+						}
+					
 						System.out.println("Escolha a disciplina pela sua posição: ");
 						pos = sc.nextInt();
 						sc.skip("\r\n");
@@ -205,8 +221,11 @@ public class GerenciaCurso implements Gerencia {
 								curso.adicionarDisciplina(disciplina);
 								System.out.println("SUCESSO: Disciplina adicionada ao curso!");
 							}
+							else if(opcao == 2) {
+								System.out.println("AVISO: Voltando ao menu inicial...");
+							}
 							else {
-								System.out.println("AVISO: Operação cancelada!");
+								System.out.println("AVISO: Opção inválida!");
 							}
 						}
 						else {
@@ -214,11 +233,14 @@ public class GerenciaCurso implements Gerencia {
 						}
 					}
 					else {
-						System.out.println("AVISO: Operação cancelada!");
+						System.out.println("AVISO: Não há disciplinas cadastradas no BANCO DE DISCIPLINAS. Impossível continuar operação. Voltando ao menu inicial...");
 					}
 				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Voltando ao menu inicial...");
+				}
 				else {
-					System.out.println("AVISO: Não há disciplinas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+					System.out.println("AVISO: Operação cancelada!");
 				}
 			}
 			else {
@@ -226,7 +248,7 @@ public class GerenciaCurso implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há cursos cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há curso cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -235,6 +257,9 @@ public class GerenciaCurso implements Gerencia {
 		System.out.println("REMOVER DISCIPLINA DO CURSO");
 		
 		if(!cursos.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Escolha o curso pela sua posição: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -256,6 +281,14 @@ public class GerenciaCurso implements Gerencia {
 					ArrayList<Disciplina> disciplinasDoCurso = curso.getDisciplinas();
 					
 					if(!disciplinasDoCurso.isEmpty()) {
+						
+						System.out.println("==============================");
+						for (Disciplina disc : disciplinasDoCurso) {
+							System.out.println("Posição: #" + disciplinasDoCurso.indexOf(disc));
+							System.out.println(disc);
+							System.out.println("------------------------------");
+						}
+
 						System.out.println("Escolha a disciplina pela sua posição: ");
 						pos = sc.nextInt();
 						sc.skip("\r\n");
@@ -276,8 +309,11 @@ public class GerenciaCurso implements Gerencia {
 								disciplinasDoCurso.remove(pos);
 								System.out.println("SUCESSO: Disciplina removida do curso!");
 							}
+							else if(opcao == 2) {
+								System.out.println("AVISO: Voltando ao menu inicial...");
+							}
 							else {
-								System.out.println("AVISO: Operação cancelada!");
+								System.out.println("AVISO: Opção inválida!");
 							}
 						}
 						else {
@@ -288,6 +324,9 @@ public class GerenciaCurso implements Gerencia {
 						System.out.println("AVISO: Não há disciplinas cadastradas NESSE CURSO. Impossível continuar operação. Voltando ao menu inicial...");
 					}
 				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Voltando ao menu inicial...");
+				}
 				else {
 					System.out.println("AVISO: Operação cancelada!");
 				}
@@ -297,7 +336,7 @@ public class GerenciaCurso implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há disciplinas cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há cursos cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -306,6 +345,9 @@ public class GerenciaCurso implements Gerencia {
 		System.out.println("CONSULTAR DISCIPLINAS DO CURSO");
 		
 		if(!cursos.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Escolha o curso pela sua posição: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -327,21 +369,18 @@ public class GerenciaCurso implements Gerencia {
 					ArrayList<Disciplina> disciplinasDoCurso = curso.getDisciplinas();
 					
 					if(!disciplinasDoCurso.isEmpty()) {
-						if(pos >= 0 && pos < disciplinasDoCurso.size()) {
-							for(Disciplina disc : disciplinasDoCurso) {
-								System.out.println("------------------------------");
-								System.out.println("Posição " + disciplinasDoCurso.indexOf(disc));
-								System.out.println(disc);
-							}
-							System.out.println("==============================");
-						}
-						else {
-							System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
+						for(Disciplina disc : disciplinasDoCurso) {
+							System.out.println("Posição " + disciplinasDoCurso.indexOf(disc));
+							System.out.println(disc);
+							System.out.println("------------------------------");
 						}
 					}
 					else {
 						System.out.println("AVISO: Não há disciplinas cadastradas NESSE CURSO. Impossível continuar operação. Voltando ao menu inicial...");
 					}
+				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Voltando ao menu inicial...");
 				}
 				else {
 					System.out.println("AVISO: Operação cancelada!");

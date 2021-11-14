@@ -45,6 +45,8 @@ public class GerenciaAluno implements Gerencia {
 		
 		if(!alunos.isEmpty()) {
 			
+			gerarRelatorio();
+			
 			System.out.println("Digite a posição do aluno a ser removido: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -86,6 +88,9 @@ public class GerenciaAluno implements Gerencia {
 		System.out.println("ALTERAÇÃO DE ALUNOS");
 		
 		if(!alunos.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Digite a posição do aluno a ser alterado: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -251,9 +256,10 @@ public class GerenciaAluno implements Gerencia {
 		System.out.println("==============================");
 		System.out.println("REMOVER PROVA DO ALUNO");
 		
-		gerarRelatorio();
-		
 		if(!alunos.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Escolha o aluno pela sua posição: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -339,6 +345,9 @@ public class GerenciaAluno implements Gerencia {
 		System.out.println("CONSULTAR PROVAS DO ALUNO");
 		
 		if(!alunos.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Escolha o aluno pela sua posição: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -360,31 +369,25 @@ public class GerenciaAluno implements Gerencia {
 					ArrayList<Prova> provasDoAluno = aluno.getProvas();
 					
 					if(!provasDoAluno.isEmpty()) {
-						if(pos >= 0 && pos < provasDoAluno.size()) {
-							for(Prova p : provasDoAluno) {
-								System.out.println("------------------------------");
-								System.out.println("Posição " + provasDoAluno.indexOf(p));
-								System.out.println(p);
+						for(Prova p : provasDoAluno) {
+							System.out.println("Posição " + provasDoAluno.indexOf(p));
+							System.out.println(p);
 
+							System.out.println("------------------------------");
+							System.out.println("Questões: ");
+							
+							ArrayList<Questao> questoesDaProvaDoAluno = p.getQuestoes();
+							
+							for (Questao questao : questoesDaProvaDoAluno) {
+								System.out.println("Posição " + questoesDaProvaDoAluno.indexOf(questao));
+								System.out.println(questao);
 								System.out.println("------------------------------");
-								System.out.println("Questões: ");
-								
-								ArrayList<Questao> questoesDaProvaDoAluno = p.getQuestoes();
-								
-								for (Questao questao : questoesDaProvaDoAluno) {
-									System.out.println("Posição " + questoesDaProvaDoAluno.indexOf(questao));
-									System.out.println(questao);
-									System.out.println("------------------------------");
-								}
 							}
-							System.out.println("==============================");
 						}
-						else {
-							System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
-						}
+						System.out.println("==============================");
 					}
 					else {
-						System.out.println("AVISO: Não há provas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+						System.out.println("AVISO: Não há provas cadastradas NESSE ALUNO. Impossível continuar operação. Voltando ao menu inicial...");
 					}
 				}
 				else if(opcao == 2) {
