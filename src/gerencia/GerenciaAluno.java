@@ -9,7 +9,7 @@ import model.Aluno;
 import model.Prova;
 import model.Questao;
 
-public class GerenciaAluno implements Gerencia {
+public class GerenciaAluno {
 
 	private ArrayList<Aluno> alunos;
 	private ArrayList<Prova> provas;

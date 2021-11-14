@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import model.Professor;
 
-public class GerenciaProfessor implements Gerencia {
+public class GerenciaProfessor {
 	
 	private ArrayList<Professor> professores;
 	private Scanner sc;

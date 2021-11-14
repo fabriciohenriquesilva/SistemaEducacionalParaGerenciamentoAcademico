@@ -7,7 +7,7 @@ import model.Disciplina;
 import model.Prova;
 import model.Questao;
 
-public class GerenciaDisciplina implements Gerencia {
+public class GerenciaDisciplina {
 
 	private ArrayList<Disciplina> disciplinas;
 	private ArrayList<Prova> provas;

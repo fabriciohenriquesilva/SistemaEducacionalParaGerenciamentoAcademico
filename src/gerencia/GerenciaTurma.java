@@ -9,7 +9,7 @@ import model.Disciplina;
 import model.Professor;
 import model.Turma;
 
-public class GerenciaTurma implements Gerencia {
+public class GerenciaTurma {
 	
 	private ArrayList<Turma> turmas;
 	private ArrayList<Aluno> alunos;

@@ -6,7 +6,7 @@ import java.util.Scanner;
 import model.Curso;
 import model.Disciplina;
 
-public class GerenciaCurso implements Gerencia {
+public class GerenciaCurso {
 
 	private ArrayList<Curso> cursos;
 	private ArrayList<Disciplina> disciplinas;

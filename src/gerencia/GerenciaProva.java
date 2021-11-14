@@ -7,7 +7,7 @@ import model.Prova;
 import model.Questao;
 import model.Turma;
 
-public class GerenciaProva implements Gerencia {
+public class GerenciaProva {
 	
 	private ArrayList<Prova> provas;
 	private ArrayList<Questao> questoes;
