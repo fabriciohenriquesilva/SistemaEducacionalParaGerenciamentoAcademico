@@ -19,7 +19,6 @@ public class GerenciaDisciplina implements Gerencia {
 		this.provas = provas;
 	}
 
-	@Override
 	public void adicionar() {
 		System.out.println("==============================");
 		System.out.println("CADASTRO DE DISCIPLINA");
@@ -36,7 +35,6 @@ public class GerenciaDisciplina implements Gerencia {
 		}
 	}
 
-	@Override
 	public void remover() {
 		System.out.println("==============================");
 		System.out.println("REMOÇÃO DE DISCIPLINA");
@@ -76,11 +74,10 @@ public class GerenciaDisciplina implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há disciplinas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há disciplinas cadastradas NO BANCO DE DISCIPLINAS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
-	@Override
 	public void alterar() {
 		
 		System.out.println("==============================");
@@ -124,11 +121,10 @@ public class GerenciaDisciplina implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há disciplinas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há disciplinas cadastradas NO BANCO DE DISCIPLINAS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 
-	@Override
 	public void consultar() {
 		System.out.println("==============================");
 		System.out.println("CONSULTA DE DISCIPLINAS");
@@ -148,11 +144,10 @@ public class GerenciaDisciplina implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há disciplinas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há disciplinas cadastradas NO BANCO DE DISCIPLINAS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 
-	@Override
 	public void gerarRelatorio() {
 		System.out.println("==============================");
 		System.out.println("RELATÓRIO DE DISCIPLINAS");
@@ -166,7 +161,7 @@ public class GerenciaDisciplina implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há disciplinas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há disciplinas cadastradas NO BANCO DE DISCIPLINAS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -252,7 +247,7 @@ public class GerenciaDisciplina implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há disciplinas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há disciplinas cadastradas NO BANCO DE DISCIPLINAS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -340,7 +335,7 @@ public class GerenciaDisciplina implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há disciplinas cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há disciplinas cadastrados NO BANCO DE DISCIPLINAS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -406,7 +401,7 @@ public class GerenciaDisciplina implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há disciplinas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há disciplinas cadastradas NO BANCO DE DISCIPLINAS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	

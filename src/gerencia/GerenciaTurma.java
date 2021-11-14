@@ -62,6 +62,8 @@ public class GerenciaTurma implements Gerencia {
 		
 		if(!turmas.isEmpty()) {
 			
+			gerarRelatorio();
+			
 			System.out.println("Digite a posição da turma a ser removida: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -103,6 +105,9 @@ public class GerenciaTurma implements Gerencia {
 		System.out.println("ALTERAÇÃO DE TURMA");
 		
 		if(!turmas.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Digite a posição da turma a ser alterada: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -191,6 +196,7 @@ public class GerenciaTurma implements Gerencia {
 		turma.setSemestre(sc.nextInt());
 		sc.skip("\r\n");
 		
+		System.out.println("==============================");
 		System.out.println("CURSOS CADASTRADOS NO SISTEMA: ");
 		for (Curso curso : cursos) {
 			System.out.println("Posição #" + cursos.indexOf(curso));
@@ -205,8 +211,8 @@ public class GerenciaTurma implements Gerencia {
 		if(pos >= 0 && pos < cursos.size()) {
 			turma.setCurso(cursos.get(pos));
 			System.out.println("SUCESSO: Curso adicionado na turma!");
-			System.out.println("------------------------------");
 			
+			System.out.println("==============================");
 			System.out.println("PROFESSORES CADASTRADOS NO SISTEMA: ");
 			for (Professor professor : professores) {
 				System.out.println("Posição #" + professores.indexOf(professor));
@@ -221,8 +227,8 @@ public class GerenciaTurma implements Gerencia {
 			if(pos >= 0 && pos < professores.size()) {
 				turma.setProfessor(professores.get(pos));
 				System.out.println("SUCESSO: Professor adicionado na turma!");
-				System.out.println("------------------------------");
 				
+				System.out.println("==============================");
 				System.out.println("DISCIPLINAS CADASTRADOS NO SISTEMA: ");
 				for (Disciplina disciplina : disciplinas) {
 					System.out.println("Posição #" + disciplinas.indexOf(disciplina));
@@ -257,6 +263,9 @@ public class GerenciaTurma implements Gerencia {
 		System.out.println("ADICIONAR ALUNO NA TURMA");
 		
 		if(!turmas.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Escolha a turma pela sua posição: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -273,15 +282,24 @@ public class GerenciaTurma implements Gerencia {
 				int opcao = sc.nextInt();
 				sc.skip("\r\n");
 				
-				if(!alunos.isEmpty()) {
-					if(opcao == 1) {
+				if(opcao == 1) {
+					if(!alunos.isEmpty()) {
+						
+						System.out.println("==============================");
+						System.out.println("BANCO DE ALUNOS");
+						for (Aluno a : alunos) {
+							System.out.println("Posição " + alunos.indexOf(a));
+							System.out.println(a);
+							System.out.println("------------------------------");
+						}
+						
 						System.out.println("Escolha o aluno pela sua posição: ");
 						pos = sc.nextInt();
 						sc.skip("\r\n");
 						
 						if(pos >= 0 && pos < alunos.size()) {
 							Aluno aluno = alunos.get(pos);
-							System.out.println("O aluno que deseja adicionar no aluno é esta?");
+							System.out.println("O aluno que deseja adicionar na turma é esta?");
 							System.out.println("==============================");
 							System.out.println(aluno);
 							System.out.println("==============================");
@@ -295,8 +313,11 @@ public class GerenciaTurma implements Gerencia {
 								turma.adicionarAluno(aluno);
 								System.out.println("SUCESSO: Aluno adicionado a turma!");
 							}
+							else if(opcao == 2) {
+								System.out.println("AVISO: Voltando ao menu inicial...");
+							}
 							else {
-								System.out.println("AVISO: Operação cancelada!");
+								System.out.println("AVISO: Opção inválida!");
 							}
 						}
 						else {
@@ -304,11 +325,14 @@ public class GerenciaTurma implements Gerencia {
 						}
 					}
 					else {
-						System.out.println("AVISO: Operação cancelada!");
+						System.out.println("AVISO: Não há alunos cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
 					}
 				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Voltando ao menu inicial...");
+				}
 				else {
-					System.out.println("AVISO: Não há alunos cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
@@ -316,7 +340,7 @@ public class GerenciaTurma implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há turmas cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há turmas cadastrados NO BANCO DE TURMAS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -325,13 +349,16 @@ public class GerenciaTurma implements Gerencia {
 		System.out.println("REMOVER ALUNO DA TURMA");
 		
 		if(!turmas.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Escolha a turma pela sua posição: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
 			
 			if(pos >= 0 && pos < turmas.size()) {
 				Turma turma = turmas.get(pos);
-				System.out.println("A turma que deseja remover a o aluno é essa?");
+				System.out.println("A turma que deseja remover o aluno é essa?");
 				System.out.println("==============================");
 				System.out.println(turma);
 				System.out.println("==============================");
@@ -346,13 +373,21 @@ public class GerenciaTurma implements Gerencia {
 					ArrayList<Aluno> alunosDaTurma = turma.getAlunos();
 					
 					if(!alunosDaTurma.isEmpty()) {
+						
+						System.out.println("==============================");
+						for (Aluno alu : alunosDaTurma) {
+							System.out.println("Posição " + alunosDaTurma.indexOf(alu));
+							System.out.println(alu);
+							System.out.println("------------------------------");
+						}
+						
 						System.out.println("Escolha o aluno pela sua posição: ");
 						pos = sc.nextInt();
 						sc.skip("\r\n");
 						
 						if(pos >= 0 && pos < alunosDaTurma.size()) {
 							Aluno aluno = alunosDaTurma.get(pos);
-							System.out.println("A disciplina que deseja remover do curso é essa?");
+							System.out.println("O aluno que deseja remover da turma é esse?");
 							System.out.println("==============================");
 							System.out.println(aluno);
 							System.out.println("==============================");
@@ -366,8 +401,11 @@ public class GerenciaTurma implements Gerencia {
 								alunosDaTurma.remove(pos);
 								System.out.println("SUCESSO: Aluno removido da turma!");
 							}
+							else if(opcao == 2) {
+								System.out.println("AVISO: Voltando ao menu inicial...");
+							}
 							else {
-								System.out.println("AVISO: Operação cancelada!");
+								System.out.println("AVISO: Opção inválida!");
 							}
 						}
 						else {
@@ -378,8 +416,11 @@ public class GerenciaTurma implements Gerencia {
 						System.out.println("AVISO: Não há alunos cadastrados NESSA TURMA. Impossível continuar operação. Voltando ao menu inicial...");
 					}
 				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Voltando ao menu inicial...");
+				}
 				else {
-					System.out.println("AVISO: Operação cancelada!");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
@@ -387,7 +428,7 @@ public class GerenciaTurma implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há turmas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há turmas cadastradas NO BANCO DE TURMAS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -396,6 +437,9 @@ public class GerenciaTurma implements Gerencia {
 		System.out.println("CONSULTAR ALUNOS DA TURMA");
 		
 		if(!turmas.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Escolha a turma pela sua posição: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -417,24 +461,22 @@ public class GerenciaTurma implements Gerencia {
 					ArrayList<Aluno> alunosDaTurma = turma.getAlunos();
 					
 					if(!alunosDaTurma.isEmpty()) {
-						if(pos >= 0 && pos < alunosDaTurma.size()) {
-							for(Aluno aluno : alunosDaTurma) {
-								System.out.println("------------------------------");
-								System.out.println("Posição " + alunosDaTurma.indexOf(aluno));
-								System.out.println(aluno);
-							}
-							System.out.println("==============================");
+						for(Aluno aluno : alunosDaTurma) {
+							System.out.println("------------------------------");
+							System.out.println("Posição " + alunosDaTurma.indexOf(aluno));
+							System.out.println(aluno);
 						}
-						else {
-							System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
-						}
+						System.out.println("==============================");
 					}
 					else {
 						System.out.println("AVISO: Não há alunos cadastrados NESSA TURMA. Impossível continuar operação. Voltando ao menu inicial...");
 					}
 				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Voltando ao menu inicial...");
+				}
 				else {
-					System.out.println("AVISO: Operação cancelada!");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
@@ -442,7 +484,7 @@ public class GerenciaTurma implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há turmas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há turmas cadastradas NO BANCO DE TURMAS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 

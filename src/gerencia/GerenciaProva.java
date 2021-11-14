@@ -22,7 +22,6 @@ public class GerenciaProva implements Gerencia {
 		this.turmas = turmas;
 	}
 
-	@Override
 	public void adicionar() {
 		System.out.println("==============================");
 		System.out.println("CADASTRO DE PROVA");
@@ -45,7 +44,6 @@ public class GerenciaProva implements Gerencia {
 		}
 	}
 
-	@Override
 	public void remover() {
 		System.out.println("==============================");
 		System.out.println("REMOÇÃO DE PROVA");
@@ -86,11 +84,10 @@ public class GerenciaProva implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há provas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há provas cadastradas NO BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
-	
-	@Override
+
 	public void alterar() {
 		
 		System.out.println("==============================");
@@ -134,11 +131,10 @@ public class GerenciaProva implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há provas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há provas cadastradas NO BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 
-	@Override
 	public void consultar() {
 		System.out.println("==============================");
 		System.out.println("CONSULTA DE PROVA");
@@ -164,11 +160,10 @@ public class GerenciaProva implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há provas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há provas cadastradas NO BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 
-	@Override
 	public void gerarRelatorio() {
 		System.out.println("==============================");
 		System.out.println("RELATÓRIO DE PROVAS");
@@ -182,7 +177,7 @@ public class GerenciaProva implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há provas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há provas cadastradas NO BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -268,7 +263,7 @@ public class GerenciaProva implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há provas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há provas cadastradas NO BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -355,7 +350,7 @@ public class GerenciaProva implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há provas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há provas cadastradas NO BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -411,7 +406,7 @@ public class GerenciaProva implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há provas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há provas cadastradas NO BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	

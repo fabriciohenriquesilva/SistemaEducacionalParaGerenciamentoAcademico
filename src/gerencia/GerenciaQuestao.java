@@ -39,6 +39,8 @@ public class GerenciaQuestao implements Gerencia {
 		
 		if(!questoes.isEmpty()) {
 			
+			gerarRelatorio();
+			
 			System.out.println("Digite a posição da questão a ser removido: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -70,7 +72,7 @@ public class GerenciaQuestao implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há questões cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há questões cadastradas NO BANCO DE QUESTÕES. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -80,6 +82,9 @@ public class GerenciaQuestao implements Gerencia {
 		System.out.println("ALTERAÇÃO DE QUESTÕES");
 		
 		if(!questoes.isEmpty()) {
+			
+			gerarRelatorio();
+			
 			System.out.println("Digite a posição da questão a ser alterada: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
@@ -114,7 +119,7 @@ public class GerenciaQuestao implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há questões cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há questões cadastradas NO BANCO DE QUESTÕES. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -137,7 +142,7 @@ public class GerenciaQuestao implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há questões cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há questões cadastradas NO BANCO DE QUESTÕES. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -155,7 +160,7 @@ public class GerenciaQuestao implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há questões cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há questões cadastradas NO BANCO DE QUESTÕES. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	

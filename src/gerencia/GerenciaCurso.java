@@ -75,7 +75,7 @@ public class GerenciaCurso implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há cursos cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há cursos cadastradas NO BANCO DE CURSOS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -122,7 +122,7 @@ public class GerenciaCurso implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há cursos cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há cursos cadastradas NO BANCO DE CURSOS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -145,7 +145,7 @@ public class GerenciaCurso implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há cursos cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há cursos cadastradas NO BANCO DE CURSOS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -163,7 +163,7 @@ public class GerenciaCurso implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há cursos cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há cursos cadastradas NO BANCO DE CURSOS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -249,7 +249,7 @@ public class GerenciaCurso implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há curso cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há curso cadastrados NO BANCO DE CURSOS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -337,7 +337,7 @@ public class GerenciaCurso implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há cursos cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há cursos cadastrados NO BANCO DE CURSOS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -392,7 +392,7 @@ public class GerenciaCurso implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há cursos cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há cursos cadastrados NO BANCO DE CURSOS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 

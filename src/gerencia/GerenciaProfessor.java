@@ -79,7 +79,7 @@ public class GerenciaProfessor implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há professores cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há professores cadastrados NO BANCO DE PROFESSORES. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -133,7 +133,7 @@ public class GerenciaProfessor implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há professores cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há professores cadastrados NO BANCO DE PROFESSORES. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -156,7 +156,7 @@ public class GerenciaProfessor implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há professores cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há professores cadastrados NO BANCO DE PROFESSORES. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -174,7 +174,7 @@ public class GerenciaProfessor implements Gerencia {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há professores cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há professores cadastrados NO BANCO DE PROFESSORES. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
