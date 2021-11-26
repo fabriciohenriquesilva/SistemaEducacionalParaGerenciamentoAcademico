@@ -3,6 +3,7 @@ package main;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import dao.ContatoDAO;
 import gerencia.GerenciaAluno;
 import gerencia.GerenciaCurso;
 import gerencia.GerenciaDisciplina;
@@ -24,6 +25,11 @@ public class Principal {
 		
 		Scanner sc = new Scanner(System.in);
 		int menu, operacao;
+		
+		ContatoDAO clienteDao = new ContatoDAO();
+		
+		//clienteDao.incluir();
+		
 	
 		ArrayList<Aluno> alunos = new ArrayList<>();
 		ArrayList<Professor> professores = new ArrayList<>();
