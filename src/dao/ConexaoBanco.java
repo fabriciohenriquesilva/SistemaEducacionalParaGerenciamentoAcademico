@@ -26,7 +26,7 @@ public class ConexaoBanco {
 			prop.put("password", "admin");
 			prop.put("charset", "UTF-8");
 			
-			return DriverManager.getConnection("jdbc:postgresql://localhost:5432/dbagenda", prop);	
+			return DriverManager.getConnection("jdbc:postgresql://localhost:5432/sega", prop);	
 		}
 		catch(Exception e) {
 			System.err.println("Erro ao conectar ao banco de dados! " +  e.getMessage());

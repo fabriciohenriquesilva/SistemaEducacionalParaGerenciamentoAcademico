@@ -5,6 +5,7 @@ public class Questao {
 	private String codigo;
 	private String enunciado;
 	private float valor;
+	private Disciplina disciplina;
 	
 	public Questao() {}
 	
@@ -26,6 +27,14 @@ public class Questao {
 	public void setValor(float valor) {
 		this.valor = valor;
 	}
+	
+	public void setDisciplina(Disciplina disciplina) {
+		this.disciplina = disciplina;
+	}
+	
+	public Disciplina getDisciplina() {
+		return disciplina;
+	} 
 	
 	@Override
 	public String toString() {

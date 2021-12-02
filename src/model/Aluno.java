@@ -6,27 +6,26 @@ import java.util.ArrayList;
 
 public class Aluno extends Pessoa {
 	
-	private int matricula;
+	private String matricula;
 	private LocalDate dataMatricula;
 	private ArrayList<Prova> provas;
 	
 	public Aluno() {
-		super();
 		provas = new ArrayList<>();
 	}
 
-	public Aluno(int matricula, LocalDate dataMatricula) {
-		super();
+	public Aluno(String matricula, String nome, String cpf, LocalDate dataMatricula) {
+		super(nome, cpf);
 		this.matricula = matricula;
 		this.dataMatricula = dataMatricula;
 		provas = new ArrayList<>();
 	}
 
-	public int getMatricula() {
+	public String getMatricula() {
 		return matricula;
 	}
 
-	public void setMatricula(int matricula) {
+	public void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
 

@@ -26,11 +26,6 @@ public class Principal {
 		Scanner sc = new Scanner(System.in);
 		int menu, operacao;
 		
-		ContatoDAO clienteDao = new ContatoDAO();
-		
-		//clienteDao.incluir();
-		
-	
 		ArrayList<Aluno> alunos = new ArrayList<>();
 		ArrayList<Professor> professores = new ArrayList<>();
 		ArrayList<Questao> questoes = new ArrayList<>();
@@ -39,7 +34,7 @@ public class Principal {
 		ArrayList<Curso> cursos = new ArrayList<>();
 		ArrayList<Turma> turmas = new ArrayList<>();
 
-		GerenciaAluno ficharioAluno = new GerenciaAluno(alunos, provas);
+		GerenciaAluno ficharioAluno = new GerenciaAluno(provas);
 		GerenciaProfessor ficharioProfessor = new GerenciaProfessor(professores);
 		GerenciaQuestao ficharioQuestao = new GerenciaQuestao(questoes);
 		GerenciaProva ficharioProva = new GerenciaProva(provas, questoes, turmas);

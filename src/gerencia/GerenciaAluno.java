@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import dao.AlunoDAO;
 import model.Aluno;
 import model.Prova;
 import model.Questao;
@@ -12,12 +13,15 @@ import model.Questao;
 public class GerenciaAluno {
 
 	private ArrayList<Aluno> alunos;
+	private AlunoDAO alunoDao;
+	
 	private ArrayList<Prova> provas;
 	private Scanner sc;
 	
-	public GerenciaAluno(ArrayList<Aluno> alunos, ArrayList<Prova> provas) {
-		this.alunos = alunos;
+	public GerenciaAluno(ArrayList<Prova> provas) {
 		this.provas = provas;
+		alunos = null;
+		alunoDao = new AlunoDAO();
 		sc = new Scanner(System.in);
 	}
 	
@@ -28,53 +32,72 @@ public class GerenciaAluno {
 		
 		Aluno aluno = new Aluno();
 		
-		lerDados(aluno);
+		System.out.println("1. Digite o nome do aluno: ");
+		aluno.setNome(sc.nextLine());
 		
-		if(alunos.add(aluno)) {
-			System.out.println("SUCESSO: Aluno adicionado!");
-		}
-		else {
-			System.out.println("ERRO: Não foi possível cadastrar o aluno!");
-		}
+		System.out.println("2. Digite o CPF do aluno: ");
+		aluno.setCpf(sc.nextLine());
+		
+		System.out.println("3. Digite a matrícula do aluno (somente números): ");
+		aluno.setMatricula(sc.nextLine());
+		
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		
+		System.out.println("4. Digite a data da matrícula (formato: dd/mm/yyyy): ");
+		aluno.setDataMatricula(LocalDate.parse(sc.nextLine(), formato));
+		
+		alunoDao.inserir(aluno);
+		
+		System.out.println("SUCESSO: Aluno adicionado!");
 	}
 	
 	public void remover() {
+		String matricula;
+		boolean achou = false;
+		int opcao;
 		
 		System.out.println("==============================");
 		System.out.println("REMOÇÃO DE ALUNOS");
 		
-		if(!alunos.isEmpty()) {
+		alunos = alunoDao.relatorio();
+		
+		if(alunos != null && !alunos.isEmpty()) {
+			imprimeAlunos(alunos);
+			System.out.println("Qual a matrícula do aluno que deseja remover?");
+			matricula = sc.nextLine();
 			
-			gerarRelatorio();
+			Aluno alu = null;
+			for (Aluno a : alunos) {
+				if(a.getMatricula().equals(matricula)) {
+					achou = true;
+					alu = a;
+				}
+			}
 			
-			System.out.println("Digite a posição do aluno a ser removido: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
-			
-			if(pos >= 0 && pos < alunos.size()) {
-				System.out.println("O aluno que deseja remover é este?");
+			if(achou) {
 				System.out.println("==============================");
-				System.out.println(alunos.get(pos));
+				System.out.println(alu);
 				System.out.println("==============================");
+				
+				System.out.println("Confirma a remoção?");
 				System.out.println("[1] Sim");
 				System.out.println("[2] Não");
-				
-				int opcao = sc.nextInt();
+				opcao = sc.nextInt();
 				sc.skip("\r\n");
 				
 				if(opcao == 1) {
-					alunos.remove(pos);
+					alunoDao.excluir(alu);
 					System.out.println("SUCESSO: Aluno removido!");
 				}
-				else if(opcao == 2){
-					System.out.println("AVISO: Operação de remoção de aluno cancelada!");
+				else if(opcao == 2) {
+					System.out.println("ERRO: Operação cancelada!");
 				}
 				else {
-					System.out.println("ERRO: Opção inválida!");
+					System.out.println("AVISO: Operação de remoção de aluno cancelada!");
 				}
 			}
 			else {
-				System.out.println("AVISO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("AVISO: Aluno não encontrado!");
 			}
 		}
 		else {
@@ -83,45 +106,65 @@ public class GerenciaAluno {
 	}
 	
 	public void alterar() {
-		
+			
+		String matricula;
+		boolean achou = false;
+		int opcao;
+	
 		System.out.println("==============================");
 		System.out.println("ALTERAÇÃO DE ALUNOS");
 		
-		if(!alunos.isEmpty()) {
+		alunos = alunoDao.relatorio();
+		
+		if(alunos != null && !alunos.isEmpty()) {
+			imprimeAlunos(alunos);
+			System.out.println("Qual a matrícula do aluno que deseja alterar?");
+			matricula = sc.nextLine();
 			
-			gerarRelatorio();
+			Aluno alu = null;
+			for (Aluno a : alunos) {
+				if(a.getMatricula().equals(matricula)) {
+					achou = true;
+					alu = a;
+				}
+			}
 			
-			System.out.println("Digite a posição do aluno a ser alterado: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
-			
-			if(pos >= 0 && pos < alunos.size()) {
-				System.out.println("O aluno que deseja alterar é este?");
+			if(achou) {
 				System.out.println("==============================");
-				System.out.println(alunos.get(pos));
+				System.out.println(alu);
 				System.out.println("==============================");
+				
+				System.out.println("Confirma a alteração?");
 				System.out.println("[1] Sim");
 				System.out.println("[2] Não");
-				
-				int opcao = sc.nextInt();
+				opcao = sc.nextInt();
 				sc.skip("\r\n");
 				
 				if(opcao == 1) {
-					Aluno aluno = alunos.get(pos);
+					System.out.println("Digite os novos dados:");
+					System.out.println("1. Digite o nome do aluno: ");
+					alu.setNome(sc.nextLine());
+		
+					System.out.println("2. Digite o CPF do aluno: ");
+					alu.setCpf(sc.nextLine());
 					
-					lerDados(aluno);
+					DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 					
+					System.out.println("3. Digite a data da matrícula (formato: dd/mm/yyyy): ");
+					alu.setDataMatricula(LocalDate.parse(sc.nextLine(), formato));
+					
+					alunoDao.alterar(alu);
 					System.out.println("SUCESSO: Aluno alterado!");
 				}
-				else if(opcao == 2){
-					System.out.println("AVISO: Operação de alteração de dados do aluno cancelada! Voltando ao menu inicial...");
+				else if(opcao == 2) {
+					System.out.println("ERRO: Operação cancelada!");
 				}
 				else {
-					System.out.println("ERRO: Opção inválida!");
+					System.out.println("AVISO: Operação de remoção de aluno cancelada!");
 				}
 			}
 			else {
-				System.out.println("AVISO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("AVISO: Aluno não encontrado!");
 			}
 		}
 		else {
@@ -130,25 +173,40 @@ public class GerenciaAluno {
 	}
 	
 	public void consultar() {
+		String matricula;
+		boolean achou = false;
+		
 		System.out.println("==============================");
 		System.out.println("CONSULTA DE ALUNOS");
 		
-		if(!alunos.isEmpty()) {
-			System.out.println("Digite a posição do aluno a ser consultado: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
+		alunos = alunoDao.relatorio();
+		
+		if(alunos != null && !alunos.isEmpty()) {
+			imprimeAlunos(alunos);
+			System.out.println("Qual a matrícula do aluno que deseja consultar?");
+			matricula = sc.nextLine();
 			
-			if(pos >= 0 && pos < alunos.size()) {
+			Aluno alu = null;
+			for (Aluno a : alunos) {
+				System.out.println("Matricula BANCO: " + a.getMatricula());
+				System.out.println("Matricula INSERIDA: " + matricula);
+				if(a.getMatricula().equals(matricula)) {
+					achou = true;
+					alu = a;
+				}
+			}
+			
+			if(achou) {
 				System.out.println("==============================");
-				System.out.println(alunos.get(pos));
+				System.out.println(alu);
 				System.out.println("==============================");
 			}
 			else {
-				System.out.println("AVISO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("AVISO: Aluno não encontrado!");
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há aluno cadastrados NO BANCO DE ALUNOS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há alunos cadastrados NO BANCO DE ALUNOS. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -157,13 +215,10 @@ public class GerenciaAluno {
 		System.out.println("==============================");
 		System.out.println("RELATÓRIO DE ALUNOS");
 		
-		if(!alunos.isEmpty()) {
-			System.out.println("==============================");
-			for (Aluno aluno : alunos) {
-				System.out.println("Posição: #" + alunos.indexOf(aluno));
-				System.out.println(aluno);
-				System.out.println("------------------------------");
-			}
+		alunos = alunoDao.relatorio();
+		
+		if(alunos != null && !alunos.isEmpty()) {
+			imprimeAlunos(alunos);
 		}
 		else {
 			System.out.println("AVISO: Não há alunos cadastrados NO BANCO DE ALUNOS. Impossível continuar operação. Voltando ao menu inicial...");
@@ -410,22 +465,13 @@ public class GerenciaAluno {
 		}
 	}
 	
-	private void lerDados(Aluno aluno) {
+	private void imprimeAlunos(ArrayList<Aluno> listaDeAlunos) {
+		System.out.println("...:::::[ LISTA DE ALUNOS ]:::::...");
 		
-		System.out.println("1. Digite o nome do aluno: ");
-		aluno.setNome(sc.nextLine());
-		
-		System.out.println("2. Digite o CPF do aluno: ");
-		aluno.setCpf(sc.nextLine());
-		
-		System.out.println("3. Digite a matrícula do aluno (somente números): ");
-		aluno.setMatricula(sc.nextInt());
-		sc.skip("\r\n");
-		
-		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		
-		System.out.println("4. Digite a data da matrícula (formato: dd/mm/yyyy): ");
-		aluno.setDataMatricula(LocalDate.parse(sc.nextLine(), formato));
-		
+		System.out.println("------------------------------");		
+		for(Aluno a : listaDeAlunos) {
+			System.out.println("Matricula: " + a.getMatricula() + " - Nome: " + a.getNome());
+		}
+		System.out.println("------------------------------");
 	}
 }
