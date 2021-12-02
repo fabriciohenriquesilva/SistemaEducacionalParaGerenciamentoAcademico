@@ -188,8 +188,6 @@ public class GerenciaAluno {
 			
 			Aluno alu = null;
 			for (Aluno a : alunos) {
-				System.out.println("Matricula BANCO: " + a.getMatricula());
-				System.out.println("Matricula INSERIDA: " + matricula);
 				if(a.getMatricula().equals(matricula)) {
 					achou = true;
 					alu = a;

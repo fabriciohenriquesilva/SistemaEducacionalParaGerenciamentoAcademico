@@ -3,7 +3,6 @@ package main;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import dao.ContatoDAO;
 import gerencia.GerenciaAluno;
 import gerencia.GerenciaCurso;
 import gerencia.GerenciaDisciplina;
