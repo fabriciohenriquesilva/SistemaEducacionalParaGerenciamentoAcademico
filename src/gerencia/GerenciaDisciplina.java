@@ -3,20 +3,24 @@ package gerencia;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import dao.DisciplinaDAO;
 import model.Disciplina;
 import model.Prova;
 import model.Questao;
+import model.TipoRelatorio;
 
 public class GerenciaDisciplina {
-
+	
 	private ArrayList<Disciplina> disciplinas;
 	private ArrayList<Prova> provas;
+	private DisciplinaDAO disciplinaDao;
 	private Scanner sc;
 	
-	public GerenciaDisciplina(ArrayList<Disciplina> disciplinas, ArrayList<Prova> provas) {
+	public GerenciaDisciplina(ArrayList<Prova> provas) {
 		sc = new Scanner(System.in);
-		this.disciplinas = disciplinas;
 		this.provas = provas;
+		this.disciplinas = null;
+		this.disciplinaDao = new DisciplinaDAO();
 	}
 
 	public void adicionar() {
@@ -25,56 +29,77 @@ public class GerenciaDisciplina {
 		
 		Disciplina disciplina = new Disciplina();
 		
-		lerDados(disciplina);	
+		System.out.println("1. Digite o código da disciplina: ");
+		disciplina.setCodigo(sc.nextLine());
 		
-		if(disciplinas.add(disciplina)) {
-			System.out.println("SUCESSO: Disciplina adicionada!");
-		}
-		else {
-			System.out.println("ERRO: Não foi possível adicionar a disciplina!");
-		}
+		System.out.println("2. Digite o nome da disciplina: ");
+		disciplina.setNome(sc.nextLine());
+		
+		System.out.println("3. Digite a ementa da disciplina: ");
+		disciplina.setEmenta(sc.nextLine());
+		
+		System.out.println("4. Digite a carga horária da disciplina (apenas números inteiros): ");
+		disciplina.setCargaHoraria(sc.nextInt());
+		sc.skip("\r\n");
+		
+		System.out.println("5. Digite o código do curso à qual a disciplina pertence: ");
+		String codcurso = sc.nextLine();
+		
+		disciplinaDao.inserir(disciplina, codcurso);
+		
 	}
 
 	public void remover() {
 		System.out.println("==============================");
 		System.out.println("REMOÇÃO DE DISCIPLINA");
 		
-		if(!disciplinas.isEmpty()) {
+		String codigo;
+		boolean achou = false;
+		int opcao;
+		
+		disciplinas = disciplinaDao.relatorio();
+		
+		if(disciplinas != null && !disciplinas.isEmpty()) {
+			imprimeDisciplinas(disciplinas, TipoRelatorio.SINTETICO);
+			System.out.println("Qual o código da disciplina que deseja remover?");
+			codigo = sc.nextLine();
 			
-			gerarRelatorio();
+			Disciplina disciplina = null;
+			for (Disciplina disc : disciplinas) {
+				if(disc.getCodigo().equals(codigo)) {
+					achou = true;
+					disciplina = disc;
+				}
+			}
 			
-			System.out.println("Digite a posição da disciplina a ser removida: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
-			
-			if(pos >= 0 && pos < disciplinas.size()) {
-				System.out.println("A disciplina que deseja remover é essa?");
+			if(achou) {
 				System.out.println("==============================");
-				System.out.println(disciplinas.get(pos));
+				System.out.println(disciplina);
 				System.out.println("==============================");
+				
+				System.out.println("Confirma a remoção?");
 				System.out.println("[1] Sim");
 				System.out.println("[2] Não");
-				
-				int opcao = sc.nextInt();
+				opcao = sc.nextInt();
 				sc.skip("\r\n");
 				
 				if(opcao == 1) {
-					disciplinas.remove(pos);
+					disciplinaDao.excluir(disciplina);
 					System.out.println("SUCESSO: Disciplina removida!");
 				}
-				else if(opcao == 2){
-					System.out.println("AVISO: Operação de remoção de disciplina cancelada!");
+				else if(opcao == 2) {
+					System.out.println("ERRO: Operação cancelada!");
 				}
 				else {
-					System.out.println("ERRO: Opção inválida!");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
-				System.out.println("AVISO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("AVISO: Disciplina não encontrado!");
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há disciplinas cadastradas NO BANCO DE DISCIPLINAS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há disciplinas cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -83,45 +108,67 @@ public class GerenciaDisciplina {
 		System.out.println("==============================");
 		System.out.println("ALTERAÇÃO DE DISCIPLINA");
 		
-		if(!disciplinas.isEmpty()) {
+		String codigo;
+		boolean achou = false;
+		int opcao;
+
+		disciplinas = disciplinaDao.relatorio();
+		
+		if(disciplinas != null && !disciplinas.isEmpty()) {
+			imprimeDisciplinas(disciplinas, TipoRelatorio.SINTETICO);
+			System.out.println("Qual o código da disciplina que deseja alterar?");
+			codigo = sc.nextLine();
 			
-			gerarRelatorio();
+			Disciplina disciplina = null;
+			for (Disciplina disc : disciplinas) {
+				if(disc.getCodigo().equals(codigo)) {
+					achou = true;
+					disciplina = disc;
+				}
+			}
 			
-			System.out.println("Digite a posição da disciplina a ser alterada: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
-			
-			if(pos >= 0 && pos < disciplinas.size()) {
-				System.out.println("A disciplina que deseja alterar é este?");
+			if(achou) {
 				System.out.println("==============================");
-				System.out.println(disciplinas.get(pos));
+				System.out.println(disciplina);
 				System.out.println("==============================");
+				
+				System.out.println("Confirma a alteração?");
 				System.out.println("[1] Sim");
 				System.out.println("[2] Não");
-				
-				int opcao = sc.nextInt();
+				opcao = sc.nextInt();
 				sc.skip("\r\n");
 				
 				if(opcao == 1) {
-					Disciplina disciplina = disciplinas.get(pos);
+					System.out.println("Digite os novos dados:");
+					System.out.println("1. Digite o nome da disciplina: ");
+					disciplina.setNome(sc.nextLine());
 					
-					lerDados(disciplina);
+					System.out.println("2. Digite a ementa da disciplina: ");
+					disciplina.setEmenta(sc.nextLine());
 					
-					System.out.println("SUCESSO: Disciplina alterada!");
+					System.out.println("3. Digite a carga horária da disciplina (apenas números inteiros): ");
+					disciplina.setCargaHoraria(sc.nextInt());
+					sc.skip("\r\n");
+					
+					System.out.println("4. Digite o código do curso à qual a disciplina pertence: ");
+					String codcurso = sc.nextLine();
+					
+					disciplinaDao.alterar(disciplina, codcurso);
+					System.out.println("SUCESSO: Disciplina alterado!");
 				}
-				else if(opcao == 2){
-					System.out.println("AVISO: Operação de alteração de dados da disciplina cancelada! Voltando ao menu inicial...");
+				else if(opcao == 2) {
+					System.out.println("ERRO: Operação cancelada!");
 				}
 				else {
-					System.out.println("ERRO: Opção inválida!");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
-				System.out.println("AVISO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("AVISO: Disciplina não encontrado!");
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há disciplinas cadastradas NO BANCO DE DISCIPLINAS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há disciplinas cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 
@@ -129,22 +176,35 @@ public class GerenciaDisciplina {
 		System.out.println("==============================");
 		System.out.println("CONSULTA DE DISCIPLINAS");
 		
-		if(!disciplinas.isEmpty()) {
-			System.out.println("Digite a posição da disciplina a ser consultada: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
+		String codigo;
+		boolean achou = false;
+
+		disciplinas = disciplinaDao.relatorio();
+		
+		if(disciplinas != null && !disciplinas.isEmpty()) {
+			imprimeDisciplinas(disciplinas, TipoRelatorio.SINTETICO);
+			System.out.println("Qual o código da disciplina que deseja consultar?");
+			codigo = sc.nextLine();
 			
-			if(pos >= 0 && pos < disciplinas.size()) {
+			Disciplina disciplina = null;
+			for (Disciplina disc : disciplinas) {
+				if(disc.getCodigo().equals(codigo)) {
+					achou = true;
+					disciplina = disc;
+				}
+			}
+			
+			if(achou) {
 				System.out.println("==============================");
-				System.out.println(disciplinas.get(pos));
+				System.out.println(disciplina);
 				System.out.println("==============================");
 			}
 			else {
-				System.out.println("AVISO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("AVISO: Disciplina não encontrado!");
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há disciplinas cadastradas NO BANCO DE DISCIPLINAS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há disciplinas cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 
@@ -152,16 +212,13 @@ public class GerenciaDisciplina {
 		System.out.println("==============================");
 		System.out.println("RELATÓRIO DE DISCIPLINAS");
 		
-		if(!disciplinas.isEmpty()) {
-			System.out.println("==============================");
-			for (Disciplina disciplina : disciplinas) {
-				System.out.println("Posição: #" + disciplinas.indexOf(disciplina));
-				System.out.println(disciplina);
-				System.out.println("------------------------------");
-			}
+		disciplinas = disciplinaDao.relatorio();
+		
+		if(disciplinas != null && !disciplinas.isEmpty()) {
+			imprimeDisciplinas(disciplinas, TipoRelatorio.ANALITICO);
 		}
 		else {
-			System.out.println("AVISO: Não há disciplinas cadastradas NO BANCO DE DISCIPLINAS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há disciplinas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -405,20 +462,20 @@ public class GerenciaDisciplina {
 		}
 	}
 	
-	private void lerDados(Disciplina disciplina) {
+	private void imprimeDisciplinas(ArrayList<Disciplina> listaDeDisciplinas, TipoRelatorio tipo) {
+		System.out.println("...:::::[ LISTA DE DISCIPLINAS ]:::::...");
 		
-		System.out.println("1. Digite o código da disciplina: ");
-		disciplina.setCodigo(sc.nextLine());
-		
-		System.out.println("2. Digite o nome da disciplina: ");
-		disciplina.setNome(sc.nextLine());
-		
-		System.out.println("3. Digite a ementa da disciplina: ");
-		disciplina.setEmenta(sc.nextLine());
-		
-		System.out.println("4. Digite a carga horária da disciplina (apenas números inteiros): ");
-		disciplina.setCargaHoraria(sc.nextInt());
-		sc.skip("\r\n");
-		
+		if(tipo == TipoRelatorio.ANALITICO) {
+			for(Disciplina disciplina : listaDeDisciplinas) {
+				System.out.println(disciplina);
+				System.out.println("------------------------------");
+			}
+		}
+		else {
+			for(Disciplina disciplina : listaDeDisciplinas) {
+				System.out.println("Código: " + disciplina.getCodigo() + " - Nome: " + disciplina.getNome());
+			}
+			System.out.println("------------------------------");
+		}
 	}
 }

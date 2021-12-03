@@ -9,6 +9,14 @@ public class Questao {
 	
 	public Questao() {}
 	
+	public Questao(String codigo, String enunciado, float valor, String codDisciplina) {
+		this.codigo = codigo;
+		this.enunciado = enunciado;
+		this.valor = valor;
+		disciplina = new Disciplina();
+		this.disciplina.setCodigo(codDisciplina);
+	}
+
 	public String getCodigo() {
 		return codigo;
 	}

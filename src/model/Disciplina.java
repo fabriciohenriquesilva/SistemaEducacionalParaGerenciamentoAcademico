@@ -10,6 +10,13 @@ public class Disciplina {
 	private String ementa;
 	private int cargaHoraria;
 	
+	public Disciplina(String codigo, String nome, String ementa, int cargaHoraria) {
+		this.codigo = codigo;
+		this.nome = nome;
+		this.ementa = ementa;
+		this.cargaHoraria = cargaHoraria;
+	}
+
 	public Disciplina() {
 		provas = new ArrayList<>();
 	}

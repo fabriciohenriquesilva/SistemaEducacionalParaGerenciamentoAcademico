@@ -15,9 +15,9 @@ public class GerenciaCurso {
 	private CursoDAO cursoDao;
 	private Scanner sc;
 	
-	public GerenciaCurso(ArrayList<Curso> cursos, ArrayList<Disciplina> disciplinas) {
+	public GerenciaCurso(ArrayList<Disciplina> disciplinas) {
 		sc = new Scanner(System.in);
-		this.cursos = cursos;
+		this.cursos = null;
 		this.disciplinas = disciplinas;
 		this.cursoDao = new CursoDAO();
 	}
@@ -434,7 +434,7 @@ public class GerenciaCurso {
 
 	
 	private void imprimeCursos(ArrayList<Curso> listaDeCursos, TipoRelatorio tipo) {
-		System.out.println("...:::::[ LISTA DE PROFESSORES ]:::::...");
+		System.out.println("...:::::[ LISTA DE CURSOS ]:::::...");
 		
 		if(tipo == TipoRelatorio.ANALITICO) {
 			for(Curso curso : listaDeCursos) {

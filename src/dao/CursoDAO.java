@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import model.Curso;
 
 public class CursoDAO {
-private Connection conexao = null;
+	private Connection conexao = null;
 	
 	public CursoDAO() {
 		try {

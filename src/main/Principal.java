@@ -36,9 +36,9 @@ public class Principal {
 		GerenciaProfessor ficharioProfessor = new GerenciaProfessor();
 		GerenciaQuestao ficharioQuestao = new GerenciaQuestao(questoes);
 		GerenciaProva ficharioProva = new GerenciaProva(provas, questoes, turmas);
-		GerenciaDisciplina ficharioDisciplina = new GerenciaDisciplina(disciplinas, provas);
+		GerenciaDisciplina ficharioDisciplina = new GerenciaDisciplina(provas);
 		GerenciaTurma ficharioTurma = new GerenciaTurma(turmas, alunos, professores, disciplinas, cursos);
-		GerenciaCurso ficharioCurso = new GerenciaCurso(cursos, disciplinas);
+		GerenciaCurso ficharioCurso = new GerenciaCurso(disciplinas);
 		
 		System.out.println("............................................................");
 		System.out.println("BEM VINDO AO SEGA");
