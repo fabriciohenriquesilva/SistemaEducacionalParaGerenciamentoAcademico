@@ -3,19 +3,23 @@ package gerencia;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import dao.CursoDAO;
 import model.Curso;
 import model.Disciplina;
+import model.TipoRelatorio;
 
 public class GerenciaCurso {
 
 	private ArrayList<Curso> cursos;
 	private ArrayList<Disciplina> disciplinas;
+	private CursoDAO cursoDao;
 	private Scanner sc;
 	
 	public GerenciaCurso(ArrayList<Curso> cursos, ArrayList<Disciplina> disciplinas) {
 		sc = new Scanner(System.in);
 		this.cursos = cursos;
 		this.disciplinas = disciplinas;
+		this.cursoDao = new CursoDAO();
 	}
 	
 	public void adicionar() {
@@ -25,14 +29,13 @@ public class GerenciaCurso {
 		
 		Curso curso = new Curso();
 		
-		lerDados(curso);
+		System.out.println("1. Digite o código do curso: ");
+		curso.setCodigo(sc.nextLine());
 		
-		if(cursos.add(curso)) {
-			System.out.println("SUCESSO: Curso adicionado!");
-		}
-		else {
-			System.out.println("ERRO: Não foi possível cadastrar o curso!");
-		}
+		System.out.println("2. Digite o nome do curso: ");
+		curso.setNome(sc.nextLine());
+		
+		cursoDao.inserir(curso);
 	}
 	
 	public void remover() {
@@ -40,42 +43,53 @@ public class GerenciaCurso {
 		System.out.println("==============================");
 		System.out.println("REMOÇÃO DE CURSO");
 		
-		if(!cursos.isEmpty()) {
+		String codigo;
+		boolean achou = false;
+		int opcao;
+		
+		cursos = cursoDao.relatorio();
+		
+		if(cursos != null && !cursos.isEmpty()) {
+			imprimeCursos(cursos, TipoRelatorio.SINTETICO);
+			System.out.println("Qual o código do curso que deseja remover?");
+			codigo = sc.nextLine();
 			
-			gerarRelatorio();
+			Curso curso = null;
+			for (Curso c : cursos) {
+				if(c.getCodigo().equals(codigo)) {
+					achou = true;
+					curso = c;
+				}
+			}
 			
-			System.out.println("Digite a posição do curso a ser removido: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
-			
-			if(pos >= 0 && pos < cursos.size()) {
-				System.out.println("O curso que deseja remover é esse?");
+			if(achou) {
 				System.out.println("==============================");
-				System.out.println(cursos.get(pos));
+				System.out.println(curso);
 				System.out.println("==============================");
+				
+				System.out.println("Confirma a remoção?");
 				System.out.println("[1] Sim");
 				System.out.println("[2] Não");
-				
-				int opcao = sc.nextInt();
+				opcao = sc.nextInt();
 				sc.skip("\r\n");
 				
 				if(opcao == 1) {
-					cursos.remove(pos);
+					cursoDao.excluir(curso);
 					System.out.println("SUCESSO: Curso removido!");
 				}
-				else if(opcao == 2){
-					System.out.println("AVISO: Operação de remoção de cursos cancelada!");
+				else if(opcao == 2) {
+					System.out.println("ERRO: Operação cancelada!");
 				}
 				else {
-					System.out.println("ERRO: Opção inválida!");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
-				System.out.println("AVISO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("AVISO: Curso não encontrado!");
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há cursos cadastradas NO BANCO DE CURSOS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há cursos cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -84,45 +98,57 @@ public class GerenciaCurso {
 		System.out.println("==============================");
 		System.out.println("ALTERAÇÃO DE CURSO");
 		
-		if(!cursos.isEmpty()) {
+		String codigo;
+		boolean achou = false;
+		int opcao;
+
+		cursos = cursoDao.relatorio();
+		
+		if(cursos != null && !cursos.isEmpty()) {
+			imprimeCursos(cursos, TipoRelatorio.SINTETICO);
+			System.out.println("Qual o código do curso que deseja alterar?");
+			codigo = sc.nextLine();
 			
-			gerarRelatorio();
+			Curso curso = null;
+			for (Curso c : cursos) {
+				if(c.getCodigo().equals(codigo)) {
+					achou = true;
+					curso = c;
+				}
+			}
 			
-			System.out.println("Digite a posição do curso a ser alterado: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
-			
-			if(pos >= 0 && pos < cursos.size()) {
-				System.out.println("O curso que deseja alterar é este?");
+			if(achou) {
 				System.out.println("==============================");
-				System.out.println(cursos.get(pos));
+				System.out.println(curso);
 				System.out.println("==============================");
+				
+				System.out.println("Confirma a alteração?");
 				System.out.println("[1] Sim");
 				System.out.println("[2] Não");
-				
-				int opcao = sc.nextInt();
+				opcao = sc.nextInt();
 				sc.skip("\r\n");
 				
 				if(opcao == 1) {
-					Curso curso = cursos.get(pos);
+					System.out.println("Digite os novos dados:");
+					System.out.println("1. Digite o nome do curso: ");
+					curso.setNome(sc.nextLine());
 					
-					lerDados(curso);
-					
+					cursoDao.alterar(curso);
 					System.out.println("SUCESSO: Curso alterado!");
 				}
-				else if(opcao == 2){
-					System.out.println("AVISO: Operação de alteração de dados do curso cancelada! Voltando ao menu inicial...");
+				else if(opcao == 2) {
+					System.out.println("ERRO: Operação cancelada!");
 				}
 				else {
-					System.out.println("ERRO: Opção inválida!");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
-				System.out.println("AVISO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("AVISO: Curso não encontrado!");
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há cursos cadastradas NO BANCO DE CURSOS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há cursos cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -130,22 +156,35 @@ public class GerenciaCurso {
 		System.out.println("==============================");
 		System.out.println("CONSULTA DE CURSOS");
 		
-		if(!cursos.isEmpty()) {
-			System.out.println("Digite a posição do curso a ser consultado: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
+		String codigo;
+		boolean achou = false;
+
+		cursos = cursoDao.relatorio();
+		
+		if(cursos != null && !cursos.isEmpty()) {
+			imprimeCursos(cursos, TipoRelatorio.SINTETICO);
+			System.out.println("Qual o código do curso que deseja consultar?");
+			codigo = sc.nextLine();
 			
-			if(pos >= 0 && pos < cursos.size()) {
+			Curso curso = null;
+			for (Curso c : cursos) {
+				if(c.getCodigo().equals(codigo)) {
+					achou = true;
+					curso = c;
+				}
+			}
+			
+			if(achou) {
 				System.out.println("==============================");
-				System.out.println(cursos.get(pos));
+				System.out.println(curso);
 				System.out.println("==============================");
 			}
 			else {
-				System.out.println("AVISO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("AVISO: Curso não encontrado!");
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há cursos cadastradas NO BANCO DE CURSOS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há cursos cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -154,16 +193,13 @@ public class GerenciaCurso {
 		System.out.println("==============================");
 		System.out.println("RELATÓRIO DE CURSOS");
 		
-		if(!cursos.isEmpty()) {
-			System.out.println("==============================");
-			for (Curso curso : cursos) {
-				System.out.println("Posição: #" + cursos.indexOf(curso));
-				System.out.println(curso);
-				System.out.println("------------------------------");
-			}
+		cursos = cursoDao.relatorio();
+		
+		if(cursos != null && !cursos.isEmpty()) {
+			imprimeCursos(cursos, TipoRelatorio.ANALITICO);
 		}
 		else {
-			System.out.println("AVISO: Não há cursos cadastradas NO BANCO DE CURSOS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há cursos cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -397,13 +433,20 @@ public class GerenciaCurso {
 	}
 
 	
-	private void lerDados(Curso curso) {
+	private void imprimeCursos(ArrayList<Curso> listaDeCursos, TipoRelatorio tipo) {
+		System.out.println("...:::::[ LISTA DE PROFESSORES ]:::::...");
 		
-		System.out.println("1. Digite o código do curso: ");
-		curso.setCodigo(sc.nextLine());
-		
-		System.out.println("2. Digite o nome do curso: ");
-		curso.setNome(sc.nextLine());	
-		
+		if(tipo == TipoRelatorio.ANALITICO) {
+			for(Curso curso : listaDeCursos) {
+				System.out.println(curso);
+				System.out.println("------------------------------");
+			}
+		}
+		else {
+			for(Curso curso : listaDeCursos) {
+				System.out.println("Código: " + curso.getCodigo() + " - Nome: " + curso.getNome());
+			}
+			System.out.println("------------------------------");
+		}
 	}
 }

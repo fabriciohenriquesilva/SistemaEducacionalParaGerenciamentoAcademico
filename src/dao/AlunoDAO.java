@@ -35,6 +35,8 @@ public class AlunoDAO {
 			ps.setObject(4, aluno.getDataMatricula());
 			ps.execute();
 			ps.close();
+			
+			System.out.println("SUCESSO: Aluno adicionado!");
 		}
 		catch(Exception e) {
 			System.out.println("ERRO: Inserir ALUNO no banco de dados. " + e.getMessage());

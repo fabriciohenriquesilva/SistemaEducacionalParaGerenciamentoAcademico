@@ -36,7 +36,6 @@ public class GerenciaProfessor {
 		prof.setTitulacao(sc.nextLine());
 		
 		professorDao.inserir(prof);
-		System.out.println("SUCESSO: Professor adicionado!");
 	}
 	
 	public void remover() {
@@ -91,7 +90,7 @@ public class GerenciaProfessor {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há professores cadastrados NO BANCO DE PROFESSORES. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há professores cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 
@@ -157,7 +156,7 @@ public class GerenciaProfessor {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há professores cadastrados NO BANCO DE PROFESSORES. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há professores cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -194,7 +193,7 @@ public class GerenciaProfessor {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há professores cadastrados NO BANCO DE PROFESSORES. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há professores cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -209,7 +208,7 @@ public class GerenciaProfessor {
 			imprimeProfessores(professores, TipoRelatorio.ANALITICO);
 		}
 		else {
-			System.out.println("AVISO: Não há professores cadastrados NO BANCO DE PROFESSORES. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há professores cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -217,13 +216,13 @@ public class GerenciaProfessor {
 		System.out.println("...:::::[ LISTA DE PROFESSORES ]:::::...");
 		
 		if(tipo == TipoRelatorio.ANALITICO) {
-			for(Professor prof : professores) {
+			for(Professor prof : listaDeProfessores) {
 				System.out.println(prof);
 				System.out.println("------------------------------");
 			}
 		}
 		else {
-			for(Professor prof : professores) {
+			for(Professor prof : listaDeProfessores) {
 				System.out.println("Código: " + prof.getCodigo() + " - Nome: " + prof.getNome());
 			}
 			System.out.println("------------------------------");

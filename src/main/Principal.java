@@ -69,8 +69,7 @@ public class Principal {
 					menuDeOperacoes();
 					System.out.println("6. Adicionar Prova");
 					System.out.println("7. Remover Prova");
-					System.out.println("8. Consultar Provas");			
-					System.out.println("0. Voltar ao menu inicial");
+					System.out.println("8. Consultar Provas");
 					System.out.println("Operação: ");
 					
 					operacao = sc.nextInt();
@@ -130,8 +129,7 @@ public class Principal {
 					menuDeOperacoes();
 					System.out.println("6. Adicionar questão");
 					System.out.println("7. Remover questão");
-					System.out.println("8. Consultar questões");			
-					System.out.println("0. Voltar ao menu inicial");
+					System.out.println("8. Consultar questões");
 					System.out.println("Operação: ");
 					
 					operacao = sc.nextInt();
@@ -155,8 +153,7 @@ public class Principal {
 					menuDeOperacoes();
 					System.out.println("6. Adicionar Prova");
 					System.out.println("7. Remover Prova");
-					System.out.println("8. Consultar Provas");			
-					System.out.println("0. Voltar ao menu inicial");
+					System.out.println("8. Consultar Provas");
 					System.out.println("Operação: ");
 					
 					operacao = sc.nextInt();
@@ -180,8 +177,7 @@ public class Principal {
 					menuDeOperacoes();
 					System.out.println("6. Adicionar aluno");
 					System.out.println("7. Remover aluno");
-					System.out.println("8. Consultar alunos");			
-					System.out.println("0. Voltar ao menu inicial");
+					System.out.println("8. Consultar alunos");
 					System.out.println("Operação: ");
 					
 					operacao = sc.nextInt();
@@ -205,8 +201,7 @@ public class Principal {
 					menuDeOperacoes();
 					System.out.println("6. Adicionar disciplina");
 					System.out.println("7. Remover disciplina");
-					System.out.println("8. Consultar disciplinas");			
-					System.out.println("0. Voltar ao menu inicial");
+					System.out.println("8. Consultar disciplinas");	
 					System.out.println("Operação: ");
 					
 					operacao = sc.nextInt();
@@ -239,7 +234,7 @@ public class Principal {
 		
 		System.out.println("============ OPERAÇÃO ============");
 		System.out.println("Escolha uma opção:");
-		System.out.println("0. Sair");
+		System.out.println("0. Voltar ao menu inicial");
 		System.out.println("1. Incluir");
 		System.out.println("2. Consultar");
 		System.out.println("3. Alterar");

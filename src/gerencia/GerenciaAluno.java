@@ -48,8 +48,6 @@ public class GerenciaAluno {
 		aluno.setDataMatricula(LocalDate.parse(sc.nextLine(), formato));
 		
 		alunoDao.inserir(aluno);
-		
-		System.out.println("SUCESSO: Aluno adicionado!");
 	}
 	
 	public void remover() {
@@ -102,7 +100,7 @@ public class GerenciaAluno {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há alunos cadastrados NO BANCO DE ALUNOS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há alunos cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -169,7 +167,7 @@ public class GerenciaAluno {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há alunos cadastrados NO BANCO DE ALUNOS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há alunos cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -205,7 +203,7 @@ public class GerenciaAluno {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há alunos cadastrados NO BANCO DE ALUNOS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há alunos cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -220,7 +218,7 @@ public class GerenciaAluno {
 			imprimeAlunos(alunos, TipoRelatorio.ANALITICO);
 		}
 		else {
-			System.out.println("AVISO: Não há alunos cadastrados NO BANCO DE ALUNOS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há alunos cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -306,7 +304,7 @@ public class GerenciaAluno {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há alunos cadastrados NO BANCO DE ALUNOS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há alunos cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -394,7 +392,7 @@ public class GerenciaAluno {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há alunos cadastrados NO BANCO DE ALUNOS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há alunos cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -460,7 +458,7 @@ public class GerenciaAluno {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há alunos cadastradas NO BANCO DE ALUNOS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há alunos cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	

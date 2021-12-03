@@ -33,6 +33,8 @@ public class ProfessorDAO {
 			ps.setString(3, professor.getTitulacao());
 			ps.execute();
 			ps.close();
+
+			System.out.println("SUCESSO: Professor adicionado!");
 		}
 		catch(Exception e) {
 			System.out.println("ERRO: Inserir PROFESSOR no banco de dados. " + e.getMessage());
