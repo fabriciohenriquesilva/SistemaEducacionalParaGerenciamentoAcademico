@@ -2,7 +2,6 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import gerencia.GerenciaAluno;
 import gerencia.GerenciaCurso;
 import gerencia.GerenciaDisciplina;
@@ -34,7 +33,7 @@ public class Principal {
 		ArrayList<Turma> turmas = new ArrayList<>();
 
 		GerenciaAluno ficharioAluno = new GerenciaAluno(provas);
-		GerenciaProfessor ficharioProfessor = new GerenciaProfessor(professores);
+		GerenciaProfessor ficharioProfessor = new GerenciaProfessor();
 		GerenciaQuestao ficharioQuestao = new GerenciaQuestao(questoes);
 		GerenciaProva ficharioProva = new GerenciaProva(provas, questoes, turmas);
 		GerenciaDisciplina ficharioDisciplina = new GerenciaDisciplina(disciplinas, provas);

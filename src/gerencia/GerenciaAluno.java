@@ -9,6 +9,7 @@ import dao.AlunoDAO;
 import model.Aluno;
 import model.Prova;
 import model.Questao;
+import model.TipoRelatorio;
 
 public class GerenciaAluno {
 
@@ -20,8 +21,8 @@ public class GerenciaAluno {
 	
 	public GerenciaAluno(ArrayList<Prova> provas) {
 		this.provas = provas;
-		alunos = null;
-		alunoDao = new AlunoDAO();
+		this.alunos = null;
+		this.alunoDao = new AlunoDAO();
 		sc = new Scanner(System.in);
 	}
 	
@@ -62,7 +63,7 @@ public class GerenciaAluno {
 		alunos = alunoDao.relatorio();
 		
 		if(alunos != null && !alunos.isEmpty()) {
-			imprimeAlunos(alunos);
+			imprimeAlunos(alunos, TipoRelatorio.ANALITICO);
 			System.out.println("Qual a matrícula do aluno que deseja remover?");
 			matricula = sc.nextLine();
 			
@@ -93,7 +94,7 @@ public class GerenciaAluno {
 					System.out.println("ERRO: Operação cancelada!");
 				}
 				else {
-					System.out.println("AVISO: Operação de remoção de aluno cancelada!");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
@@ -117,7 +118,7 @@ public class GerenciaAluno {
 		alunos = alunoDao.relatorio();
 		
 		if(alunos != null && !alunos.isEmpty()) {
-			imprimeAlunos(alunos);
+			imprimeAlunos(alunos, TipoRelatorio.ANALITICO);
 			System.out.println("Qual a matrícula do aluno que deseja alterar?");
 			matricula = sc.nextLine();
 			
@@ -160,7 +161,7 @@ public class GerenciaAluno {
 					System.out.println("ERRO: Operação cancelada!");
 				}
 				else {
-					System.out.println("AVISO: Operação de remoção de aluno cancelada!");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
@@ -182,7 +183,7 @@ public class GerenciaAluno {
 		alunos = alunoDao.relatorio();
 		
 		if(alunos != null && !alunos.isEmpty()) {
-			imprimeAlunos(alunos);
+			imprimeAlunos(alunos, TipoRelatorio.ANALITICO);
 			System.out.println("Qual a matrícula do aluno que deseja consultar?");
 			matricula = sc.nextLine();
 			
@@ -216,7 +217,7 @@ public class GerenciaAluno {
 		alunos = alunoDao.relatorio();
 		
 		if(alunos != null && !alunos.isEmpty()) {
-			imprimeAlunos(alunos);
+			imprimeAlunos(alunos, TipoRelatorio.ANALITICO);
 		}
 		else {
 			System.out.println("AVISO: Não há alunos cadastrados NO BANCO DE ALUNOS. Impossível continuar operação. Voltando ao menu inicial...");
@@ -463,13 +464,20 @@ public class GerenciaAluno {
 		}
 	}
 	
-	private void imprimeAlunos(ArrayList<Aluno> listaDeAlunos) {
+	private void imprimeAlunos(ArrayList<Aluno> listaDeAlunos, TipoRelatorio tipo) {
 		System.out.println("...:::::[ LISTA DE ALUNOS ]:::::...");
 		
-		System.out.println("------------------------------");		
-		for(Aluno a : listaDeAlunos) {
-			System.out.println("Matricula: " + a.getMatricula() + " - Nome: " + a.getNome());
+		if(tipo == TipoRelatorio.ANALITICO) {
+			for(Aluno a : listaDeAlunos) {
+				System.out.println(a);
+				System.out.println("------------------------------");
+			}
 		}
-		System.out.println("------------------------------");
+		else {
+			for(Aluno a : listaDeAlunos) {
+				System.out.println("Matricula: " + a.getMatricula() + " - Nome: " + a.getNome());
+			}
+			System.out.println("------------------------------");
+		}
 	}
 }
