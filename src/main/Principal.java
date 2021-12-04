@@ -24,20 +24,12 @@ public class Principal {
 		Scanner sc = new Scanner(System.in);
 		int menu, operacao;
 		
-		ArrayList<Aluno> alunos = new ArrayList<>();
-		ArrayList<Professor> professores = new ArrayList<>();
-		ArrayList<Questao> questoes = new ArrayList<>();
-		ArrayList<Disciplina> disciplinas = new ArrayList<>();
-		ArrayList<Prova> provas = new ArrayList<>();
-		ArrayList<Curso> cursos = new ArrayList<>();
-		ArrayList<Turma> turmas = new ArrayList<>();
-
 		GerenciaAluno ficharioAluno = new GerenciaAluno(provas);
 		GerenciaProfessor ficharioProfessor = new GerenciaProfessor();
 		GerenciaQuestao ficharioQuestao = new GerenciaQuestao(questoes);
 		GerenciaProva ficharioProva = new GerenciaProva(provas, questoes, turmas);
-		GerenciaDisciplina ficharioDisciplina = new GerenciaDisciplina(provas);
-		GerenciaTurma ficharioTurma = new GerenciaTurma(turmas, alunos, professores, disciplinas, cursos);
+		GerenciaDisciplina ficharioDisciplina = new GerenciaDisciplina();
+		GerenciaTurma ficharioTurma = new GerenciaTurma();
 		GerenciaCurso ficharioCurso = new GerenciaCurso(disciplinas);
 		
 		System.out.println("............................................................");

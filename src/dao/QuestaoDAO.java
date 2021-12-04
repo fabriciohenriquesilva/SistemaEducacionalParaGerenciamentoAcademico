@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import model.Disciplina;
 import model.Questao;
 
 public class QuestaoDAO {
@@ -20,7 +21,7 @@ public class QuestaoDAO {
 		}
 	}
 	
-	public boolean inserir(Questao questao, String codDisciplina) {
+	public boolean inserir(Questao questao) {
 		String sql;
 		PreparedStatement ps = null;
 		
@@ -31,7 +32,7 @@ public class QuestaoDAO {
 			ps.setString(1, questao.getCodigo());
 			ps.setString(2, questao.getEnunciado());
 			ps.setFloat(3, questao.getValor());
-			ps.setString(4, codDisciplina);
+			ps.setString(4, questao.getDisciplina().getCodigo());
 			ps.execute();
 			ps.close();
 			System.out.println("SUCESSO: Questão adicionada!");
@@ -86,6 +87,8 @@ public class QuestaoDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		boolean umaVez = true;
+		DisciplinaDAO disciplinaDao = new DisciplinaDAO();
+		Disciplina disciplina = null;
 		
 		sql = "SELECT codigo, enunciado, valor, coddisciplina FROM questao";
 		
@@ -98,10 +101,13 @@ public class QuestaoDAO {
 					questoes = new ArrayList<>();
 					umaVez = false;
 				}
+				
+				disciplina = disciplinaDao.consultar(rs.getString("coddisciplina"));
+				
 				Questao questao = new Questao(rs.getString("codigo"),
 						rs.getString("enunciado"),
 						rs.getFloat("valor"),
-						rs.getString("coddisciplina"));
+						disciplina);
 				
 				questoes.add(questao);
 			}

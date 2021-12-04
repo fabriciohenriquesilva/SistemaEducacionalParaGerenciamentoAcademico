@@ -8,11 +8,18 @@ public class Prova {
 	private Turma turma;
 	private ArrayList<Questao> questoes;
 	private float nota;
+	private Disciplina disciplina;
 	
 	public Prova() {
 		questoes = new ArrayList<>();
 	}
 	
+	public Prova(String identificador, Turma turma, Disciplina disciplina) {
+		this.identificador = identificador;
+		this.turma = turma;
+		this.disciplina = disciplina;
+	}
+
 	public String getIdentificador() {
 		return identificador;
 	}
@@ -46,6 +53,14 @@ public class Prova {
 		this.nota = nota;
 	}
 	
+	public Disciplina getDisciplina() {
+		return disciplina;
+	}
+
+	public void setDisciplina(Disciplina disciplina) {
+		this.disciplina = disciplina;
+	}
+
 	@Override
 	public String toString() {
 		return    "Identificador         = " + identificador +

@@ -19,9 +19,7 @@ public class GerenciaAluno {
 	private ArrayList<Prova> provas;
 	private Scanner sc;
 	
-	public GerenciaAluno(ArrayList<Prova> provas) {
-		this.provas = provas;
-		this.alunos = null;
+	public GerenciaAluno() {
 		this.alunoDao = new AlunoDAO();
 		sc = new Scanner(System.in);
 	}

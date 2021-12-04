@@ -78,6 +78,35 @@ public class ProfessorDAO {
 		}
 	}
 	
+	public Professor consultar(int codigo) {
+		String sql;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Professor professor = null;
+
+		sql = "SELECT codigo, nome, cpf, titulacao FROM professor WHERE codigo = ?";
+
+		try {
+			ps = conexao.prepareStatement(sql);
+			ps.setInt(1, codigo);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				professor = new Professor(rs.getInt("codigo"),
+						rs.getString("nome"),
+						rs.getString("cpf"),
+						rs.getString("titulacao"));
+			}
+			
+			ps.close();
+			rs.close();
+		}
+		catch(Exception e) {
+			System.out.println("ERRO: Consultar DISCIPLINA no banco de dados. " + e.getMessage());
+		}
+		return professor;
+	}
+	
 	public ArrayList<Professor> relatorio(){
 		ArrayList<Professor> professores = null;
 		String sql;

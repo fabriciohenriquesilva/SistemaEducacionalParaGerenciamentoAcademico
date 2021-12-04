@@ -73,6 +73,33 @@ public class CursoDAO {
 		}
 	}
 	
+	public Curso consultar(String codigo) {
+		String sql;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Curso curso = null;
+
+		sql = "SELECT codigo, nome FROM curso WHERE codigo = ?";
+
+		try {
+			ps = conexao.prepareStatement(sql);
+			ps.setString(1, codigo);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				curso = new Curso(rs.getString("codigo"),
+						rs.getString("nome"));
+			}
+			
+			ps.close();
+			rs.close();
+		}
+		catch(Exception e) {
+			System.out.println("ERRO: Consultar CURSO no banco de dados. " + e.getMessage());
+		}
+		return curso;
+	}
+	
 	public ArrayList<Curso> relatorio(){
 		ArrayList<Curso> cursos = null;
 		String sql;

@@ -63,10 +63,10 @@ public class Disciplina {
 
 	@Override
 	public String toString() {
-		return     "Código da Disciplina = " + codigo +
-				 "\nNome da Disciplina   = " + nome +
-				 "\nCarga Horária        = " + cargaHoraria +
-				 "\nEmenta               = " + ementa;
+		return    "Código da Disciplina  = " + codigo +
+				"\nNome da Disciplina    = " + nome +
+			    "\nCarga Horária         = " + cargaHoraria +
+				"\nEmenta                = " + ementa;
 	}
 
 }

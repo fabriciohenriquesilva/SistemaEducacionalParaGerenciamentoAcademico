@@ -14,7 +14,6 @@ public class GerenciaProfessor {
 	private Scanner sc;
 	
 	public GerenciaProfessor() {
-		this.professores = null;
 		this.professorDao = new ProfessorDAO();
 		sc = new Scanner(System.in);
 	}

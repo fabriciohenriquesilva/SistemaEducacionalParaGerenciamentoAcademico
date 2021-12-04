@@ -3,7 +3,9 @@ package gerencia;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import dao.CursoDAO;
 import dao.DisciplinaDAO;
+import model.Curso;
 import model.Disciplina;
 import model.Prova;
 import model.Questao;
@@ -14,13 +16,13 @@ public class GerenciaDisciplina {
 	private ArrayList<Disciplina> disciplinas;
 	private ArrayList<Prova> provas;
 	private DisciplinaDAO disciplinaDao;
+	private CursoDAO cursoDao;
 	private Scanner sc;
 	
-	public GerenciaDisciplina(ArrayList<Prova> provas) {
+	public GerenciaDisciplina() {
 		sc = new Scanner(System.in);
-		this.provas = provas;
-		this.disciplinas = null;
 		this.disciplinaDao = new DisciplinaDAO();
+		this.cursoDao = new CursoDAO();
 	}
 
 	public void adicionar() {
@@ -41,6 +43,15 @@ public class GerenciaDisciplina {
 		System.out.println("4. Digite a carga horária da disciplina (apenas números inteiros): ");
 		disciplina.setCargaHoraria(sc.nextInt());
 		sc.skip("\r\n");
+		
+		ArrayList<Curso> cursos = cursoDao.relatorio();
+		System.out.println("==============================");
+		System.out.println("CURSOS CADASTRADOS");
+		
+		for (Curso c : cursos) {
+			System.out.println("Código: " + c.getCodigo() + " Nome: " + c.getNome());
+		}
+		System.out.println("------------------------------");
 		
 		System.out.println("5. Digite o código do curso à qual a disciplina pertence: ");
 		String codcurso = sc.nextLine();
@@ -149,6 +160,15 @@ public class GerenciaDisciplina {
 					System.out.println("3. Digite a carga horária da disciplina (apenas números inteiros): ");
 					disciplina.setCargaHoraria(sc.nextInt());
 					sc.skip("\r\n");
+					
+					ArrayList<Curso> cursos = cursoDao.relatorio();
+					System.out.println("==============================");
+					System.out.println("CURSOS CADASTRADOS");
+					
+					for (Curso c : cursos) {
+						System.out.println("Código: " + c.getCodigo() + " Nome: " + c.getNome());
+					}
+					System.out.println("------------------------------");
 					
 					System.out.println("4. Digite o código do curso à qual a disciplina pertence: ");
 					String codcurso = sc.nextLine();

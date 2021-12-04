@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Turma {
 	
+	private int codigo;
 	private Curso curso;
 	private Professor professor;
 	private ArrayList<Aluno> alunos;
@@ -13,6 +14,25 @@ public class Turma {
 	
 	public Turma() {
 		alunos = new ArrayList<>();
+	}
+
+	public Turma(int codigo, Curso curso, Professor professor, Disciplina disciplina, int ano,
+			int semestre) {
+		this.codigo = codigo;
+		this.curso = curso;
+		this.professor = professor;
+		alunos = new ArrayList<>();
+		this.disciplina = disciplina;
+		this.ano = ano;
+		this.semestre = semestre;
+	}
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
 	}
 
 	public Curso getCurso() {

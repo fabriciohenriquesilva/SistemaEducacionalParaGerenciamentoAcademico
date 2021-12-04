@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import dao.DisciplinaDAO;
 import dao.QuestaoDAO;
+import model.Disciplina;
 import model.Questao;
 import model.TipoRelatorio;
 
@@ -15,9 +16,8 @@ public class GerenciaQuestao {
 	private DisciplinaDAO disciplinaDao;
 	private Scanner sc;
 	
-	public GerenciaQuestao(ArrayList<Questao> questoes) {
+	public GerenciaQuestao() {
 		sc = new Scanner(System.in);
-		this.questoes = questoes;
 		this.questaoDao = new QuestaoDAO();
 		this.disciplinaDao = new DisciplinaDAO();
 	}
@@ -39,23 +39,23 @@ public class GerenciaQuestao {
 		questao.setValor(sc.nextFloat());
 		sc.skip("\r\n");
 		
-		/*
+		ArrayList<Disciplina> disciplinas = disciplinaDao.relatorio();
 		System.out.println("==============================");
-		System.out.println("DISCIPLINAS CADASTRADOS NO SISTEMA: ");
-		for (Disciplina disciplina : disciplinas) {
-			System.out.println("Posição #" + disciplinas.indexOf(disciplina));
-			System.out.println(disciplina);
-			System.out.println("------------------------------");	
-		}*/
+		System.out.println("DISCIPLINAS CADASTRADAS");
+		
+		for (Disciplina d : disciplinas) {
+			System.out.println("Código: " + d.getCodigo() + " Nome: " + d.getNome());
+		}
+		System.out.println("------------------------------");
 		
 		System.out.println("4. Digite o código da disciplina a que essa questão pertence: ");
 		String codDisciplina = sc.nextLine();
 		
-		boolean questaoInserida =questaoDao.inserir(questao, codDisciplina); 
+		Disciplina d = disciplinaDao.consultar(codDisciplina);
+		questao.setDisciplina(d);
 		
-		if(questaoInserida) {
-			questao.setDisciplina(disciplinaDao.consultar(codDisciplina));
-		}
+		questaoDao.inserir(questao); 
+		
 	}
 	
 	public void remover() {
@@ -150,17 +150,24 @@ public class GerenciaQuestao {
 				
 				if(opcao == 1) {
 					System.out.println("Digite os novos dados:");
-					System.out.println("1. Digite o código da questão: ");
-					questao.setCodigo(sc.nextLine());
 					
-					System.out.println("2. Digite o enunciado da questão: ");
+					System.out.println("1. Digite o enunciado da questão: ");
 					questao.setEnunciado(sc.nextLine());
 					
-					System.out.println("3. Digite o valor da questão: ");
+					System.out.println("2. Digite o valor da questão: ");
 					questao.setValor(sc.nextFloat());
 					sc.skip("\r\n");
 					
-					System.out.println("4. Digite o código da disciplina a que essa questão pertence: ");
+					ArrayList<Disciplina> disciplinas = disciplinaDao.relatorio();
+					System.out.println("==============================");
+					System.out.println("DISCIPLINAS CADASTRADAS");
+					
+					for (Disciplina d : disciplinas) {
+						System.out.println("Código: " + d.getCodigo() + " Nome: " + d.getNome());
+					}
+					System.out.println("------------------------------");
+					
+					System.out.println("3. Digite o código da disciplina a que essa questão pertence: ");
 					questao.getDisciplina().setCodigo(sc.nextLine());
 					
 					questaoDao.alterar(questao);
@@ -193,7 +200,7 @@ public class GerenciaQuestao {
 		
 		if(questoes != null && !questoes.isEmpty()) {
 			imprimeDisciplinas(questoes, TipoRelatorio.SINTETICO);
-			System.out.println("Qual o código da disciplina que deseja consultar?");
+			System.out.println("Qual o código da questão que deseja consultar?");
 			codigo = sc.nextLine();
 			
 			Questao questao = null;
@@ -207,6 +214,7 @@ public class GerenciaQuestao {
 			if(achou) {
 				System.out.println("==============================");
 				System.out.println(questao);
+				System.out.println(disciplinaDao.consultar(questao.getDisciplina().getCodigo()));
 				System.out.println("==============================");
 			}
 			else {

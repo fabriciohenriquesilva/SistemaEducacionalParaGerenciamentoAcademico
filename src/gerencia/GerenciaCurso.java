@@ -15,10 +15,8 @@ public class GerenciaCurso {
 	private CursoDAO cursoDao;
 	private Scanner sc;
 	
-	public GerenciaCurso(ArrayList<Disciplina> disciplinas) {
+	public GerenciaCurso() {
 		sc = new Scanner(System.in);
-		this.cursos = null;
-		this.disciplinas = disciplinas;
 		this.cursoDao = new CursoDAO();
 	}
 	

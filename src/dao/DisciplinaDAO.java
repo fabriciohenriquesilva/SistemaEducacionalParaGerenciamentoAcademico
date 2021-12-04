@@ -92,12 +92,14 @@ public class DisciplinaDAO {
 			ps = conexao.prepareStatement(sql);
 			ps.setString(1, codigo);
 			rs = ps.executeQuery();
-
-			disciplina = new Disciplina(rs.getString("codigo"),
-					rs.getString("nome"),
-					rs.getString("ementa"),
-					rs.getInt("cargahoraria"));
-
+			
+			while(rs.next()) {
+				disciplina = new Disciplina(rs.getString("codigo"),
+						rs.getString("nome"),
+						rs.getString("ementa"),
+						rs.getInt("cargahoraria"));
+			}
+			
 			ps.close();
 			rs.close();
 		}

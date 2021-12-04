@@ -3,8 +3,13 @@ package gerencia;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import dao.DisciplinaDAO;
+import dao.ProvaDAO;
+import dao.TurmaDAO;
+import model.Disciplina;
 import model.Prova;
 import model.Questao;
+import model.TipoRelatorio;
 import model.Turma;
 
 public class GerenciaProva {
@@ -12,19 +17,25 @@ public class GerenciaProva {
 	private ArrayList<Prova> provas;
 	private ArrayList<Questao> questoes;
 	private ArrayList<Turma> turmas;
+	private ArrayList<Disciplina> disciplinas;
 	private Scanner sc;
+	private TurmaDAO turmaDao;
+	private ProvaDAO provaDao;
+	private DisciplinaDAO disciplinaDao;
 	
-	public GerenciaProva(ArrayList<Prova> provas, ArrayList<Questao> questoes, ArrayList<Turma> turmas) {
+	public GerenciaProva() {
 		sc = new Scanner(System.in);
 		
-		this.provas = provas;
-		this.questoes = questoes;
-		this.turmas = turmas;
+		this.turmaDao = new TurmaDAO();
+		this.provaDao = new ProvaDAO();
+		this.disciplinaDao = new DisciplinaDAO();
 	}
 
 	public void adicionar() {
 		System.out.println("==============================");
 		System.out.println("CADASTRO DE PROVA");
+		
+		turmas = turmaDao.relatorio();
 		
 		if(turmas.isEmpty()) {
 			System.out.println("AVISO: Não há turmas cadastradas. Necessário ter ao menos uma turma para cadastrar uma prova!");
@@ -33,13 +44,14 @@ public class GerenciaProva {
 		else {
 			Prova prova = new Prova();
 			
-			lerDados(prova);
+			System.out.println("1. Digite o identificador da prova: ");
+			prova.setIdentificador(sc.nextLine());
 			
-			if(provas.add(prova)) {
-				System.out.println("SUCESSO: Prova adicionada!");
+			if(lerDados(prova)) {
+				provaDao.inserir(prova);
 			}
 			else {
-				System.out.println("ERRO: Não foi possível adicionar a prova!");
+				System.out.println("ERRO: Prova não inserida!");
 			}
 		}
 	}
@@ -48,43 +60,53 @@ public class GerenciaProva {
 		System.out.println("==============================");
 		System.out.println("REMOÇÃO DE PROVA");
 		
-		if(!provas.isEmpty()) {
+		String identificador;
+		boolean achou = false;
+		int opcao;
+		
+		provas = provaDao.relatorio();
+		
+		if(provas != null && !provas.isEmpty()) {
+			imprimeProvas(provas, TipoRelatorio.SINTETICO);
+			System.out.println("Qual o código da prova que deseja remover?");
+			identificador = sc.nextLine();
 			
-			gerarRelatorio();
+			Prova prova = null;
+			for (Prova p : provas) {
+				if(p.getIdentificador().equals(identificador)) {
+					achou = true;
+					prova = p;
+				}
+			}
 			
-			System.out.println("Digite a posição da prova a ser removida: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
-			
-			if(pos >= 0 && pos < provas.size()) {
-				Prova prova = provas.get(pos);
-				System.out.println("A prova que deseja remover é essa?");
+			if(achou) {
 				System.out.println("==============================");
 				System.out.println(prova);
 				System.out.println("==============================");
+				
+				System.out.println("Confirma a remoção?");
 				System.out.println("[1] Sim");
 				System.out.println("[2] Não");
-				
-				int opcao = sc.nextInt();
+				opcao = sc.nextInt();
 				sc.skip("\r\n");
 				
 				if(opcao == 1) {
-					provas.remove(pos);
+					provaDao.excluir(prova);
 					System.out.println("SUCESSO: Prova removida!");
 				}
 				else if(opcao == 2) {
-					System.out.println("AVISO: Voltando ao menu inicial...");
+					System.out.println("ERRO: Operação cancelada!");
 				}
 				else {
 					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
-				System.out.println("AVISO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("AVISO: Prova não encontrado!");
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há provas cadastradas NO BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há provas cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 
@@ -93,45 +115,59 @@ public class GerenciaProva {
 		System.out.println("==============================");
 		System.out.println("ALTERAÇÃO DE PROVA");
 		
-		if(!provas.isEmpty()) {
+		String identificador;
+		boolean achou = false;
+		int opcao;
+		
+		provas = provaDao.relatorio();
+		
+		if(provas != null && !provas.isEmpty()) {
+			imprimeProvas(provas, TipoRelatorio.SINTETICO);
+			System.out.println("Qual o código da prova que deseja remover?");
+			identificador = sc.nextLine();
 			
-			gerarRelatorio();
+			Prova prova = null;
+			for (Prova p : provas) {
+				if(p.getIdentificador().equals(identificador)) {
+					achou = true;
+					prova = p;
+				}
+			}
 			
-			System.out.println("Digite a posição da prova a ser alterada: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
-			
-			if(pos >= 0 && pos < provas.size()) {
-				System.out.println("A prova que deseja alterar é esta?");
+			if(achou) {
 				System.out.println("==============================");
-				System.out.println(provas.get(pos));
+				System.out.println(prova);
 				System.out.println("==============================");
+				
+				System.out.println("Confirma a remoção?");
 				System.out.println("[1] Sim");
 				System.out.println("[2] Não");
-				
-				int opcao = sc.nextInt();
+				opcao = sc.nextInt();
 				sc.skip("\r\n");
 				
 				if(opcao == 1) {
-					Prova prova = provas.get(pos);
-					
-					lerDados(prova);
-					
-					System.out.println("SUCESSO: Prova alterada!");
+
+					if(lerDados(prova)) {
+						provaDao.alterar(prova);
+						System.out.println("SUCESSO: Prova alterada!");
+					}
+					else {
+						System.out.println("ERRO: Prova não alterada!");
+					}
 				}
-				else if(opcao == 2){
-					System.out.println("AVISO: Operação de alteração de dados da prova cancelada! Voltando ao menu inicial...");
+				else if(opcao == 2) {
+					System.out.println("ERRO: Operação cancelada!");
 				}
 				else {
-					System.out.println("ERRO: Opção inválida!");
+					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
-				System.out.println("AVISO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("AVISO: Prova não encontrado!");
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há provas cadastradas NO BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há provas cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 
@@ -139,28 +175,35 @@ public class GerenciaProva {
 		System.out.println("==============================");
 		System.out.println("CONSULTA DE PROVA");
 		
-		if(!provas.isEmpty()) {
-			System.out.println("Digite a posição da prova a ser consultada: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
+		String identificador;
+		boolean achou = false;
+		
+		provas = provaDao.relatorio();
+		
+		if(provas != null && !provas.isEmpty()) {
+			imprimeProvas(provas, TipoRelatorio.SINTETICO);
+			System.out.println("Qual o código da prova que deseja remover?");
+			identificador = sc.nextLine();
 			
-			if(pos >= 0 && pos < provas.size()) {
-				Prova prova = provas.get(pos);
+			Prova prova = null;
+			for (Prova p : provas) {
+				if(p.getIdentificador().equals(identificador)) {
+					achou = true;
+					prova = p;
+				}
+			}
+			
+			if(achou) {
 				System.out.println("==============================");
 				System.out.println(prova);
-				
-				for(Questao q : prova.getQuestoes()) {
-					System.out.println("------------------------------");
-					System.out.println(q);
-				}
 				System.out.println("==============================");
 			}
 			else {
-				System.out.println("AVISO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("AVISO: Prova não encontrado!");
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há provas cadastradas NO BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há provas cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 
@@ -168,16 +211,13 @@ public class GerenciaProva {
 		System.out.println("==============================");
 		System.out.println("RELATÓRIO DE PROVAS");
 		
-		if(!provas.isEmpty()) {
-			System.out.println("==============================");
-			for (Prova prova : provas) {
-				System.out.println("Posição: #" + provas.indexOf(prova));
-				System.out.println(prova);
-				System.out.println("------------------------------");
-			}
+		provas = provaDao.relatorio();
+		
+		if(provas != null && !provas.isEmpty()) {
+			imprimeProvas(provas, TipoRelatorio.ANALITICO);
 		}
 		else {
-			System.out.println("AVISO: Não há provas cadastradas NO BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há provas cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
@@ -410,80 +450,71 @@ public class GerenciaProva {
 		}
 	}
 	
-	private void lerDados(Prova prova) {
-		
-		int pos;
-		
-		System.out.println("1. Digite o identificador da prova: ");
-		prova.setIdentificador(sc.nextLine());
-		
-		System.out.println("2. Digite a nota da prova: ");
-		prova.setNota(sc.nextFloat());
-		sc.skip("\r\n");
+	private boolean lerDados(Prova prova) {
 		
 		System.out.println("==============================");
 		System.out.println("TURMAS CADASTRADAS NO SISTEMA: ");
-		for (Turma turma : turmas) {
-			System.out.println("------------------------------");
-			System.out.println("Posição #" + turmas.indexOf(turma));
-			System.out.println(turma);
-			System.out.println("------------------------------");	
+		turmas = turmaDao.relatorio();
+		
+		for (Turma t : turmas) {
+			System.out.println("Código: " + t.getCodigo() + " - Curso: " + t.getCurso().getNome() + 
+					"\nDisciplina: " + t.getDisciplina().getNome() + " - Semestre/Ano: " + t.getSemestre() + "/" + t.getAno());
 		}
+		System.out.println("------------------------------");	
+		System.out.println("2. Digite o código da turma para adicionar na prova: ");
 		
-		System.out.println("3. Digite a posição da turma para adicionar na prova: ");
-		pos = sc.nextInt();
+		int codTurma = sc.nextInt();
 		sc.skip("\r\n");
+		Turma turma = turmaDao.consultar(codTurma);
 		
-		if(pos >= 0 && pos < turmas.size()) {
-			prova.setTurma(turmas.get(pos));
+		if(turma != null) {
+			prova.setTurma(turma);
 			System.out.println("SUCESSO: Turma adicionada na prova!");
 			
 			System.out.println("==============================");
-			System.out.println("QUESTÕES CADASTRADAS NO SISTEMA: ");
-			System.out.println("4. Selecione as questões para adicionar na prova: ");
-			for (Questao questao : questoes) {
-				System.out.println("------------------------------");
-				System.out.println("Posição #" + questoes.indexOf(questao));
-				System.out.println(questao);
-				System.out.println("------------------------------");
-			}
+			System.out.println("DISCIPLINAS CADASTRADOS NO SISTEMA: ");
+			disciplinas = disciplinaDao.relatorio();
 			
-			int opcao;
-			do {
-				System.out.println("Deseja adicionar uma questão na prova?");
-				System.out.println("[1] Sim");
-				System.out.println("[2] Não");
+			for (Disciplina d : disciplinas) {
+				System.out.println("Código: " + d.getCodigo() + " Nome: " + d.getNome());
+			}
+			System.out.println("------------------------------");	
+			System.out.println("3. Digite o código da disciplina para adicionar na turma: ");
+			
+			String codDisciplina = sc.nextLine();
+			Disciplina disciplina = disciplinaDao.consultar(codDisciplina);
+			
+			if(disciplina != null) {
+				turma.setDisciplina(disciplina);
+				System.out.println("SUCESSO: Disciplina adicionada na turma!");
 				
-				opcao = sc.nextInt();
-				sc.skip("\r\n");
-				
-				if(opcao == 1) {
-					System.out.println("Digite a posição da questão para adicionar: ");
-					pos = sc.nextInt();
-					sc.skip("\r\n");
-					
-					if(pos >= 0 && pos < questoes.size()) {
-						if(prova.adicionarQuestao(questoes.get(pos))) {
-							System.out.println("SUCESSO: Questão adicionada na prova!");
-						}
-					}
-					else {
-						System.out.println("ERRO: Posição inválida!");
-					}
-				}
-				else if(opcao == 2 && questoes.isEmpty()) {
-					System.out.println("ERRO: Adicione ao menos uma questão na prova!");
-				}
-				else {
-					if(opcao != 2) {
-						System.out.println("ERRO: Opção inválida!");
-					}
-				}
-			} while(opcao == 1);
-			System.out.println("AVISO: Voltando ao menu inicial...");
+				return true;
+			}
+			else {
+				System.out.println("ERRO: Disciplina não encontrada!");
+			}
 		}
 		else {
-			System.out.println("ERRO: Posição inválida!");
+			System.out.println("ERRO: Turma não encontrada!");
+		}
+		return false;
+	}
+	
+	private void imprimeProvas(ArrayList<Prova> listaDeProvas, TipoRelatorio tipo) {
+		System.out.println("...:::::[ LISTA DE DISCIPLINAS ]:::::...");
+		
+		if(tipo == TipoRelatorio.ANALITICO) {
+			for(Prova prova : listaDeProvas) {
+				System.out.println(prova);
+				System.out.println("------------------------------");
+			}
+		}
+		else {
+			for(Prova prova : listaDeProvas) {
+				System.out.println("Código: " + prova.getIdentificador() + " - Nome: " + prova.getDisciplina().getNome() + 
+						"Código da Turma: " + prova.getTurma().getCodigo());
+			}
+			System.out.println("------------------------------");
 		}
 	}
 }
