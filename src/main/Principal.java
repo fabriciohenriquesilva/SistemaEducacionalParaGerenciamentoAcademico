@@ -1,6 +1,5 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 import gerencia.GerenciaAluno;
 import gerencia.GerenciaCurso;
@@ -9,13 +8,6 @@ import gerencia.GerenciaProfessor;
 import gerencia.GerenciaProva;
 import gerencia.GerenciaQuestao;
 import gerencia.GerenciaTurma;
-import model.Aluno;
-import model.Curso;
-import model.Disciplina;
-import model.Professor;
-import model.Prova;
-import model.Questao;
-import model.Turma;
 
 public class Principal {
 
@@ -24,13 +16,13 @@ public class Principal {
 		Scanner sc = new Scanner(System.in);
 		int menu, operacao;
 		
-		GerenciaAluno ficharioAluno = new GerenciaAluno(provas);
+		GerenciaAluno ficharioAluno = new GerenciaAluno();
 		GerenciaProfessor ficharioProfessor = new GerenciaProfessor();
-		GerenciaQuestao ficharioQuestao = new GerenciaQuestao(questoes);
-		GerenciaProva ficharioProva = new GerenciaProva(provas, questoes, turmas);
+		GerenciaQuestao ficharioQuestao = new GerenciaQuestao();
+		GerenciaProva ficharioProva = new GerenciaProva();
 		GerenciaDisciplina ficharioDisciplina = new GerenciaDisciplina();
 		GerenciaTurma ficharioTurma = new GerenciaTurma();
-		GerenciaCurso ficharioCurso = new GerenciaCurso(disciplinas);
+		GerenciaCurso ficharioCurso = new GerenciaCurso();
 		
 		System.out.println("............................................................");
 		System.out.println("BEM VINDO AO SEGA");
