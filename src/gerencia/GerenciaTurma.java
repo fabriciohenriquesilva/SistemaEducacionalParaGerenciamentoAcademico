@@ -3,9 +3,11 @@ package gerencia;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import dao.AlunoDAO;
 import dao.CursoDAO;
 import dao.DisciplinaDAO;
 import dao.ProfessorDAO;
+import dao.TurmaAlunoDAO;
 import dao.TurmaDAO;
 import model.Aluno;
 import model.Curso;
@@ -26,6 +28,8 @@ public class GerenciaTurma {
 	private DisciplinaDAO disciplinaDao;
 	private ProfessorDAO professorDao;
 	private CursoDAO cursoDao;
+	private TurmaAlunoDAO turmaAlunoDao;
+	private AlunoDAO alunoDao;
 	
 	private Scanner sc;
 	
@@ -34,6 +38,8 @@ public class GerenciaTurma {
 		this.disciplinaDao = new DisciplinaDAO();
 		this.professorDao = new ProfessorDAO();
 		this.cursoDao = new CursoDAO();
+		this.turmaAlunoDao = new TurmaAlunoDAO();
+		this.alunoDao = new AlunoDAO();
 		sc = new Scanner(System.in);
 	}
 
@@ -117,7 +123,7 @@ public class GerenciaTurma {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há turmas cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há turmas cadastrados.");
 		}
 	}
 	
@@ -180,7 +186,7 @@ public class GerenciaTurma {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há turmas cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há turmas cadastrados.");
 		}
 	}
 	
@@ -217,7 +223,7 @@ public class GerenciaTurma {
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há turmas cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há turmas cadastrados.");
 		}
 	}
 	
@@ -231,7 +237,7 @@ public class GerenciaTurma {
 			imprimeTurmas(turmas, TipoRelatorio.ANALITICO);
 		}
 		else {
-			System.out.println("AVISO: Não há turmas cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há turmas cadastrados.");
 		}
 	}
 	
@@ -333,85 +339,53 @@ public class GerenciaTurma {
 		System.out.println("==============================");
 		System.out.println("ADICIONAR ALUNO NA TURMA");
 		
-		if(!turmas.isEmpty()) {
-			
-			gerarRelatorio();
-			
-			System.out.println("Escolha a turma pela sua posição: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
-			
-			if(pos >= 0 && pos < turmas.size()) {
-				Turma turma = turmas.get(pos);
-				System.out.println("A turma que deseja adicionar um aluno é esta?");
+		alunos = alunoDao.relatorio();
+		turmas = turmaDao.relatorio();
+		
+		if(turmas != null && !turmas.isEmpty()) {
+			if(alunos != null && !alunos.isEmpty()) {
+				System.out.println("------------------------------");
+				System.out.println("TURMAS CADASTRADAS");
 				System.out.println("==============================");
-				System.out.println(turma);
-				System.out.println("==============================");
-				System.out.println("[1] Sim");
-				System.out.println("[2] Não");
-				
-				int opcao = sc.nextInt();
+				imprimeTurmas(turmas, TipoRelatorio.SINTETICO);
+				System.out.println("Selecione a turma pelo seu código: ");
+				int codigo = sc.nextInt();
 				sc.skip("\r\n");
 				
-				if(opcao == 1) {
-					if(!alunos.isEmpty()) {
-						
-						System.out.println("==============================");
-						System.out.println("BANCO DE ALUNOS");
-						for (Aluno a : alunos) {
-							System.out.println("Posição " + alunos.indexOf(a));
-							System.out.println(a);
-							System.out.println("------------------------------");
-						}
-						
-						System.out.println("Escolha o aluno pela sua posição: ");
-						pos = sc.nextInt();
-						sc.skip("\r\n");
-						
-						if(pos >= 0 && pos < alunos.size()) {
-							Aluno aluno = alunos.get(pos);
-							System.out.println("O aluno que deseja adicionar na turma é esta?");
-							System.out.println("==============================");
-							System.out.println(aluno);
-							System.out.println("==============================");
-							System.out.println("[1] Sim");
-							System.out.println("[2] Não");
-							
-							opcao = sc.nextInt();
-							sc.skip("\r\n");
-							
-							if(opcao == 1) {
-								turma.adicionarAluno(aluno);
-								System.out.println("SUCESSO: Aluno adicionado a turma!");
-							}
-							else if(opcao == 2) {
-								System.out.println("AVISO: Voltando ao menu inicial...");
-							}
-							else {
-								System.out.println("AVISO: Opção inválida!");
-							}
-						}
-						else {
-							System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
-						}
+				Turma turma = turmaDao.consultar(codigo);
+				if(turma != null) {
+					System.out.println("------------------------------");
+					System.out.println("ALUNOS CADASTRADOS");
+					System.out.println("==============================");
+					
+					for (Aluno a : alunos) {
+						System.out.println("Matrícula: " + a.getMatricula() + " - Nome: " + a.getNome());
+					}
+					System.out.println("------------------------------");
+					
+					System.out.println("Selecione o aluno pela sua matrícula: ");
+					String matricula = sc.nextLine();
+					
+					Aluno aluno = alunoDao.consultar(matricula);
+					
+					if(aluno != null) {
+						turmaAlunoDao.inserir(turma, aluno);
+						System.out.println("SUCESSO: Aluno inserido na turma!");
 					}
 					else {
-						System.out.println("AVISO: Não há alunos cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
+						System.out.println("ERRO: Aluno não encontrado!");
 					}
 				}
-				else if(opcao == 2) {
-					System.out.println("AVISO: Voltando ao menu inicial...");
-				}
 				else {
-					System.out.println("AVISO: Opção inválida!");
+					System.out.println("ERRO: Turma não encontrada!");
 				}
 			}
 			else {
-				System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("ERRO: Não há alunos cadastrados!");
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há turmas cadastrados NO BANCO DE TURMAS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("ERRO: Não há turmas cadastradas!");
 		}
 	}
 	
@@ -419,87 +393,71 @@ public class GerenciaTurma {
 		System.out.println("==============================");
 		System.out.println("REMOVER ALUNO DA TURMA");
 		
-		if(!turmas.isEmpty()) {
-			
-			gerarRelatorio();
-			
-			System.out.println("Escolha a turma pela sua posição: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
-			
-			if(pos >= 0 && pos < turmas.size()) {
-				Turma turma = turmas.get(pos);
-				System.out.println("A turma que deseja remover o aluno é essa?");
+		alunos = alunoDao.relatorio();
+		turmas = turmaDao.relatorio();
+		
+		if(turmas != null && !turmas.isEmpty()) {
+			if(alunos != null && !alunos.isEmpty()) {
+				System.out.println("------------------------------");
+				System.out.println("TURMAS CADASTRADAS");
 				System.out.println("==============================");
-				System.out.println(turma);
-				System.out.println("==============================");
-				System.out.println("[1] Sim");
-				System.out.println("[2] Não");
-				
-				int opcao = sc.nextInt();
+				imprimeTurmas(turmas, TipoRelatorio.SINTETICO);
+				System.out.println("Selecione a turma pelo seu código: ");
+				int codigo = sc.nextInt();
 				sc.skip("\r\n");
 				
-				if(opcao == 1) {
+				Turma turma = turmaDao.consultar(codigo);
+				if(turma != null) {
+					System.out.println("A turma que deseja remover os alunos é esta?");
+					System.out.println("==============================");
+					System.out.println(turma);
+					System.out.println("==============================");
+					System.out.println("[1] Sim");
+					System.out.println("[2] Não");
 					
-					ArrayList<Aluno> alunosDaTurma = turma.getAlunos();
+					int opcao = sc.nextInt();
+					sc.skip("\r\n");
 					
-					if(!alunosDaTurma.isEmpty()) {
+					if(opcao == 1) {
+						ArrayList<Aluno> alunosDaTurma = turmaAlunoDao.relatorio(turma);
 						
-						System.out.println("==============================");
-						for (Aluno alu : alunosDaTurma) {
-							System.out.println("Posição " + alunosDaTurma.indexOf(alu));
-							System.out.println(alu);
-							System.out.println("------------------------------");
-						}
-						
-						System.out.println("Escolha o aluno pela sua posição: ");
-						pos = sc.nextInt();
-						sc.skip("\r\n");
-						
-						if(pos >= 0 && pos < alunosDaTurma.size()) {
-							Aluno aluno = alunosDaTurma.get(pos);
-							System.out.println("O aluno que deseja remover da turma é esse?");
+						if(alunosDaTurma != null && !alunosDaTurma.isEmpty()) {
+							System.out.println("...:::::[ LISTA DOS ALUNOS MATRICULADOS ]:::::...");
+							for(Aluno aluno : alunosDaTurma) {
+								System.out.println("------------------------------");
+								System.out.println("Matrícula: " + aluno.getMatricula() + " - Nome: " + aluno.getNome());
+							}
 							System.out.println("==============================");
-							System.out.println(aluno);
-							System.out.println("==============================");
-							System.out.println("[1] Sim");
-							System.out.println("[2] Não");
+							System.out.println("Selecione o aluno pela sua matrícula: ");
+							String matricula = sc.nextLine();
+							Aluno aluno = alunoDao.consultar(matricula);
 							
-							opcao = sc.nextInt();
-							sc.skip("\r\n");
-							
-							if(opcao == 1) {
-								alunosDaTurma.remove(pos);
+							if(aluno != null) {
+								turmaAlunoDao.excluir(turma, aluno);
 								System.out.println("SUCESSO: Aluno removido da turma!");
 							}
-							else if(opcao == 2) {
-								System.out.println("AVISO: Voltando ao menu inicial...");
-							}
 							else {
-								System.out.println("AVISO: Opção inválida!");
-							}
+								System.out.println("ERRO: Aluno não encontrado!");
+							}	
 						}
 						else {
-							System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
+							System.out.println("AVISO: Não há alunos cadastrados NESSA TURMA.");
 						}
 					}
-					else {
-						System.out.println("AVISO: Não há alunos cadastrados NESSA TURMA. Impossível continuar operação. Voltando ao menu inicial...");
+					else if(opcao == 2) {
+						System.out.println("AVISO: Operação cancelada!");
 					}
-				}
-				else if(opcao == 2) {
-					System.out.println("AVISO: Voltando ao menu inicial...");
-				}
-				else {
-					System.out.println("AVISO: Opção inválida!");
+					else {
+						System.out.println("AVISO: Opção inválida!");
+					}
 				}
 			}
 			else {
-				System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("ERRO: Não há alunos cadastrados!");
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há turmas cadastradas NO BANCO DE TURMAS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("ERRO: Não há turmas cadastradas!");
 		}
 	}
 	
@@ -507,16 +465,19 @@ public class GerenciaTurma {
 		System.out.println("==============================");
 		System.out.println("CONSULTAR ALUNOS DA TURMA");
 		
+		turmas = turmaDao.relatorio();
+		
 		if(!turmas.isEmpty()) {
 			
-			gerarRelatorio();
+			imprimeTurmas(turmas, TipoRelatorio.SINTETICO);
 			
-			System.out.println("Escolha a turma pela sua posição: ");
-			int pos = sc.nextInt();
+			System.out.println("Escolha a turma pelo seu código: ");
+			int codigo = sc.nextInt();
 			sc.skip("\r\n");
 			
-			if(pos >= 0 && pos < turmas.size()) {
-				Turma turma = turmas.get(pos);
+			Turma turma = turmaDao.consultar(codigo);
+			
+			if(turma != null) {
 				System.out.println("A turma que deseja consultar os alunos é esta?");
 				System.out.println("==============================");
 				System.out.println(turma);
@@ -528,34 +489,33 @@ public class GerenciaTurma {
 				sc.skip("\r\n");
 				
 				if(opcao == 1) {
+					ArrayList<Aluno> alunosDaTurma = turmaAlunoDao.relatorio(turma);
 					
-					ArrayList<Aluno> alunosDaTurma = turma.getAlunos();
-					
-					if(!alunosDaTurma.isEmpty()) {
+					if(alunosDaTurma != null && !alunosDaTurma.isEmpty()) {
+						System.out.println("...:::::[ LISTA DOS ALUNOS MATRICULADOS ]:::::...");
 						for(Aluno aluno : alunosDaTurma) {
 							System.out.println("------------------------------");
-							System.out.println("Posição " + alunosDaTurma.indexOf(aluno));
-							System.out.println(aluno);
+							System.out.println("Matrícula: " + aluno.getMatricula() + " - Nome: " + aluno.getNome());
 						}
 						System.out.println("==============================");
 					}
 					else {
-						System.out.println("AVISO: Não há alunos cadastrados NESSA TURMA. Impossível continuar operação. Voltando ao menu inicial...");
+						System.out.println("AVISO: Não há alunos cadastrados NESSA TURMA.");
 					}
 				}
 				else if(opcao == 2) {
-					System.out.println("AVISO: Voltando ao menu inicial...");
+					System.out.println("AVISO: Operação cancelada!");
 				}
 				else {
 					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
-				System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("ERRO: Turma não encontrada!");
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há turmas cadastradas NO BANCO DE TURMAS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há turmas cadastradas NO BANCO DE TURMAS.");
 		}
 	}
 }

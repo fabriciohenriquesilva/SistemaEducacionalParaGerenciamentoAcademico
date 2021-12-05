@@ -80,6 +80,34 @@ public class AlunoDAO {
 		}
 	}
 	
+	public Aluno consultar(String matricula){
+		String sql;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Aluno aluno = null;
+		
+		sql = "SELECT matricula, nome, cpf, datamatricula FROM aluno WHERE matricula = ?";
+		
+		try {
+			ps = conexao.prepareStatement(sql);
+			ps.setString(1, matricula);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				aluno = new Aluno(rs.getString("matricula"),
+					rs.getString("nome"),
+					rs.getString("cpf"),
+					rs.getObject("datamatricula", LocalDate.class) );
+			}
+			
+			ps.close();
+			rs.close();
+		} catch (SQLException e) {
+			System.out.println("ERRO: Relatório de ALUNOS no banco de dados. " + e.getMessage());
+		}
+		return aluno;
+	}
+	
 	public ArrayList<Aluno> relatorio(){
 		ArrayList<Aluno> alunos = null;
 		String sql;
