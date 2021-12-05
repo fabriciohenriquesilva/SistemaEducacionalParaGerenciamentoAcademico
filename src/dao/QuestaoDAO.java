@@ -81,12 +81,46 @@ public class QuestaoDAO {
 		}
 	}
 	
+	public Questao consultar(String codigo){
+		String sql;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Questao questao = null;
+		
+		DisciplinaDAO disciplinaDao = new DisciplinaDAO();
+		Disciplina disciplina = null;
+		
+		sql = "SELECT codigo, enunciado, valor, coddisciplina FROM questao WHERE codigo = ?";
+		
+		try {
+			ps = conexao.prepareStatement(sql);
+			ps.setString(1, codigo);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				disciplina = disciplinaDao.consultar(rs.getString("coddisciplina"));
+				
+				questao = new Questao(rs.getString("codigo"),
+						rs.getString("enunciado"),
+						rs.getFloat("valor"),
+						disciplina);
+			}
+			
+			ps.close();
+			rs.close();
+		} catch (SQLException e) {
+			System.out.println("ERRO: Relatório de QUESTÃO no banco de dados. " + e.getMessage());
+		}
+		return questao;
+	}
+	
 	public ArrayList<Questao> relatorio(){
 		ArrayList<Questao> questoes = null;
 		String sql;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		boolean umaVez = true;
+		
 		DisciplinaDAO disciplinaDao = new DisciplinaDAO();
 		Disciplina disciplina = null;
 		

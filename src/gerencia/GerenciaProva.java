@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 import dao.DisciplinaDAO;
 import dao.ProvaDAO;
+import dao.ProvaQuestaoDAO;
+import dao.QuestaoDAO;
 import dao.TurmaDAO;
 import model.Disciplina;
 import model.Prova;
@@ -22,12 +24,16 @@ public class GerenciaProva {
 	private TurmaDAO turmaDao;
 	private ProvaDAO provaDao;
 	private DisciplinaDAO disciplinaDao;
+	private QuestaoDAO questaoDao;
+	private ProvaQuestaoDAO provaQuestaoDao;
 	
 	public GerenciaProva() {
 		sc = new Scanner(System.in);
 		
 		this.turmaDao = new TurmaDAO();
 		this.provaDao = new ProvaDAO();
+		this.questaoDao = new QuestaoDAO();
+		this.provaQuestaoDao = new ProvaQuestaoDAO();
 		this.disciplinaDao = new DisciplinaDAO();
 	}
 
@@ -225,85 +231,52 @@ public class GerenciaProva {
 		System.out.println("==============================");
 		System.out.println("ADICIONAR QUESTÃO NA PROVA");
 		
-		if(!provas.isEmpty()) {
-			
-			gerarRelatorio();
-			
-			System.out.println("Escolha a prova pela sua posição: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
-			
-			if(pos >= 0 && pos < provas.size()) {
-				Prova prova = provas.get(pos);
-				System.out.println("A prova que deseja adicionar questão é esta?");
+		questoes = questaoDao.relatorio();
+		provas = provaDao.relatorio();
+		
+		if(provas != null && !provas.isEmpty()) {
+			if(questoes != null && !questoes.isEmpty()) {
+				System.out.println("------------------------------");
+				System.out.println("PROVAS CADASTRADAS");
 				System.out.println("==============================");
-				System.out.println(prova);
-				System.out.println("==============================");
-				System.out.println("[1] Sim");
-				System.out.println("[2] Não");
+				imprimeProvas(provas, TipoRelatorio.SINTETICO);
+				System.out.println("Selecione a prova pelo seu identificador: ");
+				String identificador = sc.nextLine();
 				
-				int opcao = sc.nextInt();
-				sc.skip("\r\n");
-				
-				if(opcao == 1) {
-					if(!questoes.isEmpty()) {
-						
-						System.out.println("==============================");
-						System.out.println("BANCO DE QUESTÕES");
-						for (Questao questao : questoes) {
-							System.out.println("Posição " + questoes.indexOf(questao));
-							System.out.println(questao);
-							System.out.println("------------------------------");
-						}
-						
-						System.out.println("Escolha a questão pela sua posição: ");
-						pos = sc.nextInt();
-						sc.skip("\r\n");
-						
-						if(pos >= 0 && pos < questoes.size()) {
-							Questao questao = questoes.get(pos);
-							System.out.println("A questão que deseja adicionar na prova é esta?");
-							System.out.println("==============================");
-							System.out.println(questao);
-							System.out.println("==============================");
-							System.out.println("[1] Sim");
-							System.out.println("[2] Não");
-							
-							opcao = sc.nextInt();
-							sc.skip("\r\n");
-							
-							if(opcao == 1) {
-								prova.adicionarQuestao(questao);
-								System.out.println("SUCESSO: Questão adicionada na prova!");
-							}
-							else if(opcao == 2) {
-								System.out.println("AVISO: Voltando ao menu inicial...");
-							}
-							else {
-								System.out.println("AVISO: Opção inválida!");
-							}
-						}
-						else {
-							System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
-						}
+				Prova prova = provaDao.consultar(identificador);
+				if(prova != null) {
+					System.out.println("------------------------------");
+					System.out.println("QUESTÕES CADASTRADAS");
+					System.out.println("==============================");
+					
+					for (Questao q : questoes) {
+						System.out.println("Código: " + q.getCodigo() + " - Enunciado: " + q.getEnunciado());
+					}
+					System.out.println("------------------------------");
+					
+					System.out.println("Selecione a questão pelo seu código: ");
+					String codigo = sc.nextLine();
+					
+					Questao questao = questaoDao.consultar(codigo);
+					
+					if(questao != null) {
+						provaQuestaoDao.inserir(prova, questao);
+						System.out.println("SUCESSO: Questão inserida na prova!");
 					}
 					else {
-						System.out.println("AVISO: Não há questões cadastradas no BANCO DE QUESTÕES. Impossível continuar operação. Voltando ao menu inicial...");
+						System.out.println("ERRO: Questão não encontrada!");
 					}
 				}
-				else if(opcao == 2) {
-					System.out.println("AVISO: Voltando ao menu inicial...");
-				}
 				else {
-					System.out.println("AVISO: Opção inválida!");
+					System.out.println("ERRO: Prova não encontrada!");
 				}
 			}
 			else {
-				System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("ERRO: Não há questões cadastrados!");
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há provas cadastradas NO BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("ERRO: Não há provas cadastradas!");
 		}
 	}
 	
@@ -311,142 +284,132 @@ public class GerenciaProva {
 		System.out.println("==============================");
 		System.out.println("REMOVER QUESTÃO DA PROVA");
 		
-		if(!provas.isEmpty()) {
-			
-			gerarRelatorio();
-			
-			System.out.println("Escolha a prova pela sua posição: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
-			
-			if(pos >= 0 && pos < provas.size()) {
-				Prova prova = provas.get(pos);
-				System.out.println("A prova que deseja remover a questão é esta?");
+		questoes = questaoDao.relatorio();
+		provas = provaDao.relatorio();
+		
+		if(provas != null && !provas.isEmpty()) {
+			if(questoes != null && !questoes.isEmpty()) {
+				System.out.println("------------------------------");
+				System.out.println("PROVAS CADASTRADAS");
 				System.out.println("==============================");
-				System.out.println(prova);
-				System.out.println("==============================");
-				System.out.println("[1] Sim");
-				System.out.println("[2] Não");
+				imprimeProvas(provas, TipoRelatorio.SINTETICO);
+				System.out.println("Selecione a prova pelo seu identificador: ");
+				String identificador = sc.nextLine();
 				
-				int opcao = sc.nextInt();
-				sc.skip("\r\n");
-				
-				if(opcao == 1) {
-					ArrayList<Questao> questoesDaProva = prova.getQuestoes(); 
-				
-					if(!questoesDaProva.isEmpty()) {
-						
-						System.out.println("==============================");
-						for (Questao questao : questoesDaProva) {
-							System.out.println("Posição " + questoesDaProva.indexOf(questao));
-							System.out.println(questao);
-							System.out.println("------------------------------");
-						}
+				Prova prova = provaDao.consultar(identificador);
+				if(prova != null) {
+					System.out.println("A prova que deseja remover as questões é esta?");
+					System.out.println("==============================");
+					System.out.println(prova);
+					System.out.println("==============================");
+					System.out.println("[1] Sim");
+					System.out.println("[2] Não");
 					
-						System.out.println("Escolha a questão pela sua posição: ");
-						pos = sc.nextInt();
-						sc.skip("\r\n");
+					int opcao = sc.nextInt();
+					sc.skip("\r\n");
+					
+					if(opcao == 1) {
+						ArrayList<Questao> questoesDaProva = provaQuestaoDao.relatorio(prova);
 						
-						if(pos >= 0 && pos < questoesDaProva.size()) {
-							Questao questao = questoesDaProva.get(pos);
-							System.out.println("A questão que deseja remover da prova é esta?");
+						if(questoesDaProva != null && !questoesDaProva.isEmpty()) {
+							System.out.println("...:::::[ LISTA DE QUESTÕES DA PROVA ]:::::...");
+							for(Questao q : questoesDaProva) {
+								System.out.println("Código: " + q.getCodigo() + " - Enunciado: " + q.getEnunciado());
+							}
 							System.out.println("==============================");
-							System.out.println(questao);
-							System.out.println("==============================");
-							System.out.println("[1] Sim");
-							System.out.println("[2] Não");
+							System.out.println("Selecione a questão pelo seu código: ");
+							String codigo = sc.nextLine();
+							Questao questao = questaoDao.consultar(codigo);
 							
-							opcao = sc.nextInt();
-							sc.skip("\r\n");
-							
-							if(opcao == 1) {
-								prova.getQuestoes().remove(pos);
+							if(questao != null) {
+								provaQuestaoDao.excluir(prova, questao);
 								System.out.println("SUCESSO: Questão removida da prova!");
 							}
-							else if(opcao == 2) {
-								System.out.println("AVISO: Voltando ao menu inicial...");
-							}
 							else {
-								System.out.println("AVISO: Opção inválida!");
-							}
+								System.out.println("ERRO: Questão não encontrada!");
+							}	
 						}
 						else {
-							System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
+							System.out.println("AVISO: Não há questões cadastrados NESSA PROVA.");
 						}
 					}
+					else if(opcao == 2) {
+						System.out.println("AVISO: Operação cancelada!");
+					}
 					else {
-						System.out.println("AVISO: Não há questões cadastradas NESSA PROVA. Impossível continuar operação. Voltando ao menu inicial...");
+						System.out.println("AVISO: Opção inválida!");
 					}
 				}
-				else if(opcao == 2) {
-					System.out.println("AVISO: Voltando ao menu inicial...");
-				}
 				else {
-					System.out.println("AVISO: Opção inválida!");
+					System.out.println("ERRO: Prova não encontrada!");
 				}
 			}
 			else {
-				System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("ERRO: Não há questões cadastrados!");
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há provas cadastradas NO BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("ERRO: Não há provas cadastradas!");
 		}
 	}
 	
 	public void consultarQuestoes() {
 		System.out.println("==============================");
 		System.out.println("CONSULTAR QUESTÕES DA PROVAS");
+		questoes = questaoDao.relatorio();
+		provas = provaDao.relatorio();
 		
-		if(!provas.isEmpty()) {
-			
-			gerarRelatorio();
-			
-			System.out.println("Escolha a prova pela sua posição: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
-			
-			if(pos >= 0 && pos < provas.size()) {
-				Prova prova = provas.get(pos);
-				System.out.println("A prova que deseja consultar as questões é esta?");
+		if(provas != null && !provas.isEmpty()) {
+			if(questoes != null && !questoes.isEmpty()) {
+				System.out.println("------------------------------");
+				System.out.println("PROVAS CADASTRADAS");
 				System.out.println("==============================");
-				System.out.println(prova);
-				System.out.println("==============================");
-				System.out.println("[1] Sim");
-				System.out.println("[2] Não");
+				imprimeProvas(provas, TipoRelatorio.SINTETICO);
+				System.out.println("Selecione a prova pelo seu identificador: ");
+				String identificador = sc.nextLine();
 				
-				int opcao = sc.nextInt();
-				sc.skip("\r\n");
-				
-				if(opcao == 1) {
+				Prova prova = provaDao.consultar(identificador);
+				if(prova != null) {
+					System.out.println("A prova que deseja consultar as questões é esta?");
+					System.out.println("==============================");
+					System.out.println(prova);
+					System.out.println("==============================");
+					System.out.println("[1] Sim");
+					System.out.println("[2] Não");
 					
-					ArrayList<Questao> questoesDaProva = prova.getQuestoes();
+					int opcao = sc.nextInt();
+					sc.skip("\r\n");
 					
-					if(!questoesDaProva.isEmpty()) {
-						for(Questao q : questoesDaProva) {
-							System.out.println("------------------------------");
-							System.out.println("Posição " + questoesDaProva.indexOf(q));
-							System.out.println(q);
+					if(opcao == 1) {
+						ArrayList<Questao> questoesDaProva = provaQuestaoDao.relatorio(prova);
+						
+						if(questoesDaProva != null && !questoesDaProva.isEmpty()) {
+							System.out.println("...:::::[ LISTA DE QUESTÕES DA PROVA ]:::::...");
+							for(Questao q : questoesDaProva) {
+								System.out.println("Código: " + q.getCodigo() + " - Enunciado: " + q.getEnunciado());
+							}
 						}
-						System.out.println("==============================");
+						else {
+							System.out.println("AVISO: Não há questões cadastrados NESSA PROVA.");
+						}
+					}
+					else if(opcao == 2) {
+						System.out.println("AVISO: Operação cancelada!");
 					}
 					else {
-						System.out.println("AVISO: Não há questões cadastradas NESSA PROVA. Impossível continuar operação. Voltando ao menu inicial...");
+						System.out.println("AVISO: Opção inválida!");
 					}
 				}
-				else if(opcao == 2) {
-					System.out.println("AVISO: Voltando ao menu inicial...");
-				}
 				else {
-					System.out.println("AVISO: Opção inválida!");
+					System.out.println("ERRO: Prova não encontrada!");
 				}
 			}
 			else {
-				System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("ERRO: Não há questões cadastrados!");
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há provas cadastradas NO BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("ERRO: Não há provas cadastradas!");
 		}
 	}
 	
@@ -485,8 +448,8 @@ public class GerenciaProva {
 			Disciplina disciplina = disciplinaDao.consultar(codDisciplina);
 			
 			if(disciplina != null) {
-				turma.setDisciplina(disciplina);
-				System.out.println("SUCESSO: Disciplina adicionada na turma!");
+				prova.setDisciplina(disciplina);
+				System.out.println("SUCESSO: Disciplina adicionada na prova!");
 				
 				return true;
 			}

@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import dao.DisciplinaDAO;
+import dao.ProvaQuestaoDAO;
 import dao.QuestaoDAO;
 import model.Disciplina;
+import model.Prova;
 import model.Questao;
 import model.TipoRelatorio;
 
@@ -70,7 +72,7 @@ public class GerenciaQuestao {
 		questoes = questaoDao.relatorio();
 		
 		if(questoes != null && !questoes.isEmpty()) {
-			imprimeDisciplinas(questoes, TipoRelatorio.SINTETICO);
+			imprimeQuestoes(questoes, TipoRelatorio.SINTETICO);
 			System.out.println("Qual o código da questão que deseja remover?");
 			codigo = sc.nextLine();
 			
@@ -125,7 +127,7 @@ public class GerenciaQuestao {
 		questoes = questaoDao.relatorio();
 		
 		if(questoes != null && !questoes.isEmpty()) {
-			imprimeDisciplinas(questoes, TipoRelatorio.SINTETICO);
+			imprimeQuestoes(questoes, TipoRelatorio.SINTETICO);
 			System.out.println("Qual o código da questão que deseja alterar?");
 			codigo = sc.nextLine();
 			
@@ -199,7 +201,7 @@ public class GerenciaQuestao {
 		questoes = questaoDao.relatorio();
 		
 		if(questoes != null && !questoes.isEmpty()) {
-			imprimeDisciplinas(questoes, TipoRelatorio.SINTETICO);
+			imprimeQuestoes(questoes, TipoRelatorio.SINTETICO);
 			System.out.println("Qual o código da questão que deseja consultar?");
 			codigo = sc.nextLine();
 			
@@ -234,14 +236,14 @@ public class GerenciaQuestao {
 		questoes = questaoDao.relatorio();
 		
 		if(questoes != null && !questoes.isEmpty()) {
-			imprimeDisciplinas(questoes, TipoRelatorio.ANALITICO);
+			imprimeQuestoes(questoes, TipoRelatorio.ANALITICO);
 		}
 		else {
 			System.out.println("AVISO: Não há questões cadastradas. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	
-	private void imprimeDisciplinas(ArrayList<Questao> listaDeQuestoes, TipoRelatorio tipo) {
+	private void imprimeQuestoes(ArrayList<Questao> listaDeQuestoes, TipoRelatorio tipo) {
 		System.out.println("...:::::[ LISTA DE QUESTÕES ]:::::...");
 		
 		if(tipo == TipoRelatorio.ANALITICO) {
@@ -255,6 +257,64 @@ public class GerenciaQuestao {
 				System.out.println("Código: " + questao.getCodigo() + " - Enunciado: " + questao.getEnunciado());
 			}
 			System.out.println("------------------------------");
+		}
+	}
+	
+	public void consultarProvas() {
+		System.out.println("==============================");
+		System.out.println("CONSULTAR PROVAS DE UMA QUESTÃO");
+		
+		ProvaQuestaoDAO provaQuestaoDao = new ProvaQuestaoDAO();
+		questoes = questaoDao.relatorio();
+		
+		if(questoes != null && !questoes.isEmpty()) {
+			imprimeQuestoes(questoes, TipoRelatorio.SINTETICO);
+			System.out.println("Escolha a questão pelo seu código: ");
+			String codigo = sc.nextLine();
+			
+			Questao questao = questaoDao.consultar(codigo);
+			
+			if(questao != null) {
+				System.out.println("A questão que deseja consultar as provas é esta?");
+				System.out.println("==============================");
+				System.out.println(questao);
+				System.out.println("==============================");
+				System.out.println("[1] Sim");
+				System.out.println("[2] Não");
+				
+				int opcao = sc.nextInt();
+				sc.skip("\r\n");
+				
+				if(opcao == 1) {
+					ArrayList<Prova> provasDaQuestao = provaQuestaoDao.relatorioDeProvas(questao);
+					
+					if(provasDaQuestao != null && !provasDaQuestao.isEmpty()) {
+						System.out.println("...:::::[ QUESTÃO APARECE NAS PROVAS ]:::::...");
+						for(Prova prova : provasDaQuestao) {
+							System.out.println("Código: " + prova.getIdentificador() + " - Nome: " + prova.getDisciplina().getNome() + 
+									" - Código da Turma: " + prova.getTurma().getCodigo());
+						
+							System.out.println("------------------------------");
+						}
+						System.out.println("==============================");
+					}
+					else {
+						System.out.println("AVISO: Não há provas em que essa questão esteja cadastrada!");
+					}
+				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Operação cancelada!");
+				}
+				else {
+					System.out.println("AVISO: Opção inválida!");
+				}
+			}
+			else {
+				System.out.println("ERRO: Questão não encontrada!");
+			}
+		}
+		else {
+			System.out.println("AVISO: Não há questões cadastradas!");
 		}
 	}
 }

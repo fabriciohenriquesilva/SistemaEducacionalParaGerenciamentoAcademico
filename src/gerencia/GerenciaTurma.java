@@ -467,7 +467,7 @@ public class GerenciaTurma {
 		
 		turmas = turmaDao.relatorio();
 		
-		if(!turmas.isEmpty()) {
+		if(turmas != null && !turmas.isEmpty()) {
 			
 			imprimeTurmas(turmas, TipoRelatorio.SINTETICO);
 			

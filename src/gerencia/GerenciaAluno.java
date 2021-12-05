@@ -6,21 +6,25 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import dao.AlunoDAO;
+import dao.TurmaAlunoDAO;
 import model.Aluno;
 import model.Prova;
 import model.Questao;
 import model.TipoRelatorio;
+import model.Turma;
 
 public class GerenciaAluno {
 
 	private ArrayList<Aluno> alunos;
 	private AlunoDAO alunoDao;
+	private TurmaAlunoDAO turmaAlunoDao;
 	
 	private ArrayList<Prova> provas;
 	private Scanner sc;
 	
 	public GerenciaAluno() {
 		this.alunoDao = new AlunoDAO();
+		this.turmaAlunoDao = new TurmaAlunoDAO();
 		sc = new Scanner(System.in);
 	}
 	
@@ -474,6 +478,63 @@ public class GerenciaAluno {
 				System.out.println("Matricula: " + a.getMatricula() + " - Nome: " + a.getNome());
 			}
 			System.out.println("------------------------------");
+		}
+	}
+	
+	public void consultarTurmas() {
+		System.out.println("==============================");
+		System.out.println("CONSULTAR TURMAS DO ALUNO");
+		
+		ArrayList<Aluno> alunos = alunoDao.relatorio();
+		
+		if(alunos != null && !alunos.isEmpty()) {
+			imprimeAlunos(alunos, TipoRelatorio.SINTETICO);
+			System.out.println("Escolha o aluno pela sua matrícula: ");
+			String matricula = sc.nextLine();
+			
+			Aluno aluno = alunoDao.consultar(matricula);
+			
+			if(aluno != null) {
+				System.out.println("O aluno que deseja consultar as turmas é este?");
+				System.out.println("==============================");
+				System.out.println(aluno);
+				System.out.println("==============================");
+				System.out.println("[1] Sim");
+				System.out.println("[2] Não");
+				
+				int opcao = sc.nextInt();
+				sc.skip("\r\n");
+				
+				if(opcao == 1) {
+					ArrayList<Turma> turmasDoAluno = turmaAlunoDao.relatorioDeTumas(aluno);
+					
+					if(turmasDoAluno != null && !turmasDoAluno.isEmpty()) {
+						System.out.println("...:::::[ ALUNO MATRICULADO EM ]:::::...");
+						for(Turma turma : turmasDoAluno) {
+							System.out.println("Código: " + turma.getCodigo() + " - Curso: " + turma.getCurso().getNome() + 
+									"\nDisciplina: " + turma.getDisciplina().getNome() + " - Semestre/Ano: " + turma.getSemestre() + "/" + turma.getAno());
+						
+							System.out.println("------------------------------");
+						}
+						System.out.println("==============================");
+					}
+					else {
+						System.out.println("AVISO: Não há turmas em que esse aluno esteja matriculado!");
+					}
+				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Operação cancelada!");
+				}
+				else {
+					System.out.println("AVISO: Opção inválida!");
+				}
+			}
+			else {
+				System.out.println("ERRO: Aluno não encontrado!");
+			}
+		}
+		else {
+			System.out.println("AVISO: Não há alunos cadastradas!");
 		}
 	}
 }

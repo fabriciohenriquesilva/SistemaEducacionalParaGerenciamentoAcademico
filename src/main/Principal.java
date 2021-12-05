@@ -54,6 +54,7 @@ public class Principal {
 					System.out.println("6. Adicionar Prova");
 					System.out.println("7. Remover Prova");
 					System.out.println("8. Consultar Provas");
+					System.out.println("9. Consultar turmas matriculadas");
 					System.out.println("Operação: ");
 					
 					operacao = sc.nextInt();
@@ -68,6 +69,7 @@ public class Principal {
 						case 6: ficharioAluno.adicionarProva(); break;
 						case 7: ficharioAluno.removerProva(); break;
 						case 8: ficharioAluno.consultarProvas(); break;
+						case 9: ficharioAluno.consultarTurmas(); break;
 						case 0: break;
 						default: System.out.println("ALERTA: Opção inválida!");	break;
 					}
@@ -93,6 +95,7 @@ public class Principal {
 					
 				case 3: 
 					menuDeOperacoes();
+					System.out.println("6. Consultar provas");
 					System.out.println("Operação: ");
 					
 					operacao = sc.nextInt();
@@ -104,6 +107,7 @@ public class Principal {
 						case 3:	ficharioQuestao.alterar(); break;
 						case 4:	ficharioQuestao.remover(); break;
 						case 5:	ficharioQuestao.gerarRelatorio(); break;
+						case 6:	ficharioQuestao.consultarProvas(); break;
 						case 0: break;
 						default: System.out.println("ALERTA: Opção inválida!");	break;
 					}

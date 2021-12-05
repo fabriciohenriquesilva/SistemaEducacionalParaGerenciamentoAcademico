@@ -8,6 +8,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import model.Aluno;
+import model.Curso;
+import model.Disciplina;
+import model.Professor;
 import model.Turma;
 
 public class TurmaAlunoDAO {
@@ -91,5 +94,54 @@ public class TurmaAlunoDAO {
 			System.out.println("ERRO: Relatório de ALUNOS de uma TURMA no banco de dados. " + e.getMessage());
 		}
 		return alunos;
+	}
+	
+	public ArrayList<Turma> relatorioDeTumas(Aluno aluno){
+		ArrayList<Turma> turmas = null;
+		String sql;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		boolean umaVez = true;
+		
+		Curso curso = null;
+		Professor professor = null;
+		Disciplina disciplina = null;		
+		
+		CursoDAO cursoDao = new CursoDAO();
+		ProfessorDAO professorDao = new ProfessorDAO();
+		DisciplinaDAO disciplinaDao = new DisciplinaDAO();
+		
+		sql = "SELECT t.codigo, t.codcurso, t.codprofessor, t.coddisciplina, t.ano, t.semestre FROM turmaaluno ta LEFT JOIN turma t ON ta.codturma = t.codigo WHERE ta.mataluno = ?";
+		
+		try {
+			ps = conexao.prepareStatement(sql);
+			ps.setString(1, aluno.getMatricula());
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				if(umaVez) {
+					turmas = new ArrayList<>();
+					umaVez = false;
+				}
+				curso = cursoDao.consultar(rs.getString("codcurso"));
+				professor = professorDao.consultar(rs.getInt("codprofessor"));
+				disciplina = disciplinaDao.consultar(rs.getString("coddisciplina"));
+				
+				Turma turma = new Turma(rs.getInt("codigo"),
+						curso,
+						professor,
+						disciplina,
+						rs.getInt("ano"),
+						rs.getInt("semestre"));
+				
+				turmas.add(turma);
+			}
+			
+			ps.close();
+			rs.close();
+		} catch (SQLException e) {
+			System.out.println("ERRO: Relatório de TURMAS de um ALUNO no banco de dados. " + e.getMessage());
+		}
+		return turmas;
 	}
 }
