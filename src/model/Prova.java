@@ -19,6 +19,13 @@ public class Prova {
 		this.turma = turma;
 		this.disciplina = disciplina;
 	}
+	
+	public Prova(String identificador, Turma turma, Disciplina disciplina, float nota) {
+		this.identificador = identificador;
+		this.turma = turma;
+		this.disciplina = disciplina;
+		this.nota = nota;
+	}
 
 	public String getIdentificador() {
 		return identificador;

@@ -205,7 +205,7 @@ public class GerenciaCurso {
 		System.out.println("==============================");
 		System.out.println("ADICIONAR DISCIPLINA NO CURSO");
 		
-		if(!cursos.isEmpty()) {
+		if(cursos != null && !cursos.isEmpty()) {
 			
 			gerarRelatorio();
 			
@@ -383,7 +383,7 @@ public class GerenciaCurso {
 			
 			gerarRelatorio();
 			
-			System.out.println("Escolha o curso pela sua posição: ");
+			System.out.println("Escolha o curso pelo seu código: ");
 			int pos = sc.nextInt();
 			sc.skip("\r\n");
 			
@@ -403,7 +403,7 @@ public class GerenciaCurso {
 					
 					ArrayList<Disciplina> disciplinasDoCurso = curso.getDisciplinas();
 					
-					if(!disciplinasDoCurso.isEmpty()) {
+					if(disciplinasDoCurso != null && !disciplinasDoCurso.isEmpty()) {
 						for(Disciplina disc : disciplinasDoCurso) {
 							System.out.println("Posição " + disciplinasDoCurso.indexOf(disc));
 							System.out.println(disc);

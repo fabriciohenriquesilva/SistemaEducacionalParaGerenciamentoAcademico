@@ -460,7 +460,6 @@ public class GerenciaDisciplina {
 								System.out.println("------------------------------");
 							}
 						}
-						
 					}
 					else {
 						System.out.println("AVISO: Não há provas cadastradas NESSA DISCIPLINA. Impossível continuar operação. Voltando ao menu inicial...");

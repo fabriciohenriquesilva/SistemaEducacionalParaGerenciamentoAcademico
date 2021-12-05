@@ -118,6 +118,7 @@ public class Principal {
 					System.out.println("6. Adicionar questão");
 					System.out.println("7. Remover questão");
 					System.out.println("8. Consultar questões");
+					System.out.println("9. Consultar alunos que fizeram uma prova");
 					System.out.println("Operação: ");
 					
 					operacao = sc.nextInt();
@@ -132,6 +133,7 @@ public class Principal {
 						case 6: ficharioProva.adicionarQuestao(); break;
 						case 7: ficharioProva.removerQuestao(); break;
 						case 8: ficharioProva.consultarQuestoes(); break;
+						case 9: ficharioProva.consultarAlunos(); break;
 						case 0: break;
 						default: System.out.println("ALERTA: Opção inválida!");	break;
 					}

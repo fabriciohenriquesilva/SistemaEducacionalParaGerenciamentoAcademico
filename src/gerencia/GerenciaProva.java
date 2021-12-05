@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import dao.DisciplinaDAO;
+import dao.ProvaAlunoDAO;
 import dao.ProvaDAO;
 import dao.ProvaQuestaoDAO;
 import dao.QuestaoDAO;
 import dao.TurmaDAO;
+import model.Aluno;
 import model.Disciplina;
 import model.Prova;
 import model.Questao;
@@ -26,6 +28,7 @@ public class GerenciaProva {
 	private DisciplinaDAO disciplinaDao;
 	private QuestaoDAO questaoDao;
 	private ProvaQuestaoDAO provaQuestaoDao;
+	private ProvaAlunoDAO provaAlunoDao;
 	
 	public GerenciaProva() {
 		sc = new Scanner(System.in);
@@ -35,6 +38,7 @@ public class GerenciaProva {
 		this.questaoDao = new QuestaoDAO();
 		this.provaQuestaoDao = new ProvaQuestaoDAO();
 		this.disciplinaDao = new DisciplinaDAO();
+		this.provaAlunoDao = new ProvaAlunoDAO();
 	}
 
 	public void adicionar() {
@@ -464,7 +468,7 @@ public class GerenciaProva {
 	}
 	
 	private void imprimeProvas(ArrayList<Prova> listaDeProvas, TipoRelatorio tipo) {
-		System.out.println("...:::::[ LISTA DE DISCIPLINAS ]:::::...");
+		System.out.println("...:::::[ LISTA DE PROVAS ]:::::...");
 		
 		if(tipo == TipoRelatorio.ANALITICO) {
 			for(Prova prova : listaDeProvas) {
@@ -478,6 +482,63 @@ public class GerenciaProva {
 						"Código da Turma: " + prova.getTurma().getCodigo());
 			}
 			System.out.println("------------------------------");
+		}
+	}
+	
+	public void consultarAlunos() {
+		System.out.println("==============================");
+		System.out.println("CONSULTAR ALUNOS QUE REALIZARAM UMA PROVA");
+		
+		provas = provaDao.relatorio();
+		
+		if(provas != null && !provas.isEmpty()) {
+			
+			imprimeProvas(provas, TipoRelatorio.SINTETICO);
+			
+			System.out.println("Escolha a prova pelo seu identificador: ");
+			String identificador = sc.nextLine();
+			
+			Prova prova = provaDao.consultar(identificador);
+			
+			if(prova != null) {
+				System.out.println("A prova que deseja consultar os alunos é esta?");
+				System.out.println("==============================");
+				System.out.println(prova);
+				System.out.println("==============================");
+				System.out.println("[1] Sim");
+				System.out.println("[2] Não");
+				
+				int opcao = sc.nextInt();
+				sc.skip("\r\n");
+				
+				if(opcao == 1) {
+					ArrayList<Aluno> alunosDaProva = provaAlunoDao.relatorioDeAlunos(prova);
+					
+					if(alunosDaProva != null && !alunosDaProva.isEmpty()) {
+						System.out.println("...:::::[ LISTA DOS ALUNOS ]:::::...");
+						for(Aluno aluno : alunosDaProva) {
+							System.out.println("------------------------------");
+							System.out.println("Matrícula: " + aluno.getMatricula() + " - Nome: " + aluno.getNome());
+						}
+						System.out.println("==============================");
+					}
+					else {
+						System.out.println("AVISO: Não há ALUNOS que realizaram essa PROVA.");
+					}
+				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Operação cancelada!");
+				}
+				else {
+					System.out.println("AVISO: Opção inválida!");
+				}
+			}
+			else {
+				System.out.println("ERRO: Prova não encontrada!");
+			}
+		}
+		else {
+			System.out.println("AVISO: Não há provas cadastradas!");
 		}
 	}
 }

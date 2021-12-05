@@ -43,7 +43,7 @@ public class Curso {
 	
 	@Override
 	public String toString() {
-		return     "Código do Curso      = " + codigo +
-				 "\nNome do Curso        = " + nome;
+		return    "Código do Curso       = " + codigo +
+				"\nNome do Curso         = " + nome;
 	}
 }
