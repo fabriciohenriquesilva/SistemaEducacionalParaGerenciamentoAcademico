@@ -158,4 +158,46 @@ private Connection conexao = null;
 		return provas;
 	}
 	
+	public ArrayList<Prova> relatorioDeProvasPorDisciplina(Disciplina disciplina){
+		ArrayList<Prova> provas = null;
+		String sql;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		boolean umaVez = true;
+		
+		Turma turma = null;
+		TurmaDAO turmaDao = new TurmaDAO();
+		
+		//Disciplina disciplina = null;
+		//DisciplinaDAO disciplinaDao = new DisciplinaDAO();
+		
+		sql = "SELECT identificador, codturma, coddisciplina FROM prova WHERE coddisciplina = ?";
+		
+		try {
+			ps = conexao.prepareStatement(sql);
+			ps.setString(1, disciplina.getCodigo());
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				if(umaVez) {
+					provas = new ArrayList<>();
+					umaVez = false;
+				}			
+				turma = turmaDao.consultar(rs.getInt("codturma"));
+	
+				Prova prova = new Prova(rs.getString("identificador"),
+						turma,
+						disciplina);
+				
+				provas.add(prova);
+			}
+			
+			ps.close();
+			rs.close();
+		} catch (SQLException e) {
+			System.out.println("ERRO: Relatório de PROVAS de uma DISCIPLINA no banco de dados. " + e.getMessage());
+		}
+		return provas;
+	}
+	
 }

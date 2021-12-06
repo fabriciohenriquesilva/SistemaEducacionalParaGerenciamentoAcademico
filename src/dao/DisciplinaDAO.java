@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import model.Curso;
 import model.Disciplina;
 
 public class DisciplinaDAO {
@@ -142,4 +143,40 @@ public class DisciplinaDAO {
 		}
 		return disciplinas;
 	}
+	
+	public ArrayList<Disciplina> relatorioDeDisciplinasPorCurso(Curso curso){
+		ArrayList<Disciplina> disciplinas = null;
+		String sql;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		boolean umaVez = true;
+		
+		sql = "SELECT codigo, nome, ementa, cargahoraria FROM disciplina WHERE codcurso = ?";
+		
+		try {
+			ps = conexao.prepareStatement(sql);
+			ps.setString(1, curso.getCodigo());
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				if(umaVez) {
+					disciplinas = new ArrayList<>();
+					umaVez = false;
+				}
+				Disciplina disciplina = new Disciplina(rs.getString("codigo"),
+						rs.getString("nome"),
+						rs.getString("ementa"),
+						rs.getInt("cargahoraria"));
+				
+				disciplinas.add(disciplina);
+			}
+			
+			ps.close();
+			rs.close();
+		} catch (SQLException e) {
+			System.out.println("ERRO: Relatório de DISCIPLINA no banco de dados. " + e.getMessage());
+		}
+		return disciplinas;
+	}
+	
 }

@@ -54,7 +54,7 @@ public class Principal {
 					System.out.println("6. Adicionar Prova");
 					System.out.println("7. Remover Prova");
 					System.out.println("8. Consultar Provas");
-					System.out.println("9. Consultar turmas matriculadas");
+					System.out.println("9. Consultar turmas matriculadas do aluno");
 					System.out.println("Operação: ");
 					
 					operacao = sc.nextInt();
@@ -95,7 +95,7 @@ public class Principal {
 					
 				case 3: 
 					menuDeOperacoes();
-					System.out.println("6. Consultar provas");
+					System.out.println("6. Consultar provas de uma questão");
 					System.out.println("Operação: ");
 					
 					operacao = sc.nextInt();
@@ -118,7 +118,7 @@ public class Principal {
 					System.out.println("6. Adicionar questão");
 					System.out.println("7. Remover questão");
 					System.out.println("8. Consultar questões");
-					System.out.println("9. Consultar alunos que fizeram uma prova");
+					System.out.println("9. Consultar alunos que realizaram uma prova");
 					System.out.println("Operação: ");
 					
 					operacao = sc.nextInt();
@@ -141,9 +141,8 @@ public class Principal {
 					
 				case 5:
 					menuDeOperacoes();
-					System.out.println("6. Adicionar Prova");
-					System.out.println("7. Remover Prova");
-					System.out.println("8. Consultar Provas");
+					System.out.println("6. Consultar provas de uma disciplina");
+					System.out.println("7. Consultar questões de uma disciplina");
 					System.out.println("Operação: ");
 					
 					operacao = sc.nextInt();
@@ -155,9 +154,8 @@ public class Principal {
 						case 3:	ficharioDisciplina.alterar(); break;
 						case 4:	ficharioDisciplina.remover(); break;
 						case 5:	ficharioDisciplina.gerarRelatorio(); break;
-						case 6: ficharioDisciplina.adicionarProva(); break;
-						case 7: ficharioDisciplina.removerProva(); break;
-						case 8: ficharioDisciplina.consultarProvas(); break;
+						case 6: ficharioDisciplina.consultarProvas(); break;
+						case 7: ficharioDisciplina.consultarQuestoes(); break;
 						case 0: break;
 						default: System.out.println("ALERTA: Opção inválida!");	break;
 					}
@@ -189,9 +187,7 @@ public class Principal {
 				
 				case 7:
 					menuDeOperacoes();
-					System.out.println("6. Adicionar disciplina");
-					System.out.println("7. Remover disciplina");
-					System.out.println("8. Consultar disciplinas");	
+					System.out.println("6. Consultar disciplinas de um curso");	
 					System.out.println("Operação: ");
 					
 					operacao = sc.nextInt();
@@ -203,9 +199,7 @@ public class Principal {
 						case 3:	ficharioCurso.alterar(); break;
 						case 4:	ficharioCurso.remover(); break;
 						case 5:	ficharioCurso.gerarRelatorio(); break;
-						case 6: ficharioCurso.adicionarDisciplina(); break;
-						case 7: ficharioCurso.removerDisciplina(); break;
-						case 8: ficharioCurso.consultarDisciplinas(); break;
+						case 6: ficharioCurso.consultarDisciplinas(); break;
 						case 0: break;
 						default: System.out.println("ALERTA: Opção inválida!");	break;
 					}

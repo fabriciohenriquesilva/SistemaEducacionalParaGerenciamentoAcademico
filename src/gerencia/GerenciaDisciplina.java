@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 import dao.CursoDAO;
 import dao.DisciplinaDAO;
+import dao.ProvaDAO;
+import dao.QuestaoDAO;
 import model.Curso;
 import model.Disciplina;
 import model.Prova;
@@ -14,7 +16,6 @@ import model.TipoRelatorio;
 public class GerenciaDisciplina {
 	
 	private ArrayList<Disciplina> disciplinas;
-	private ArrayList<Prova> provas;
 	private DisciplinaDAO disciplinaDao;
 	private CursoDAO cursoDao;
 	private Scanner sc;
@@ -242,195 +243,22 @@ public class GerenciaDisciplina {
 		}
 	}
 	
-	public void adicionarProva() {
-		System.out.println("==============================");
-		System.out.println("ADICIONAR PROVA DA DISCIPLINA");
-		
-		if(!disciplinas.isEmpty()) {
-			
-			gerarRelatorio();
-			
-			System.out.println("Escolha a disciplina pela sua posição: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
-			
-			if(pos >= 0 && pos < disciplinas.size()) {
-				Disciplina disciplina = disciplinas.get(pos);
-				System.out.println("A disciplina que deseja adicionar a prova é esta?");
-				System.out.println("==============================");
-				System.out.println(disciplina);
-				System.out.println("==============================");
-				System.out.println("[1] Sim");
-				System.out.println("[2] Não");
-				
-				int opcao = sc.nextInt();
-				sc.skip("\r\n");
-				
-				if(opcao == 1) {
-					if(!provas.isEmpty()) {
-					
-						System.out.println("==============================");
-						System.out.println("BANCO DE PROVAS");
-						for (Prova prova : provas) {
-							System.out.println("Posição: #" + provas.indexOf(prova));
-							System.out.println(prova);
-							System.out.println("------------------------------");
-						}
-						
-						System.out.println("Escolha a prova pela sua posição: ");
-						pos = sc.nextInt();
-						sc.skip("\r\n");
-						
-						if(pos >= 0 && pos < provas.size()) {
-							Prova prova = provas.get(pos);
-							System.out.println("A prova que deseja adicionar na disciplina é essa?");
-							System.out.println("==============================");
-							System.out.println(prova);
-							System.out.println("==============================");
-							System.out.println("[1] Sim");
-							System.out.println("[2] Não");
-							
-							opcao = sc.nextInt();
-							sc.skip("\r\n");
-							
-							if(opcao == 1) {
-								disciplina.adicionarProva(prova);
-								System.out.println("SUCESSO: Prova adicionada na disciplina!");
-							}
-							else if(opcao == 2) {
-								System.out.println("AVISO: Voltando ao menu inicial...");
-							}
-							else {
-								System.out.println("AVISO: Opção inválida!");
-							}
-						}
-						else {
-							System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
-						}
-					}
-					else {
-						System.out.println("AVISO: Não há provas cadastradas NO BANCO DE PROVAS. Impossível continuar operação. Voltando ao menu inicial...");
-					}
-				}
-				else if(opcao == 2) {
-					System.out.println("AVISO: Voltando ao menu inicial...");
-				}
-				else {
-					System.out.println("AVISO: Opção inválida!");
-				}
-			}
-			else {
-				System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
-			}
-		}
-		else {
-			System.out.println("AVISO: Não há disciplinas cadastradas NO BANCO DE DISCIPLINAS. Impossível continuar operação. Voltando ao menu inicial...");
-		}
-	}
-	
-	public void removerProva() {
-		System.out.println("==============================");
-		System.out.println("REMOVER PROVA DA DISCIPLINA");
-		
-		if(!disciplinas.isEmpty()) {
-			
-			gerarRelatorio();
-			
-			System.out.println("Escolha a disciplina pela sua posição: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
-			
-			if(pos >= 0 && pos < disciplinas.size()) {
-				Disciplina disciplina = disciplinas.get(pos);
-				System.out.println("A disciplina que deseja remover a prova é esta?");
-				System.out.println("==============================");
-				System.out.println(disciplina);
-				System.out.println("==============================");
-				System.out.println("[1] Sim");
-				System.out.println("[2] Não");
-				
-				int opcao = sc.nextInt();
-				sc.skip("\r\n");
-				
-				if(opcao == 1) {
-					
-					ArrayList<Prova> provasDaDisciplina = disciplina.getProvas();
-					
-					if(!provasDaDisciplina.isEmpty()) {
-						
-						System.out.println("==============================");
-						for (Prova prova : provasDaDisciplina) {
-							System.out.println("Posição: #" + provasDaDisciplina.indexOf(prova));
-							System.out.println(prova);
-							System.out.println("------------------------------");
-						}
-						
-						System.out.println("Escolha a prova pela sua posição: ");
-						pos = sc.nextInt();
-						sc.skip("\r\n");
-						
-						if(pos >= 0 && pos < provasDaDisciplina.size()) {
-							Prova prova = provasDaDisciplina.get(pos);
-							System.out.println("A prova que deseja remover da disciplina é essa?");
-							System.out.println("==============================");
-							System.out.println(prova);
-							System.out.println("==============================");
-							System.out.println("[1] Sim");
-							System.out.println("[2] Não");
-							
-							opcao = sc.nextInt();
-							sc.skip("\r\n");
-							
-							if(opcao == 1) {
-								provasDaDisciplina.remove(pos);
-								System.out.println("SUCESSO: Prova removida da disciplina!");
-							}
-							else if(opcao == 2) {
-								System.out.println("AVISO: Voltando ao menu inicial...");
-							}
-							else {
-								System.out.println("AVISO: Opção inválida!");
-							}
-						}
-						else {
-							System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
-						}
-					}
-					else {
-						System.out.println("AVISO: Não há provas cadastradas para NESSA DISCIPLINA. Impossível continuar operação. Voltando ao menu inicial...");
-					}
-				}
-				else if(opcao == 2) {
-					System.out.println("AVISO: Voltando ao menu inicial...");
-				}
-				else {
-					System.out.println("AVISO: Operação cancelada!");
-				}
-			}
-			else {
-				System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
-			}
-		}
-		else {
-			System.out.println("AVISO: Não há disciplinas cadastrados NO BANCO DE DISCIPLINAS. Impossível continuar operação. Voltando ao menu inicial...");
-		}
-	}
-	
 	public void consultarProvas() {
 		System.out.println("==============================");
 		System.out.println("CONSULTAR PROVAS DA DISCIPLINA");
 		
-		if(!disciplinas.isEmpty()) {
+		ProvaDAO provaDao = new ProvaDAO();
+		disciplinas = disciplinaDao.relatorio();
+		
+		if(disciplinas != null && !disciplinas.isEmpty()) {
+			imprimeDisciplinas(disciplinas, TipoRelatorio.SINTETICO);
+			System.out.println("Qual o código da disciplina que deseja consultar as provas?");
+			String codigo = sc.nextLine();
 			
-			gerarRelatorio();
+			Disciplina disciplina = disciplinaDao.consultar(codigo);
 			
-			System.out.println("Escolha a disciplina pela sua posição: ");
-			int pos = sc.nextInt();
-			sc.skip("\r\n");
-			
-			if(pos >= 0 && pos < disciplinas.size()) {
-				Disciplina disciplina = disciplinas.get(pos);
-				System.out.println("A disciplina que deseja consultar as provas é este?");
+			if(disciplina != null) {
+				System.out.println("A disciplina que deseja consultar as provas é esta?");
 				System.out.println("==============================");
 				System.out.println(disciplina);
 				System.out.println("==============================");
@@ -441,43 +269,89 @@ public class GerenciaDisciplina {
 				sc.skip("\r\n");
 				
 				if(opcao == 1) {
+					ArrayList<Prova> provasDaDisciplina = provaDao.relatorioDeProvasPorDisciplina(disciplina);
 					
-					ArrayList<Prova> provasDaDisciplina = disciplina.getProvas();
-					
-					if(!provasDaDisciplina.isEmpty()) {
-						for(Prova p : provasDaDisciplina) {
-							System.out.println("Posição " + provasDaDisciplina.indexOf(p));
-							System.out.println(p);
-
+					if(provasDaDisciplina != null && !provasDaDisciplina.isEmpty()) {
+						System.out.println("...:::::[ PROVAS CADASTRADAS NA DISCIPLINA ]:::::...");
+						for(Prova prova : provasDaDisciplina) {
+							System.out.println("Código: " + prova.getIdentificador() + " - Nome: " + prova.getDisciplina().getNome() + 
+									" - Código da Turma: " + prova.getTurma().getCodigo());
 							System.out.println("------------------------------");
-							System.out.println("Questões: ");
-							
-							ArrayList<Questao> questoesDaProvaDaDisciplina = p.getQuestoes();
-							
-							for (Questao questao : questoesDaProvaDaDisciplina) {
-								System.out.println("Posição " + questoesDaProvaDaDisciplina.indexOf(questao));
-								System.out.println(questao);
-								System.out.println("------------------------------");
-							}
 						}
+						System.out.println("==============================");
 					}
 					else {
-						System.out.println("AVISO: Não há provas cadastradas NESSA DISCIPLINA. Impossível continuar operação. Voltando ao menu inicial...");
+						System.out.println("AVISO: Não há provas cadastradas nessa disciplina!");
 					}
 				}
 				else if(opcao == 2) {
-					System.out.println("AVISO: Voltando ao menu inicial...");
+					System.out.println("AVISO: Operação cancelada!");
 				}
 				else {
 					System.out.println("AVISO: Opção inválida!");
 				}
 			}
 			else {
-				System.out.println("ERRO: Posição informada não é válida. Voltando ao menu inicial...");
+				System.out.println("AVISO: Disciplina não encontrada!");
 			}
 		}
 		else {
-			System.out.println("AVISO: Não há disciplinas cadastradas NO BANCO DE DISCIPLINAS. Impossível continuar operação. Voltando ao menu inicial...");
+			System.out.println("AVISO: Não há disciplinas cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
+		}
+	}
+	
+	public void consultarQuestoes() {
+		System.out.println("==============================");
+		System.out.println("CONSULTAR QUESTÕES DA DISCIPLINA");
+		
+		QuestaoDAO questaoDao = new QuestaoDAO();
+		disciplinas = disciplinaDao.relatorio();
+		
+		if(disciplinas != null && !disciplinas.isEmpty()) {
+			imprimeDisciplinas(disciplinas, TipoRelatorio.SINTETICO);
+			System.out.println("Qual o código da disciplina que deseja consultar as questões?");
+			String codigo = sc.nextLine();
+			
+			Disciplina disciplina = disciplinaDao.consultar(codigo);
+			
+			if(disciplina != null) {
+				System.out.println("A disciplina que deseja consultar as questões é esta?");
+				System.out.println("==============================");
+				System.out.println(disciplina);
+				System.out.println("==============================");
+				System.out.println("[1] Sim");
+				System.out.println("[2] Não");
+				
+				int opcao = sc.nextInt();
+				sc.skip("\r\n");
+				
+				if(opcao == 1) {
+					ArrayList<Questao> questoesDaDisciplina = questaoDao.relatorioDeQuestoesPorDisciplina(disciplina);
+					
+					if(questoesDaDisciplina != null && !questoesDaDisciplina.isEmpty()) {
+						System.out.println("...:::::[ QUESTÕES CADASTRADAS NA DISCIPLINA ]:::::...");
+						for(Questao questao : questoesDaDisciplina) {
+							System.out.println("Código: " + questao.getCodigo() + " - Enunciado: " + questao.getEnunciado());
+						}
+						System.out.println("==============================");
+					}
+					else {
+						System.out.println("AVISO: Não há questões cadastradas nessa disciplina!");
+					}
+				}
+				else if(opcao == 2) {
+					System.out.println("AVISO: Operação cancelada!");
+				}
+				else {
+					System.out.println("AVISO: Opção inválida!");
+				}
+			}
+			else {
+				System.out.println("AVISO: Disciplina não encontrada!");
+			}
+		}
+		else {
+			System.out.println("AVISO: Não há disciplinas cadastrados. Impossível continuar operação. Voltando ao menu inicial...");
 		}
 	}
 	

@@ -154,4 +154,40 @@ public class QuestaoDAO {
 		return questoes;
 	}
 	
+	public ArrayList<Questao> relatorioDeQuestoesPorDisciplina(Disciplina disciplina){
+		ArrayList<Questao> questoes = null;
+		String sql;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		boolean umaVez = true;
+		
+		sql = "SELECT codigo, enunciado, valor, coddisciplina FROM questao WHERE coddisciplina = ?";
+		
+		try {
+			ps = conexao.prepareStatement(sql);
+			ps.setString(1, disciplina.getCodigo());
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				if(umaVez) {
+					questoes = new ArrayList<>();
+					umaVez = false;
+				}
+				
+				Questao questao = new Questao(rs.getString("codigo"),
+						rs.getString("enunciado"),
+						rs.getFloat("valor"),
+						disciplina);
+				
+				questoes.add(questao);
+			}
+			
+			ps.close();
+			rs.close();
+		} catch (SQLException e) {
+			System.out.println("ERRO: Relatório de QUESTÃO de uma DISCIPLINA no banco de dados. " + e.getMessage());
+		}
+		return questoes;
+	}
+	
 }
